@@ -1,0 +1,142 @@
+@startuml uml
+
+class Notebook {
+    - id: Long
+    - descricao: String
+    - preco: Double
+    - modelo: String
+    - linha: String
+    - serie: String
+    - isGamer: Boolean 
+} 
+
+class Marca {
+    - id: Long
+    - nome: String
+    - email: String
+    - telefone: String
+    - cnpj: String
+}
+
+enum TipoPlacaVideo {
+    + INTEGRADA
+    + DEDICADA
+}
+
+enum SistemaOperacional {
+    + WINDOWS
+    + LINUX
+}
+
+class Recursos {
+    - id: Long
+    - descricao: String
+}
+
+' Placa de Video    
+class PlacaVideo {
+    - id: Long
+    - modelo: String
+    - tamanhoMemoria: String
+}
+
+enum FabricantePlacaVideo {
+    + NVIDIA
+    + AMD
+}
+
+enum TipoMemoria {
+    + GDDR6
+    + GDDR5
+    + GDDR4
+}
+
+' Processador
+class Processador {
+    - id: Long
+    - modelo: String
+    - geracao: String
+    - velocidade: String
+    - nucleos: int
+    - threads: int
+    - memoriaCache: String
+}
+
+' Memoria
+
+class Memoria {
+    - ssd: String
+    - ram: String
+}
+
+' Tela
+class Tela {
+    - id: Long
+    - tamanho: String
+}
+
+enum Resolucao {
+    + HD
+    + FULL HD
+    + QUAD HD
+    + 4K ULTRA HD
+}
+
+enum TaxaAtualizacao {
+    + 60_HZ
+    + 120_HZ
+    + 165_HZ
+    + 240_HZ
+}
+
+' Especificacao
+class Especificacao {
+    - id: Long
+    - altura: String
+    - largura: String
+    - profundidade: String
+    - peso: String
+}
+
+' Conexões
+class Conexao {
+    id: Long
+    quantidadeUsb: int
+}
+
+enum ConexaoSemFio {
+    + WI_FI_6
+    + BLUETOOTH
+}
+
+enum EntradasSaidas {
+    + AUDIO
+    + USB-C
+    + ETHERNET_RJ-45
+    + USB 3.1
+    + USB 2.0
+    + HDMI
+    + LEITOR DE CARTAO
+}
+
+Notebook "*" --> "1" Marca
+Notebook --> "1" Tela
+Notebook "*" --> "1" Processador
+Notebook "*" --> "1" TipoPlacaVideo
+Notebook "*" --> "1" PlacaVideo
+Notebook --> Memoria
+Notebook "*" --> "*" Conexao
+Notebook "*" --> "*" Especificacao
+Notebook "*" --> "1" SistemaOperacional
+Notebook "*" --> "*" Recursos
+
+PlacaVideo "*"--> "1" FabricantePlacaVideo
+PlacaVideo "*" --> "1" TipoMemoria
+
+Tela "*" --> "1" Resolucao
+Tela "*" --> "1" TaxaAtualizacao
+
+Conexao "*" --> "*" ConexaoSemFio
+Conexao "*" --> "*" EntradasSaidas
+
+@enduml
