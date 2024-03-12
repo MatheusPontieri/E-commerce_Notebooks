@@ -5,8 +5,6 @@ class Notebook {
     - descricao: String
     - preco: Double
     - modelo: String
-    - linha: String
-    - serie: String
     - isGamer: Boolean 
 } 
 
@@ -26,11 +24,24 @@ enum TipoPlacaVideo {
 enum SistemaOperacional {
     + WINDOWS
     + LINUX
+    + MAC_OS
 }
 
 class Recursos {
     - id: Long
     - descricao: String
+}
+
+' Linha e Série
+
+class Linha {
+    - id: Long
+    - linha: String
+}
+
+class Serie {
+    - id: Long
+    - Serie: String
 }
 
 ' Placa de Video    
@@ -45,10 +56,9 @@ enum FabricantePlacaVideo {
     + AMD
 }
 
-enum TipoMemoria {
-    + GDDR6
-    + GDDR5
-    + GDDR4
+class TipoMemoriaGDDR5 {
+    - id: Long
+    - descricao: String
 }
 
 ' Processador
@@ -62,11 +72,25 @@ class Processador {
     - memoriaCache: String
 }
 
-' Memoria
+class MarcaProcessador {
+    - id: Long
+    - marca: String
+    - email: String
+    - telefone: String
+    - cnpj: String
+}
 
+' Memoria
+' ramExpansivelAte: String
 class Memoria {
-    - ssd: String
-    - ram: String
+    - id: Long
+    - quantidade: String
+}
+
+enum TipoMemoria {
+    + HD
+    + SSD
+    + RAM
 }
 
 ' Tela
@@ -75,18 +99,15 @@ class Tela {
     - tamanho: String
 }
 
-enum Resolucao {
-    + HD
-    + FULL HD
-    + QUAD HD
-    + 4K ULTRA HD
+'HD, FULL HD, QUAD HD, 4K ULTRA HD
+class Resolucao {
+    - id: Long
+    - resolucao: String
 }
 
-enum TaxaAtualizacao {
-    + 60_HZ
-    + 120_HZ
-    + 165_HZ
-    + 240_HZ
+class TaxaAtualizacao120Hz {
+    - id: Long
+    - taxaHz: int
 }
 
 ' Especificacao
@@ -104,37 +125,40 @@ class Conexao {
     quantidadeUsb: int
 }
 
-enum ConexaoSemFio {
-    + WI_FI_6
-    + BLUETOOTH
+'Wifi 6, Bluetooth
+class ConexaoSemFio {
+    - id: Long
+    - conexao: String
 }
 
-enum EntradasSaidas {
-    + AUDIO
-    + USB-C
-    + ETHERNET_RJ-45
-    + USB 3.1
-    + USB 2.0
-    + HDMI
-    + LEITOR DE CARTAO
+'AUDIO USB-C ETHERNET_RJ-45USB 3.1 USB 2.0 HDMI LEITOR DE CARTAO
+class EntradasSaidas { 
+    - id: Long
+    - descricao: String
 }
 
+Notebook "*" --> "1" Linha
+Notebook "*" --> "1" Serie
 Notebook "*" --> "1" Marca
-Notebook --> "1" Tela
+Notebook "1" *--> "1" Tela
 Notebook "*" --> "1" Processador
 Notebook "*" --> "1" TipoPlacaVideo
 Notebook "*" --> "1" PlacaVideo
 Notebook --> Memoria
 Notebook "*" --> "*" Conexao
-Notebook "*" --> "*" Especificacao
+Notebook "1" --> "1" Especificacao
 Notebook "*" --> "1" SistemaOperacional
 Notebook "*" --> "*" Recursos
 
 PlacaVideo "*"--> "1" FabricantePlacaVideo
-PlacaVideo "*" --> "1" TipoMemoria
+PlacaVideo "*" --> "1" TipoMemoriaGDDR5
+
+Processador "*" --> "1" MarcaProcessador
 
 Tela "*" --> "1" Resolucao
-Tela "*" --> "1" TaxaAtualizacao
+Tela "*" --> "1" TaxaAtualizacao120Hz
+
+Memoria "*" --> "1" TipoMemoria
 
 Conexao "*" --> "*" ConexaoSemFio
 Conexao "*" --> "*" EntradasSaidas
