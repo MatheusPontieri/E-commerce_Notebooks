@@ -41,14 +41,14 @@ class Linha {
 
 class Serie {
     - id: Long
-    - Serie: String
+    - serie: String
 }
 
 ' Placa de Video    
 class PlacaVideo {
     - id: Long
     - modelo: String
-    - tamanhoMemoria: String
+    - memoriaVideo: String
 }
 
 enum FabricantePlacaVideo {
@@ -56,7 +56,7 @@ enum FabricantePlacaVideo {
     + AMD
 }
 
-class TipoMemoriaGDDR5 {
+class TipoMemoriaPlacaVideo {
     - id: Long
     - descricao: String
 }
@@ -81,17 +81,22 @@ class MarcaProcessador {
 }
 
 ' Memoria
-' ramExpansivelAte: String
-class Memoria {
+class Armazenamento {
     - id: Long
-    - quantidade: String
+    - capacidade: String
 }
 
-enum TipoMemoria {
+enum TipoArmazenamento {
     + HD
     + SSD
-    + RAM
 }
+
+class MemoriaRam {
+    - id: Long
+    - capacidade: String
+    - expansivelAte: String
+}
+
 
 ' Tela
 class Tela {
@@ -105,7 +110,8 @@ class Resolucao {
     - resolucao: String
 }
 
-class TaxaAtualizacao120Hz {
+'120 Hz
+class TaxaAtualizacao {
     - id: Long
     - taxaHz: int
 }
@@ -121,8 +127,8 @@ class Especificacao {
 
 ' Conexões
 class Conexao {
-    id: Long
-    quantidadeUsb: int
+    - id: Long
+    - entradasUsb: int
 }
 
 'Wifi 6, Bluetooth
@@ -144,21 +150,22 @@ Notebook "1" *--> "1" Tela
 Notebook "*" --> "1" Processador
 Notebook "*" --> "1" TipoPlacaVideo
 Notebook "*" --> "1" PlacaVideo
-Notebook --> Memoria
+Notebook "*" --> "*" Armazenamento
+Notebook --> "1" MemoriaRam
 Notebook "*" --> "*" Conexao
 Notebook "1" --> "1" Especificacao
 Notebook "*" --> "1" SistemaOperacional
 Notebook "*" --> "*" Recursos
 
 PlacaVideo "*"--> "1" FabricantePlacaVideo
-PlacaVideo "*" --> "1" TipoMemoriaGDDR5
+PlacaVideo "*" --> "1" TipoMemoriaPlacaVideo
 
 Processador "*" --> "1" MarcaProcessador
 
 Tela "*" --> "1" Resolucao
-Tela "*" --> "1" TaxaAtualizacao120Hz
+Tela "*" --> "1" TaxaAtualizacao
 
-Memoria "*" --> "1" TipoMemoria
+Armazenamento "*" --> "1" TipoArmazenamento
 
 Conexao "*" --> "*" ConexaoSemFio
 Conexao "*" --> "*" EntradasSaidas
