@@ -1,5 +1,44 @@
 @startuml uml
 
+'
+class Compra {
+    - id: Long
+    - data: LocalDate
+    - total: Double
+}
+
+class ItemCompra {
+    - id: Long
+    - quantidade: Integer
+    - total: Double
+}
+
+class Usuario {
+    - id: Long
+    - nome: String
+    - cpf: String
+    - dataNascimento: LocalDate
+    - email: String
+    - senha: String
+}
+
+class Endereco {
+    - id: Long
+    - cep: String
+    - logradouro: String
+    - bairro: String
+    - numero: String
+    - complemento: String
+    - cidade: String
+    - estado: String
+}
+
+class Telefone {
+    - id: Long
+    - ddd: String
+    - numero: String
+}
+
 class Notebook {
     - id: Long
     - descricao: String
@@ -10,7 +49,7 @@ class Notebook {
 
 class Marca {
     - id: Long
-    - nome: String
+    - marca: String
     - email: String
     - telefone: String
     - cnpj: String
@@ -70,14 +109,6 @@ class Processador {
     - nucleos: int
     - threads: int
     - memoriaCache: String
-}
-
-class MarcaProcessador {
-    - id: Long
-    - marca: String
-    - email: String
-    - telefone: String
-    - cnpj: String
 }
 
 ' Memoria
@@ -143,6 +174,13 @@ class EntradasSaidas {
     - descricao: String
 }
 
+Compra "1" *--> "*" ItemCompra
+Compra "*" o--> "1" Usuario
+ItemCompra "*" o--> "1" Notebook
+Usuario "*" *-right-> "1" Endereco
+Usuario "1" *-left-> "1" Telefone
+Compra "*" o--> "1" Endereco
+
 Notebook "*" --> "1" Linha
 Notebook "*" --> "1" Serie
 Notebook "*" --> "1" Marca
@@ -153,14 +191,12 @@ Notebook "*" --> "1" PlacaVideo
 Notebook "*" --> "*" Armazenamento
 Notebook --> "1" MemoriaRam
 Notebook "*" --> "*" Conexao
-Notebook "1" --> "1" Especificacao
+Notebook "1" *--> "1" Especificacao
 Notebook "*" --> "1" SistemaOperacional
 Notebook "*" --> "*" Recursos
 
 PlacaVideo "*"--> "1" FabricantePlacaVideo
 PlacaVideo "*" --> "1" TipoMemoriaPlacaVideo
-
-Processador "*" --> "1" MarcaProcessador
 
 Tela "*" --> "1" Resolucao
 Tela "*" --> "1" TaxaAtualizacao
