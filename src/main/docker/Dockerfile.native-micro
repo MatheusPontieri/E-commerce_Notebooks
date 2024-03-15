@@ -10,11 +10,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/notebooks-store .
+# docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/notelab-store .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/notebooks-store
+# docker run -i --rm -p 8080:8080 quarkus/notelab-store
 #
 ###
 FROM quay.io/quarkus/quarkus-micro-image:2.0

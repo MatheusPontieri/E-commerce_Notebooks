@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/notebooks-store .
+# docker build -f src/main/docker/Dockerfile.native -t quarkus/notelab-store .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/notebooks-store
+# docker run -i --rm -p 8080:8080 quarkus/notelab-store
 #
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.9
