@@ -49,7 +49,7 @@ public class ProcessadorServiceImpl implements ProcessadorService {
     @Override
     @Transactional
     public void delete(Long id) {
-        delete(id);
+        processadorRepository.deleteById(id);
     }
 
     @Override

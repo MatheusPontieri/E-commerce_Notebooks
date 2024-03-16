@@ -9,10 +9,10 @@ import jakarta.persistence.Id;
 @Entity
 public class Processador {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String modelo;
 
     @Column

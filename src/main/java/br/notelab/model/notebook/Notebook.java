@@ -1,7 +1,5 @@
 package br.notelab.model.notebook;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,19 +11,19 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Notebook {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String descricao;
 
-    @Column
+    @Column(nullable = false)
     private String modelo;
 
-    @Column
+    @Column(nullable = false)
     private Double preco;
 
-    @Column
+    @Column(nullable = false)
     private Boolean isGamer;
 
     @ManyToOne

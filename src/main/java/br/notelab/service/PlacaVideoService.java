@@ -8,8 +8,8 @@ import br.notelab.dto.notebook.PlacaVideoResponseDTO;
 import jakarta.validation.Valid;
 
 public interface PlacaVideoService {
-    PlacaVideoResponseDTO create(@Valid PlacaVideoDTO dto);
-    void update(Long id, PlacaVideoDTO dto);
+    PlacaVideoResponseDTO create(@Valid PlacaVideoDTO placa);
+    void update(Long id, PlacaVideoDTO placa);
     void delete(Long id);
     PlacaVideoResponseDTO findById(Long id);
     List<PlacaVideoResponseDTO> findAll();

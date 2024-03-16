@@ -1,13 +1,9 @@
 package br.notelab.resource;
 
-import java.util.List;
-
-import br.notelab.dto.ProcessadorDTO;
-import br.notelab.dto.ProcessadorResponseDTO;
-import br.notelab.model.Processador;
-import br.notelab.repository.ProcessadorRepository;
+import br.notelab.dto.notebook.ProcessadorDTO;
+import br.notelab.service.ProcessadorService;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -17,75 +13,57 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
-@Path("/processadores")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Path("/processadores")
 public class ProcessadorResource {
+
     @Inject
-    public ProcessadorRepository processadorRepository;
+    public ProcessadorService processadorService;
+
+    @GET
+    public Response findAll(){
+        return Response.ok(processadorService.findAll()).build();
+    }
 
     @GET
     @Path("/{id}")
-    public ProcessadorResponseDTO findById(@PathParam("id") Long id){
-        return ProcessadorResponseDTO.valueof(processadorRepository.findById(id));
+    public Response findById(@PathParam("id") Long id){
+        return Response.ok(processadorService.findById(id)).build();
     }
 
     @GET
-    public List<ProcessadorResponseDTO> findAll(){
-        return processadorRepository
-        .listAll()
-        .stream()
-        .map(p -> ProcessadorResponseDTO.valueof(p))
-        .toList();
+    @Path("/search/modelo/{modelo}")
+    public Response findByModelo(String modelo){
+        return Response.ok(processadorService.findByModelo(modelo)).build();
     }
 
-    @GET 
-    @Path("/search/modelo/{modelo}")
-    public List<ProcessadorResponseDTO> findByModelo(@PathParam("modelo") String modelo){
-        return processadorRepository
-        .findByModelo(modelo)
-        .stream()
-        .map(p -> ProcessadorResponseDTO.valueof(p))
-        .toList();
+
+    @GET
+    @Path("/search/modelo/{geracao}")
+    public Response findByGeracao(String geracao){
+        return Response.ok(processadorService.findByGeracao(geracao)).build();
     }
 
     @POST
-    @Transactional
-    public ProcessadorResponseDTO create(ProcessadorDTO dto){
-        Processador p = new Processador();
-
-        p.setModelo(dto.modelo());
-        p.setGeracao(dto.geracao());
-        p.setVelocidade(dto.velocidade());
-        p.setNucleos(dto.nucleos());
-        p.setThreads(dto.threads());
-        p.setMemoriaCache(dto.memoriaCache());
-
-        processadorRepository.persist(p);
-        return ProcessadorResponseDTO.valueof(p);
+    public Response create(@Valid ProcessadorDTO dto){
+        return Response.status(Status.CREATED).entity(processadorService.create(dto)).build();
     }
 
-    @PUT
-    @Transactional
-    @Path("/{id}")
-    public void update(@PathParam("id") Long id, ProcessadorDTO dto){
-        Processador p = processadorRepository.findById(id);
-
-        p.setModelo(dto.modelo());
-        p.setGeracao(dto.geracao());
-        p.setVelocidade(dto.velocidade());
-        p.setNucleos(dto.nucleos());
-        p.setThreads(dto.threads());
-        p.setMemoriaCache(dto.memoriaCache());
-
-        processadorRepository.persist(p);
+   @PUT
+   @Path("/{id}")
+   public Response update(@PathParam("id") Long id, ProcessadorDTO dto){
+        processadorService.update(id, dto);
+        return Response.status(Status.NO_CONTENT).build();
     }
 
-    @DELETE
-    @Transactional
-    @Path("/{id}")
-    public void delete(@PathParam("id") Long id){
-        processadorRepository.deleteById(id);
-    }
+   @DELETE
+   @Path("/{id}")
+   public Response delete(@PathParam("id") Long id){
+        processadorService.delete(id);
+        return Response.status(Status.NO_CONTENT).build();
+   }
 }
