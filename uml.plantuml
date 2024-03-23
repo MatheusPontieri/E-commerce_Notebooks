@@ -16,25 +16,24 @@ class ItemCompra {
 ' Usuario
 class Usuario {
     - id: Long
+    - nome: String
+    - dataNascimento: LocalDate
     - email: String
     - senha: String
 }
 
-class PessoaFisica {
+class Cliente {
     - id: Long
-    - cpf: String
-    - dataNascimento: LocalDate
-    - nome: String
+}
+
+class Funcionario {
+    - id: Long
+    - salario: Double
 }
 
 enum Sexo {
     + MASCULINO
     + FEMININO
-}
-
-enum Perfil {
-    + USER
-    + ADMIN 💪😎👍
 }
 
 class Endereco {
@@ -197,16 +196,16 @@ class EntradasSaidas {
 }
 
 Compra "1" *--> "*" ItemCompra
-Compra "*" o--> "1" Usuario
+Compra "*" o--> "1" Cliente
 Compra "*" o--> "1" Endereco
 ItemCompra "*" o--> "1" Notebook
 
-Usuario "1" -up-> "1" PessoaFisica
 Usuario "*" *-right-> "1" Endereco
 Usuario "1" *-left-> "1" Telefone
-Usuario "*" --> "*" Perfil
+Usuario "*" --> "1" Sexo
 
-PessoaFisica "*" -right-> "1" Sexo
+Cliente "1" --left> "1" Usuario
+Funcionario "1" --> "1" Usuario
 
 Notebook "*" o--> "1" Linha
 Notebook "*" o--> "1" Serie
