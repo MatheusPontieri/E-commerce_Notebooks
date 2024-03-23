@@ -1,39 +1,41 @@
 @startuml uml
 
 ' Compra
-class Compra {
+class Pedido {
     - id: Long
     - data: LocalDate
     - total: Double
 }
 
-class ItemCompra {
+class ItemPedido {
     - id: Long
     - quantidade: Integer
     - total: Double
 }
 
 ' Usuario
-class Usuario {
+class Pessoa {
     - id: Long
     - nome: String
     - dataNascimento: LocalDate
-    - email: String
-    - senha: String
 }
 
 class Cliente {
     - id: Long
+    - email: String
+    - senha: String
 }
 
 class Funcionario {
     - id: Long
     - salario: Double
+    - email: String
+    - senha: String
 }
 
 enum Sexo {
-    + MASCULINO
-    + FEMININO
+    + MASCULINO: int
+    + FEMININO: int
 }
 
 class Endereco {
@@ -58,11 +60,15 @@ class Telefone {
 class Notebook {
     - id: Long
     - descricao: String
+    - linha: String
+    - serie: String
     - preco: Double
     - modelo: String
-    - isGamer: Boolean 
+    - isGamer: Boolean
 } 
 
+' Notebook --> Fornecedor. Se colocasse ao contrário, toda vez que fosse cadastrar o fornecedor, teria que
+' cadastrar os notebooks também.
 class Fornecedor {
     - id: Long
     - nome: String
@@ -71,38 +77,21 @@ class Fornecedor {
     - cnpj: String
 }
 
-class Marca {
-    - id: Long
-    - nome: String
-}
-
 enum TipoPlacaVideo {
-    + INTEGRADA
-    + DEDICADA
+    + INTEGRADA: int
+    + DEDICADA: int
 }
 
 enum SistemaOperacional {
-    + WINDOWS
-    + LINUX
-    + MAC_OS
+    + WINDOWS: int
+    + LINUX: int
+    + MAC_OS: int
 }
 
-class Recursos {
+class Recurso {
     - id: Long
     - descricao: String
-}
-
-' Linha e Série
-
-class Linha {
-    - id: Long
-    - linha: String
-}
-
-class Serie {
-    - id: Long
-    - serie: String
-}
+}   
 
 ' Placa de Video    
 class PlacaVideo {
@@ -112,8 +101,8 @@ class PlacaVideo {
 }
 
 enum FabricantePlacaVideo {
-    + NVIDIA
-    + AMD
+    + NVIDIA: int
+    + AMD: int
 }
 
 class TipoMemoriaPlacaVideo {
@@ -139,8 +128,8 @@ class Armazenamento {
 }
 
 enum TipoArmazenamento {
-    + HD
-    + SSD
+    + HD: int
+    + SSD: int
 }
 
 class MemoriaRam {
@@ -154,21 +143,12 @@ class MemoriaRam {
 class Tela {
     - id: Long
     - tamanho: String
-}
-
-'HD, FULL HD, QUAD HD, 4K ULTRA HD
-class Resolucao {
-    - id: Long
-    - resolucao: String
-}
-
-'120 Hz
-class TaxaAtualizacao {
-    - id: Long
+    - resolucao: String 
     - taxaHz: int
 }
 
-' Especificacao
+' Especificacao. Informação exclusiva do Notebook. Não pode ser reaproveitada. Se tiver que usar dnv, teria que cadastrar outro.
+' Composição: Estou sempre cadastrando se for composição. Deve ser 1 de onde parte a composição
 class Especificacao {
     - id: Long
     - altura: String
@@ -190,26 +170,23 @@ class ConexaoSemFio {
 }
 
 'AUDIO USB-C ETHERNET_RJ-45USB 3.1 USB 2.0 HDMI LEITOR DE CARTAO
-class EntradasSaidas { 
+class EntradaSaida { 
     - id: Long
     - descricao: String
 }
 
-Compra "1" *--> "*" ItemCompra
-Compra "*" o--> "1" Cliente
-Compra "*" o--> "1" Endereco
-ItemCompra "*" o--> "1" Notebook
+Pedido "1" *--> "*" ItemPedido
+Pedido "*" o-left-> "1" Cliente
+Pedido "*" --> "1" Endereco
+ItemPedido "*" o--> "1" Notebook
 
-Usuario "*" *-right-> "1" Endereco
-Usuario "1" *-left-> "1" Telefone
-Usuario "*" --> "1" Sexo
+Pessoa "*" -right-> "1" Endereco
+Pessoa "1" *-left-> "1" Telefone
+Pessoa "*" --> "1" Sexo
 
-Cliente "1" --left> "1" Usuario
-Funcionario "1" --> "1" Usuario
+Cliente "1" --left> "1" Pessoa
+Funcionario "1" --> "1" Pessoa
 
-Notebook "*" o--> "1" Linha
-Notebook "*" o--> "1" Serie
-Notebook "*" o--> "1" Marca
 Notebook "1" *--> "1" Tela
 Notebook "*" o--> "1" Processador
 Notebook "*" --> "1" TipoPlacaVideo
@@ -219,19 +196,16 @@ Notebook *--> "1" MemoriaRam
 Notebook "1" *--> "*" Conexao
 Notebook "1" *--> "1" Especificacao
 Notebook "*" --> "1" SistemaOperacional
-Notebook "*" o--> "*" Recursos
+Notebook "*" o--> "*" Recurso
 Notebook "*" o--> "1" Fornecedor
 
 PlacaVideo "*"--> "1" FabricantePlacaVideo
 PlacaVideo "*" --> "1" TipoMemoriaPlacaVideo
 
-Tela "*" o--> "1" Resolucao
-Tela "*" o--> "1" TaxaAtualizacao
-
 Armazenamento "*" --> "1" TipoArmazenamento
 
 Conexao "*" o--> "*" ConexaoSemFio
-Conexao "*" o--> "*" EntradasSaidas
+Conexao "*" o--> "*" EntradaSaida
 
 Fornecedor "1" *-left-> "1" Telefone
 
