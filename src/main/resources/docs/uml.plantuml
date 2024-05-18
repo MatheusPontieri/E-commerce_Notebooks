@@ -1,0 +1,195 @@
+@startuml uml
+
+' Compra
+class Pedido {
+    - id: Long
+    - data: LocalDate
+    - total: Double
+}
+
+class ItemPedido {
+    - id: Long
+    - quantidade: Integer
+    - total: Double
+}
+
+' Usuario
+class Pessoa {
+    - id: Long
+    - nome: String
+    - dataNascimento: LocalDate
+    - cpf: String
+    - email: String
+    - senha: String
+}
+
+class Cliente {
+    - id: Long
+    - aceitaMarketing: boolean
+}
+
+class Funcionario {
+    - id: Long
+    - dataContrato: LocalDate
+    - salario: Double
+}
+
+class Usuario {
+    - id: Long
+    - email: String
+    - senha: String
+}
+
+enum Sexo {
+    + MASCULINO: int
+    + FEMININO: int
+}
+
+class Endereco {
+    - id: Long
+    - cep: String
+    - logradouro: String
+    - bairro: String
+    - numero: int
+    - complemento: String
+}
+
+class Cidade {
+    - id: Long
+    - nome: String
+}
+
+class Estado {
+    - id: Long
+    - nome: String
+}
+
+class Telefone {
+    - id: Long
+    - codigoArea: String
+    - numero: String
+}
+
+' Notebook
+
+class Notebook {
+    - id: Long
+    - descricao: String
+    - linha: String 
+    - serie: String
+    - preco: Double
+    - modelo: String
+    - sistemaOperacional: String
+    - isGamer: Boolean
+    - entradaUsb: Integer
+    - estoque: Integer
+} 
+
+' Notebook --> Fornecedor. Se colocasse ao contrário, toda vez que fosse cadastrar o fornecedor, teria que
+' cadastrar os notebooks também.
+class Fornecedor {
+    - id: Long
+    - nome: String
+    - email: String
+    - cnpj: String
+}
+
+enum TipoPlacaVideo {
+    + INTEGRADA: int
+    + DEDICADA: int
+}
+
+class Recurso {
+    - id: Long
+    - nome: String
+}   
+
+' Placa de Video    
+class PlacaVideo {
+    - id: Long
+    - modelo: String
+    - memoriaVideo: String
+}
+
+' Processador
+class Processador {
+    - id: Long
+    - modelo: String
+    - velocidade: String
+    - memoriaCache: String
+}
+
+' Memoria
+class Armazenamento {
+    - id: Long
+    - nome: String
+    - capacidade: String
+}
+
+class MemoriaRam {
+    - id: Long
+    - capacidade: String
+    - limiteExpansao: String
+}
+
+' Tela
+class Tela {
+    - id: Long
+    - tamanho: String
+    - resolucao: String 
+    - taxaAtualizacao: String
+}
+
+' Especificacao. Informação exclusiva do Notebook. Não pode ser reaproveitada. Se tiver que usar dnv, teria que cadastrar outro.
+' Composição: Estou sempre cadastrando se for composição. Deve ser 1 de onde parte a composição
+class Especificacao {
+    - id: Long
+    - altura: String
+    - largura: String
+    - profundidade: String
+    - peso: String
+}
+
+' Conexões
+'Wifi 6, Bluetooth
+class ConexaoSemFio {
+    - id: Long
+    - nome: String
+}
+
+'AUDIO USB-C ETHERNET_RJ-45USB 3.1 USB 2.0 HDMI LEITOR DE CARTAO
+class EntradaSaida { 
+    - id: Long
+    - nome: String
+}
+
+Pedido "1" *--> "*" ItemPedido
+Pedido "*" o-left-> "1" Cliente
+ItemPedido "*" o--> "1" Notebook
+
+Pessoa "1" *--> "*" Endereco
+Pessoa "1" *-left-> "1" Telefone
+Pessoa "*" --> "1" Sexo
+Pessoa "1" --> "1" Usuario
+
+Cliente "1" -left-> "1" Pessoa
+Funcionario "1" --> "1" Pessoa
+
+Endereco "*" -right-> "1" Cidade
+Cidade "*" -right-> "1" Estado
+
+Notebook "1" *--> "1" Tela
+Notebook "*" o--> "1" Processador
+Notebook "*" --> "1" TipoPlacaVideo
+Notebook "*" o--> "1" PlacaVideo
+Notebook "*" o--> "*" Armazenamento
+Notebook "*" o--> "1" MemoriaRam
+Notebook "1" *--> "1" Especificacao
+Notebook "*" o--> "*" Recurso
+Notebook "*" o--> "1" Fornecedor
+Notebook "*" o--> "*" ConexaoSemFio
+Notebook "*" o--> "*" EntradaSaida
+
+Fornecedor "1" *-left-> "1" Telefone
+
+@enduml

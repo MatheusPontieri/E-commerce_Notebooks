@@ -1,0 +1,22 @@
+package br.notelab.repository;
+
+import java.util.List;
+
+import br.notelab.model.pessoa.Funcionario;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class FuncionarioRepository implements PanacheRepository<Funcionario> {
+    public List<Funcionario> findByNome(String nome){
+        return find("SELECT f FROM Funcionario f WHERE UPPER(f.pessoa.nome) LIKE ?1", "%"+nome.toUpperCase()+"%").list();
+    }
+
+    public List<Funcionario> findByCpf(String cpf){
+        return find("SELECT f FROM Funcionario f WHERE f.pessoa.cpf LIKE ?1", "%"+cpf+"%").list();
+    }
+
+    public Funcionario findByEmailAndSenha(String email, String senha){
+        return find("SELECT f FROM Funcionario f WHERE f.pessoa.usuario.email = ?1 AND f.pessoa.usuario.senha = ?2", email, senha).firstResult();
+    }
+}
