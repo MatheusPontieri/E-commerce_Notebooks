@@ -14,8 +14,8 @@ public record PessoaResponseDTO(
     LocalDate dataNascimento,
     String cpf,
     Sexo sexo,
-    List<EnderecoResponseDTO> listaEndereco,
-    TelefoneResponseDTO telefone
+    List<EnderecoResponseDTO> listaEndereco
+    // TelefoneResponseDTO telefone
 ) {
     public static PessoaResponseDTO valueOf(Pessoa p){
         return new PessoaResponseDTO(
@@ -24,7 +24,8 @@ public record PessoaResponseDTO(
             p.getDataNascimento(),
             p.getCpf(),
             p.getSexo(),
-            p.getListaEndereco().stream().map(EnderecoResponseDTO::valueOf).toList(),
-            TelefoneResponseDTO.valueOf(p.getTelefone()));
+            p.getListaEndereco().stream().map(EnderecoResponseDTO::valueOf).toList()
+            // TelefoneResponseDTO.valueOf(p.getTelefone())
+        );
     }
 }

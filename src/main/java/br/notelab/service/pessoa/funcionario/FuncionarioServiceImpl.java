@@ -121,7 +121,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         p.setNome(dto.nome());
         p.setDataNascimento(dto.dataNascimento());
         p.setCpf(dto.cpf());
-        p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
+        // p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
         p.setSexo(Sexo.valueOf(dto.idSexo()));
         p.setListaEndereco(dto.listaEndereco().stream().map(e -> convertToEndereco(e)).toList());
 
@@ -139,8 +139,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         p.getListaEndereco().clear();
         dto.listaEndereco().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
 
-        p.getTelefone().setNumero(dto.telefone().numero());
-        p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
+        // p.getTelefone().setNumero(dto.telefone().numero());
+        // p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
     }
 
     private Endereco convertToEndereco(EnderecoDTO dto){

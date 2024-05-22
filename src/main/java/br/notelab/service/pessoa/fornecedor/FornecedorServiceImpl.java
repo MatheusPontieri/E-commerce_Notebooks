@@ -25,13 +25,13 @@ public class FornecedorServiceImpl implements FornecedorService {
     public FornecedorResponseDTO create(@Valid FornecedorDTO dto) {
         validarEmailFornecedor(dto.email(), 0L);
         validarCnpjFornecedor(dto.cnpj(), 0L);
-        validarTelefoneFornecedor(dto.telefone().codigoArea(), dto.telefone().numero(), 0L);
+        // validarTelefoneFornecedor(dto.telefone().codigoArea(), dto.telefone().numero(), 0L);
 
         Fornecedor f = new Fornecedor();
         f.setNome(dto.nome());
         f.setEmail(dto.email());
         f.setCnpj(dto.cnpj());
-        f.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
+        // f.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
 
         fornecedorRepository.persist(f);
         return FornecedorResponseDTO.valueOf(f);
@@ -44,12 +44,12 @@ public class FornecedorServiceImpl implements FornecedorService {
 
         validarEmailFornecedor(dto.email(), f.getId());
         validarCnpjFornecedor(dto.cnpj(), f.getId());
-        validarTelefoneFornecedor(dto.telefone().codigoArea(), dto.telefone().numero(), f.getId());
+        // validarTelefoneFornecedor(dto.telefone().codigoArea(), dto.telefone().numero(), f.getId());
 
         f.setNome(dto.nome());
         f.setEmail(dto.email());
         f.setCnpj(dto.cnpj());
-        updateInstanceOfTelefone(f.getTelefone(), dto.telefone());
+        // updateInstanceOfTelefone(f.getTelefone(), dto.telefone());
     }
 
     @Override

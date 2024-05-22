@@ -16,8 +16,10 @@ insert into entradaSaida (nome) values ('Ethernet (RJ-45)'), ('Áudio'), ('HDMI'
 
 insert into telefone (codigoArea, numero) values ('63', '99214-1871'), ('62', '3571-1224'), ('60', '4381-9342'), ('63', '6845-1987');
 
-insert into fornecedor (nome, email, cnpj, id_telefone) values ('Dell Enterprises', 'dell@gmail.com', '15.736.796/0001-12', 1), 
-('Lenovo', 'lenovo@gmail.com', '96.872.633/0001-69', 2);
+insert into fornecedor (nome, email, cnpj) values ('Dell Enterprises', 'dell@gmail.com', '15.736.796/0001-12'), 
+('Lenovo', 'lenovo@gmail.com', '96.872.633/0001-69');
+
+insert into telefone_fornecedor (id_fornecedor, id_telefone) values (1, 1), (2, 2);
 
 insert into tela (tamanho, resolucao, taxaAtualizacao) values ('15,6', 'Full HD', '120 Hz'), ('15,6', 'Full HD', '120 Hz'), 
 ('15,6', 'Full HD', '120 Hz'), ('15,6', 'Full HD', '120 Hz');
@@ -44,9 +46,11 @@ insert into cidade (nome, id_estado) values ('Anapolis', 1), ('Palmas', 2);
 insert into usuario (email, senha) values ('rafael@gmail.com', '+S1oFRn+kGusilJo843gPnKyJTINwGmWF+sk6c/Cmda3lGZPIkDR8Qy1Z3k/W9+Wa09NbNzQojxR2AaOGL0/dA=='),
 ('maria@gmail.com', 'k4IJ09tBrs3/1bNrVS4tERIXsTWdK/EFWZEFwA3ahZLzx7vzpQHwOOC6uFY7jH4mni/tMNh2YvX1XypBOyj4lA==');
 
-insert into pessoa (nome, data_nascimento, cpf, id_telefone, sexo, id_usuario) values 
-('Rafael', '2000-03-22', '955.514.170-34', 3, 1, 1),
-('Maria', '1980-08-05', '581.019.600-40', 4, 2, 2);
+insert into pessoa (nome, data_nascimento, cpf, sexo, id_usuario) values 
+('Rafael', '2000-03-22', '955.514.170-34', 1, 1),
+('Maria', '1980-08-05', '581.019.600-40', 2, 2);
+
+insert into telefone_pessoa (id_pessoa, id_telefone) values (1, 3), (2, 4);
 
 insert into cliente (aceitaMarketing, id_pessoa) values (true, 1);
 

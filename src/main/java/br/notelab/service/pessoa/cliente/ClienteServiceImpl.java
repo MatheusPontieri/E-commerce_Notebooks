@@ -43,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
-        validarListaTelefoneCliente(dto.telefones().stream().map(TelefoneDTO::va), 0L);
+        // validarListaTelefoneCliente(dto.telefones().stream().map(TelefoneDTO::va), 0L);
         // validarUsuarioCliente();
 
         Usuario u = new Usuario();
@@ -70,7 +70,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         validarEmailCliente(dto.email(), c.getPessoa().getId());
         validarCpfCliente(dto.cpf(), c.getPessoa().getId());
-        validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), c.getPessoa().getId());
+        // validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), c.getPessoa().getId());
 
         c.setAceitaMarketing(dto.aceitaMarketing());
         updateInstanceOfPessoa(c.getPessoa(), dto);
@@ -118,7 +118,7 @@ public class ClienteServiceImpl implements ClienteService {
         p.setNome(dto.nome());
         p.setDataNascimento(dto.dataNascimento());
         p.setCpf(dto.cpf());
-        p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
+       // p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
         p.setSexo(Sexo.valueOf(dto.idSexo()));
         p.setListaEndereco(dto.enderecos().stream().map(e -> convertToEndereco(e)).toList());
 
@@ -134,10 +134,10 @@ public class ClienteServiceImpl implements ClienteService {
         p.setSexo(Sexo.valueOf(dto.idSexo()));
 
         p.getListaEndereco().clear();
-        dto.listaEndereco().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
+        //dto.listaEndereco().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
 
-        p.getTelefone().setNumero(dto.telefone().numero());
-        p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
+        //p.getTelefone().setNumero(dto.telefone().numero());
+        //p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
     }
 
     private Endereco convertToEndereco(EnderecoDTO dto){
@@ -163,8 +163,8 @@ public class ClienteServiceImpl implements ClienteService {
             throw new ValidationException("cpf", "O cpf "+cpf+" já pertence a um cliente ou funcionário");
     }
 
-    private void validarListaTelefoneCliente(, Long id){
-        if(pessoaRepository.findByTelefoneCompleto(codigoArea, numero, id) != null)
-            throw new ValidationException("telefone", "O telefone "+ codigoArea.concat(numero) +" já existe");
-    }
+    // private void validarListaTelefoneCliente(, Long id){
+    //    if(pessoaRepository.findByTelefoneCompleto(codigoArea, numero, id) != null)
+    //        throw new ValidationException("telefone", "O telefone "+ codigoArea.concat(numero) +" já existe");
+    //}
 }
