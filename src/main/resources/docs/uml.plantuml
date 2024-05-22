@@ -1,26 +1,38 @@
 @startuml uml
 
-' Compra
 class Pedido {
     - id: Long
-    - data: LocalDate
+    - data: LocalDateTime
     - total: Double
 }
 
 class ItemPedido {
     - id: Long
+    - preco: Double
+    - desconto: Double
     - quantidade: Integer
-    - total: Double
 }
 
-' Usuario
+enum Status {
+    + AGUARDANDO_PAGAMENTO: int
+    + PAGAMENTO_NÃO_AUTORIZADO: int
+    + PAGAMENTO_AUTORIZADO: int
+    + SEPARADO_DO_ESTOQUE: int
+    + ENTREGUE_A_TRANSPORTADORA: int
+    + ENTREGUE: int
+    + DESISTIDO: int
+    + DEVOLVIDO: int
+}
+
+class StatusPedido {
+    - LocalDateTime: dataAtualizacao
+}
+
 class Pessoa {
     - id: Long
     - nome: String
     - dataNascimento: LocalDate
     - cpf: String
-    - email: String
-    - senha: String
 }
 
 class Cliente {
@@ -70,8 +82,6 @@ class Telefone {
     - numero: String
 }
 
-' Notebook
-
 class Notebook {
     - id: Long
     - descricao: String
@@ -104,14 +114,12 @@ class Recurso {
     - nome: String
 }   
 
-' Placa de Video    
 class PlacaVideo {
     - id: Long
     - modelo: String
     - memoriaVideo: String
 }
 
-' Processador
 class Processador {
     - id: Long
     - modelo: String
@@ -119,7 +127,6 @@ class Processador {
     - memoriaCache: String
 }
 
-' Memoria
 class Armazenamento {
     - id: Long
     - nome: String
@@ -132,7 +139,6 @@ class MemoriaRam {
     - limiteExpansao: String
 }
 
-' Tela
 class Tela {
     - id: Long
     - tamanho: String
@@ -150,14 +156,11 @@ class Especificacao {
     - peso: String
 }
 
-' Conexões
-'Wifi 6, Bluetooth
 class ConexaoSemFio {
     - id: Long
     - nome: String
 }
 
-'AUDIO USB-C ETHERNET_RJ-45USB 3.1 USB 2.0 HDMI LEITOR DE CARTAO
 class EntradaSaida { 
     - id: Long
     - nome: String
@@ -165,18 +168,21 @@ class EntradaSaida {
 
 Pedido "1" *--> "*" ItemPedido
 Pedido "*" o-left-> "1" Cliente
+Pedido "1" *-right-> "*" StatusPedido
+StatusPedido "*" -up-> "1" Status
 ItemPedido "*" o--> "1" Notebook
 
 Pessoa "1" *--> "*" Endereco
-Pessoa "1" *-left-> "1" Telefone
+Pessoa "1" *-left-> "*" Telefone
 Pessoa "*" --> "1" Sexo
 Pessoa "1" --> "1" Usuario
 
 Cliente "1" -left-> "1" Pessoa
 Funcionario "1" --> "1" Pessoa
+Cliente "*" *--> "*" Notebook: listaDesejo
 
-Endereco "*" -right-> "1" Cidade
-Cidade "*" -right-> "1" Estado
+Endereco "*" o-right-> "1" Cidade
+Cidade "*" o-right-> "1" Estado
 
 Notebook "1" *--> "1" Tela
 Notebook "*" o--> "1" Processador
@@ -190,6 +196,27 @@ Notebook "*" o--> "1" Fornecedor
 Notebook "*" o--> "*" ConexaoSemFio
 Notebook "*" o--> "*" EntradaSaida
 
-Fornecedor "1" *-left-> "1" Telefone
+Fornecedor "1" *-left-> "*" Telefone
 
 @enduml
+
+'1) Por que preciso do preço no ItemPedidoDTO se já mando o id
+' do produto e o desconto pra calcular no back?
+
+'2) Pessoa e Fornecedor tendo muitos telefones e sendo composição,
+' usar JoinTable pra criar uma pessoa_telefone e fornecedor_telefone
+
+'3) Lista de desejo: Criar um resource para isso ou colocar no próprio cliente?
+
+'4) Quando passar parâmetro pelo path param? Pois posso pegar o cliente
+' a partir do subject com o JsonWebToken (getSubject) e a partir daí pegar
+' o cliente
+
+'5) Se excluir um cliente, o pedido será excluido também? Como fica a integridade
+' referencial da tabela pedidos ao excluir um cliente?
+
+'6) Pedido ter um histórico de status de andamento
+
+'7) Funcionário poder ter mais de um perfil (Normal ou Adm)
+
+'8) Várias formas de rodar os testes e encaixar permissão: Passando token no header, usando @TestSecurity

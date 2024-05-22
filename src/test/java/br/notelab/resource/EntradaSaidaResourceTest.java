@@ -23,7 +23,7 @@ public class EntradaSaidaResourceTest {
     public void findAllTest(){
         given().when().get("/entradas_saidas").then().statusCode(200);
     }
-
+    
     @Test
     public void findByIdTest(){ 
         given().when().get("/entradas_saidas/1").then().statusCode(200).body("id", is(1));

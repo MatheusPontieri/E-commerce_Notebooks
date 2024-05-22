@@ -1,5 +1,7 @@
 package br.notelab.dto.pessoa.fornecedor;
 
+import java.util.List;
+
 import br.notelab.dto.pessoa.telefone.TelefoneResponseDTO;
 import br.notelab.model.pessoa.Fornecedor;
 
@@ -8,7 +10,7 @@ public record FornecedorResponseDTO(
     String nome,
     String email,
     String cnpj,
-    TelefoneResponseDTO telefone
+    List<TelefoneResponseDTO> telefones
 ) {
     public static FornecedorResponseDTO valueOf(Fornecedor f){
         return new FornecedorResponseDTO(
@@ -16,7 +18,7 @@ public record FornecedorResponseDTO(
             f.getNome(),
             f.getEmail(), 
             f.getCnpj(), 
-            TelefoneResponseDTO.valueOf(f.getTelefone())
+            f.getListaTelefone().stream().map(TelefoneResponseDTO::valueOf).toList()
         );
     }
     

@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.gpu.PlacaVideoDTO;
 import br.notelab.service.notebook.gpu.PlacaVideoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -14,7 +15,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/placas_video")
+@Path("/placas-video")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PlacaVideoResource {
@@ -45,6 +46,7 @@ public class PlacaVideoResource {
     }
 
     @POST
+    @RolesAllowed("Funcionario")
     public Response create(PlacaVideoDTO dto){
         return Response
             .status(201)
@@ -56,6 +58,7 @@ public class PlacaVideoResource {
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, PlacaVideoDTO dto){
         placaVideoService.update(id, dto);
+
         return Response.status(204).build();
     }
 
@@ -63,6 +66,7 @@ public class PlacaVideoResource {
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         placaVideoService.delete(id);
+        
         return Response.status(204).build();
     }
 }

@@ -1,6 +1,10 @@
 package br.notelab.dto.pessoa.cliente;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import br.notelab.dto.endereco.EnderecoResponseDTO;
+import br.notelab.dto.pessoa.telefone.TelefoneResponseDTO;
 import br.notelab.model.pessoa.Cliente;
 
 public record ClienteResponseDTO(
@@ -10,7 +14,8 @@ public record ClienteResponseDTO(
     Boolean aceitaMarketing,
     String cpf,
     String email, 
-    String senha
+    List<TelefoneResponseDTO> telefones,
+    List<EnderecoResponseDTO> enderecos
 ) {
     public static ClienteResponseDTO valueOf(Cliente c){
         return new ClienteResponseDTO(
@@ -19,8 +24,9 @@ public record ClienteResponseDTO(
             c.getPessoa().getDataNascimento(),
             c.getAceitaMarketing(),
             c.getPessoa().getCpf(),
-            c.getPessoa().getUsuario().getSenha(),
-            c.getPessoa().getUsuario().getSenha()
+            c.getPessoa().getUsuario().getEmail(),
+            c.getPessoa().getListaTelefone().stream().map(TelefoneResponseDTO::valueOf).toList(),
+            c.getPessoa().getListaEndereco().stream().map(EnderecoResponseDTO::valueOf).toList()
         );
     }
 }

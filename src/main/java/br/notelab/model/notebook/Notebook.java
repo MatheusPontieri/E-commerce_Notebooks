@@ -48,7 +48,7 @@ public class Notebook extends DefaultEntity {
 
     @ManyToMany
     @JoinTable(name="notebook_recurso",
-               joinColumns = @JoinColumn(name="id_notebook"),
+               joinColumns = @JoinColumn(name = "id_notebook"),
                inverseJoinColumns = @JoinColumn(name="id_recurso"))
     private List<Recurso> listaRecurso;
 

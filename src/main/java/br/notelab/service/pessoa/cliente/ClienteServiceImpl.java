@@ -3,7 +3,6 @@ package br.notelab.service.pessoa.cliente;
 import java.util.List;
 
 import br.notelab.dto.endereco.EnderecoDTO;
-import br.notelab.dto.pessoa.PessoaDTO;
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.dto.pessoa.cliente.ClienteResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
@@ -44,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
-        validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), 0L);
+        validarListaTelefoneCliente(dto.telefones().stream().map(TelefoneDTO::va), 0L);
         // validarUsuarioCliente();
 
         Usuario u = new Usuario();
@@ -121,7 +120,7 @@ public class ClienteServiceImpl implements ClienteService {
         p.setCpf(dto.cpf());
         p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
         p.setSexo(Sexo.valueOf(dto.idSexo()));
-        p.setListaEndereco(dto.listaEndereco().stream().map(e -> convertToEndereco(e)).toList());
+        p.setListaEndereco(dto.enderecos().stream().map(e -> convertToEndereco(e)).toList());
 
         return p;
     }
@@ -164,7 +163,7 @@ public class ClienteServiceImpl implements ClienteService {
             throw new ValidationException("cpf", "O cpf "+cpf+" já pertence a um cliente ou funcionário");
     }
 
-    private void validarTelefoneCliente(String codigoArea, String numero, Long id){
+    private void validarListaTelefoneCliente(, Long id){
         if(pessoaRepository.findByTelefoneCompleto(codigoArea, numero, id) != null)
             throw new ValidationException("telefone", "O telefone "+ codigoArea.concat(numero) +" já existe");
     }

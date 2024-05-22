@@ -1,11 +1,14 @@
 package br.notelab.model.pessoa;
 
+import java.util.List;
+
 import br.notelab.model.DefaultEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Fornecedor extends DefaultEntity {
@@ -18,9 +21,11 @@ public class Fornecedor extends DefaultEntity {
     @Column(nullable = false, unique = true)
     private String cnpj;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_telefone", nullable = false, unique = true)
-    private Telefone telefone;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "telefone_fornecedor",
+               joinColumns = @JoinColumn(name = "id_fornecedor"),
+               inverseJoinColumns = @JoinColumn(name = "id_telefone", unique = true))
+    private List<Telefone> listaTelefone;
 
     public String getNome() {
         return nome;
@@ -46,12 +51,11 @@ public class Fornecedor extends DefaultEntity {
         this.cnpj = cnpj;
     }
 
-    public Telefone getTelefone() {
-        return telefone;
+    public List<Telefone> getListaTelefone() {
+        return listaTelefone;
     }
 
-    public void setTelefone(Telefone telefone) {
-        this.telefone = telefone;
+    public void setListaTelefone(List<Telefone> listaTelefone) {
+        this.listaTelefone = listaTelefone;
     }
-
 }

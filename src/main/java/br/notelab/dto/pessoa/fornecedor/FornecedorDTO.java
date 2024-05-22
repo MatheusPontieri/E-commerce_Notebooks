@@ -1,5 +1,7 @@
 package br.notelab.dto.pessoa.fornecedor;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
@@ -24,7 +26,6 @@ public record FornecedorDTO(
 
     @NotNull(message = "O telefone não pode ser nulo")
     @Valid
-    TelefoneDTO telefone
-) {
-    
+    List<TelefoneDTO> telefones
+) {    
 }

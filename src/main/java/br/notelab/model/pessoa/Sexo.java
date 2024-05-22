@@ -25,9 +25,10 @@ public enum Sexo {
 
     public static Sexo valueOf(Integer id) throws IllegalArgumentException{
         for (Sexo sexo : Sexo.values()){
-            if (sexo.id == id)
+            if (sexo.getId() == id)
                 return sexo;
         }
+
         throw new IllegalArgumentException("Id Sexo Inválido!");
     }
 }

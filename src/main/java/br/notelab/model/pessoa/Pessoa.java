@@ -9,12 +9,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pessoa extends DefaultEntity {
-
     @Column(nullable = false)
     private String nome;
 
@@ -24,9 +24,11 @@ public class Pessoa extends DefaultEntity {
     @Column(nullable = false, unique = true)
     private String cpf;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_telefone", nullable = false, unique = true)
-    private Telefone telefone;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "telefone_pessoa",
+               joinColumns = @JoinColumn(name = "id_pessoa"),
+               inverseJoinColumns = @JoinColumn(name = "id_telefone", unique = true))
+    private List<Telefone> listaTelefone;
 
     @Column(nullable = false)
     private Sexo sexo;
@@ -63,12 +65,12 @@ public class Pessoa extends DefaultEntity {
         this.cpf = cpf;
     }
 
-    public Telefone getTelefone() {
-        return telefone;
+    public List<Telefone> getListaTelefone() {
+        return listaTelefone;
     }
 
-    public void setTelefone(Telefone telefone) {
-        this.telefone = telefone;
+    public void setListaTelefone(List<Telefone> listaTelefone) {
+        this.listaTelefone = listaTelefone;
     }
 
     public Sexo getSexo() {

@@ -25,7 +25,7 @@ public enum TipoPlacaVideo {
 
     public static TipoPlacaVideo valueOf(Integer id) throws IllegalArgumentException {
         for (TipoPlacaVideo tipo : TipoPlacaVideo.values()){
-            if (tipo.id == id)
+            if (tipo.getId() == id)
                 return tipo;
         }
         throw new IllegalArgumentException("Id Inválido do Tipo da Placa");
