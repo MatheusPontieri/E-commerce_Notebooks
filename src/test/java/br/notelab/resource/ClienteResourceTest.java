@@ -15,14 +15,11 @@ import br.notelab.dto.endereco.EnderecoDTO;
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.dto.pessoa.cliente.ClienteResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
-import br.notelab.repository.CidadeRepository;
 import br.notelab.service.pessoa.cliente.ClienteService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-
-import static org.hamcrest.CoreMatchers.equalTo;
 
 
 @QuarkusTest
@@ -31,10 +28,8 @@ public class ClienteResourceTest {
     @Inject
     public ClienteService clienteService;
 
-    @Inject
-    public CidadeRepository cidadeRepository;
-
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/clientes").then().statusCode(200);
     }

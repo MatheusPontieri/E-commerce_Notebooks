@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.endereco.cidade.CidadeDTO;
 import br.notelab.service.endereco.cidade.CidadeService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,6 +23,7 @@ public class CidadeResource {
     public CidadeService cidadeService;
 
     @GET
+    @RolesAllowed("Funcionario")
     public Response findAll(){
         return Response.ok(cidadeService.findAll()).build();
     }

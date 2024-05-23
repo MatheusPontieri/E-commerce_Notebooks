@@ -29,5 +29,4 @@ public class JwtServiceImpl implements JwtService {
                 .expiresAt(expiryDate)
                 .sign();
     }
-    
 }
