@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.service.pessoa.cliente.ClienteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,6 +24,7 @@ public class ClienteResource {
     public ClienteService clienteService;
 
     @GET
+    @RolesAllowed("Funcionario")
     public Response findAll(){
         return Response.ok(clienteService.findAll()).build();
     }

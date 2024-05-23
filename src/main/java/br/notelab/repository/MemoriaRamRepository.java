@@ -9,10 +9,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class MemoriaRamRepository implements PanacheRepository<MemoriaRam>{
     public List<MemoriaRam> findByCapacidade(String capacidade){
-        return find("SELECT m FROM MemoriaRam m WHERE UPPER(m.capacidade) LIKE ?1", "%" + capacidade.toUpperCase() + "%").list();
+        return find("SELECT m FROM MemoriaRam m WHERE UPPER(m.capacidade) LIKE ?1", "%" + capacidade.toUpperCase() + "%").firstResult();
     }
 
-    public MemoriaRam findByAllAttributes(String capacidade, String limite){
-        return find("WHERE UPPER(capacidade) = ?1 AND UPPER(limiteExpansao) = ?2", capacidade.toUpperCase(), limite.toUpperCase()).firstResult();
+    public MemoriaRam findByCapacidadeCompleta(String capacidade){
+        return find("SELECT m FROM MemoriaRam m WHERE UPPER(m.capacidade) = ?1", capacidade.toUpperCase()).firstResult();
     }
 }

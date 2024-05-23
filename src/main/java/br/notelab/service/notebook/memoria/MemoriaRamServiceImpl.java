@@ -21,11 +21,10 @@ public class MemoriaRamServiceImpl implements MemoriaRamService {
     @Override
     @Transactional
     public MemoriaRamResponseDTO create(@Valid MemoriaRamDTO dto) {
-        validarAtributosMemoria(dto.capacidade(), dto.limiteExpansao());
+        validarCapacidadeMemoria(dto.capacidade());
 
         MemoriaRam m = new MemoriaRam();
         m.setCapacidade(dto.capacidade());
-        m.setLimiteExpansao(dto.limiteExpansao());
         
         memoriaRamRepository.persist(m);
         return MemoriaRamResponseDTO.valueOf(m);
@@ -34,10 +33,9 @@ public class MemoriaRamServiceImpl implements MemoriaRamService {
     @Override
     @Transactional
     public void update(Long id, @Valid MemoriaRamDTO dto) {
-        validarAtributosMemoria(dto.capacidade(), dto.limiteExpansao());
+        validarCapacidadeMemoria(dto.capacidade());
 
         MemoriaRam p = memoriaRamRepository.findById(id);
-        p.setLimiteExpansao(dto.limiteExpansao());
         p.setCapacidade(dto.capacidade());
     }
 
@@ -62,9 +60,8 @@ public class MemoriaRamServiceImpl implements MemoriaRamService {
         return memoriaRamRepository.findByCapacidade(capacidade).stream().map(p -> MemoriaRamResponseDTO.valueOf(p)).toList();
     }
 
-    private void validarAtributosMemoria(String capacidade, String limite){
-        if(memoriaRamRepository.findByAllAttributes(capacidade, limite) != null)
-            throw new ValidationException("capacidade e limite de expansão",
-                                         "A capacidade "+capacidade+" com o limite de expansão "+limite+" já existem");
+    private void validarCapacidadeMemoria(String capacidade){
+        if(memoriaRamRepository.findByCapacidadeCompleta(capacidade) != null)
+            throw new ValidationException("capacidade", "A memória ram de " + capacidade + " já existe!");
     }
 }

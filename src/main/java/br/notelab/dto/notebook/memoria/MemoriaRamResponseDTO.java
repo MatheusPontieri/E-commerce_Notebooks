@@ -4,10 +4,10 @@ import br.notelab.model.notebook.memoria.MemoriaRam;
 
 public record MemoriaRamResponseDTO(
     Long id,
-    String capacidade,
-    String limiteExpansao
-) {
+    String capacidade
+) 
+{
     public static MemoriaRamResponseDTO valueOf(MemoriaRam m){
-        return new MemoriaRamResponseDTO(m.getId(), m.getCapacidade(), m.getLimiteExpansao());
+        return new MemoriaRamResponseDTO(m.getId(), m.getCapacidade());
     }
 }

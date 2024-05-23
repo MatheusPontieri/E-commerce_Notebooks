@@ -9,7 +9,7 @@ insert into placaVideo (modelo, memoriaVideo) values ('RTX 3050', '4 GB');
 
 insert into armazenamento (nome, capacidade) values ('SSD', '512 GB'), ('HD', '1 TB'), ('SSD', '256 GB'), ('SSD', '128 GB'), ('SSD', '1 TB');
 
-insert into memoriaRam (capacidade, limiteExpansao) values ('4 GB', '8 GB'), ('8 GB', '32 GB'), ('16 GB', '16 GB'), ('16 GB', '32 GB');
+insert into memoriaRam (capacidade) values ('4 GB'), ('8 GB'), ('16 GB'), ('16 GB');
 
 insert into entradaSaida (nome) values ('Ethernet (RJ-45)'), ('Áudio'), ('HDMI'), ('USB 2.0'), ('USB-C'), ('Leitor de cartão'), ('USB 3.1'), ('USB 3.0'), ('HDMI 2.1'),
 ('Mini HDMI'), ('Thunderbolt 4'), ('Display Port'), ('VGA');
@@ -27,13 +27,15 @@ insert into tela (tamanho, resolucao, taxaAtualizacao) values ('15,6', 'Full HD'
 insert into especificacao (altura, largura, profundidade, peso) values ('2.69 cm', '35.72 cm', '27.45 cm', '2.81 kg'),
 ('1 cm', '2 cm', '3 cm', '4 kg'), ('1 cm', '2 cm', '3 cm', '4 kg'), ('1 cm', '2 cm', '3 cm', '4 kg');
 
-insert into notebook (descricao, linha, serie, preco, modelo, sistema_operacional, gamer, num_usb, estoque, id_fornecedor,
-id_placa_video, id_processador, id_memoria_ram, id_tela, id_especificacao, tipo_placa_video) values ('Dell G15', 'G Series', 'G15 5530', 5497,
-'g5530w002bts', 'Windows 11', true, 4, 10, 1, 1, 1, 1, 1, 1, 2);
+insert into notebook (descricao, linha, serie, preco, modelo, sistema_operacional, gamer, num_usb, limite_ram, estoque, id_fornecedor,
+id_placa_video, id_processador, id_tela, id_especificacao, tipo_placa_video) values ('Dell G15', 'G Series', 'G15 5530', 5497,
+'g5530w002bts', 'Windows 11', true, 4, '10 GB', 10, 1, 1, 1, 1, 1, 2);
 
 insert into notebook_recurso (id_notebook, id_recurso) values (1, 1), (1, 2), (1, 3);
 
 insert into notebook_armazenamento (id_notebook, id_armazenamento) values (1, 1);
+
+insert into notebook_memoria_ram (id_notebook, id_memoria_ram) values (1, 1), (1, 2);
 
 insert into notebook_conexao (id_notebook, id_conexao) values (1, 1);
 

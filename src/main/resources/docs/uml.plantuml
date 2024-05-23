@@ -96,6 +96,7 @@ class Notebook {
     - sistemaOperacional: String
     - isGamer: Boolean
     - entradaUsb: Integer
+    - limiteRam: String
     - estoque: Integer
 } 
 
@@ -140,7 +141,6 @@ class Armazenamento {
 class MemoriaRam {
     - id: Long
     - capacidade: String
-    - limiteExpansao: String
 }
 
 class Tela {
@@ -194,7 +194,7 @@ Notebook "*" o--> "1" Processador
 Notebook "*" --> "1" TipoPlacaVideo
 Notebook "*" o--> "1" PlacaVideo
 Notebook "*" o--> "*" Armazenamento
-Notebook "*" o--> "1" MemoriaRam
+Notebook "*" o--> "*" MemoriaRam
 Notebook "1" *--> "1" Especificacao
 Notebook "*" o--> "*" Recurso
 Notebook "*" o--> "1" Fornecedor

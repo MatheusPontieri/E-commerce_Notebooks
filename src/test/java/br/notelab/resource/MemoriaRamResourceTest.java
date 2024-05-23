@@ -42,7 +42,7 @@ public class MemoriaRamResourceTest {
 
     @Test
     public void createTest(){
-        MemoriaRamDTO dto = new MemoriaRamDTO("Ram Create", "Ram Limite");
+        MemoriaRamDTO dto = new MemoriaRamDTO("Ram Create");
 
         given()
         .contentType(MediaType.APPLICATION_JSON)
@@ -56,8 +56,8 @@ public class MemoriaRamResourceTest {
 
     @Test
     public void updateTest(){
-        MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Update", "Ram Limite"));
-        MemoriaRamDTO dto = new MemoriaRamDTO("Ram Up 2", "Ram Lim 2");
+        MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Update"));
+        MemoriaRamDTO dto = new MemoriaRamDTO("Ram Up 2");
 
         given()
         .contentType(MediaType.APPLICATION_JSON)
@@ -71,7 +71,7 @@ public class MemoriaRamResourceTest {
 
     @Test
     public void deleteTest(){
-        MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Delete", "Ram Limite"));
+        MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Delete"));
 
         given()
         .when()

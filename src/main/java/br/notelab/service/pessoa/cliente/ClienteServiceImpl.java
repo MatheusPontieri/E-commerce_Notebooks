@@ -11,7 +11,6 @@ import br.notelab.model.endereco.Endereco;
 import br.notelab.model.pessoa.Cliente;
 import br.notelab.model.pessoa.Pessoa;
 import br.notelab.model.pessoa.Sexo;
-import br.notelab.model.pessoa.Telefone;
 import br.notelab.model.pessoa.Usuario;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.ClienteRepository;
@@ -42,12 +41,15 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
         validarEmailCliente(dto.email(), 0L);
+        System.out.println("Passou email");
         validarCpfCliente(dto.cpf(), 0L);
+        System.out.println("Passou CPF");
         validarListaTelefoneCliente(dto.telefones(), 0L);
+        System.out.println("Passou telefone");
         // validarUsuarioCliente();
 
         Usuario u = new Usuario();
-        u.setEmail(dto.senha());
+        u.setEmail(dto.email());
         u.setSenha(dto.senha());
         usuarioRepository.persist(u);
 

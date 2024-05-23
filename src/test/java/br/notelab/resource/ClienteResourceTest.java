@@ -3,12 +3,12 @@ package br.notelab.resource;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasToString;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import br.notelab.dto.endereco.EnderecoDTO;
@@ -21,6 +21,9 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+
 
 @QuarkusTest
 public class ClienteResourceTest {
@@ -49,7 +52,7 @@ public class ClienteResourceTest {
         .get("/clientes/search/nome/{nome}")
         .then()
         .statusCode(200)
-        .body("pessoa.nome", hasItem("Rafael"));
+        .body("nome", hasItem("Rafael"));
     }
 
     @Test
@@ -60,7 +63,7 @@ public class ClienteResourceTest {
         .get("/clientes/search/cpf/{cpf}")
         .then()
         .statusCode(200)
-        .body("pessoa.cpf", hasItem("955.514.170-34"));
+        .body("cpf", hasItem("955.514.170-34"));
     }
 
     @Test
@@ -74,7 +77,7 @@ public class ClienteResourceTest {
             "pedro12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            new TelefoneDTO("63", "8423-0319")
+            List.of(new TelefoneDTO("77", "8429-0303"))
         );
         
         given()
@@ -84,8 +87,8 @@ public class ClienteResourceTest {
         .post("/clientes")
         .then()
         .statusCode(201)
-        .body("pessoa.nome", is("Pedro Cavalcante"))
-        .body("pessoa.cpf", is("574.790.350-04"));
+        .body("nome", is("Pedro Cavalcante"))
+        .body("cpf", is("574.790.350-04"));
     }
 
     @Test
@@ -99,7 +102,7 @@ public class ClienteResourceTest {
             "joao12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            new TelefoneDTO("63", "8425-0319")
+            List.of(new TelefoneDTO("63", "8425-0319"))
         );
         ClienteResponseDTO response = clienteService.create(dto);
 
@@ -137,7 +140,7 @@ public class ClienteResourceTest {
             "joao12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            new TelefoneDTO("63", "8421-0319")
+            List.of(new TelefoneDTO("63", "8421-0319"))
         );
 
         ClienteResponseDTO response = clienteService.create(dto);
@@ -145,7 +148,7 @@ public class ClienteResourceTest {
         given()
         .when()
         .pathParam("id", response.id())
-        .delete("/cidades/{id}")
+        .delete("/clientes/{id}")
         .then()
         .statusCode(204);
     }

@@ -3,17 +3,13 @@ package br.notelab.service.pessoa.funcionario;
 import java.util.List;
 
 import br.notelab.dto.endereco.EnderecoDTO;
-import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioResponseDTO;
-import br.notelab.dto.pessoa.telefone.TelefoneDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
-import br.notelab.model.pessoa.Cliente;
 import br.notelab.model.pessoa.Funcionario;
 import br.notelab.model.pessoa.Pessoa;
 import br.notelab.model.pessoa.Sexo;
-import br.notelab.model.pessoa.Telefone;
 import br.notelab.model.pessoa.Usuario;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.FuncionarioRepository;

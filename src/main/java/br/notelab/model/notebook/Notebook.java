@@ -43,6 +43,9 @@ public class Notebook extends DefaultEntity {
     @Column(nullable = false, name = "num_usb")
     private Integer numUsb;
 
+    @Column(nullable = false, name = "limite_ram")
+    private String limiteRam;
+
     @Column(nullable = false)
     private Integer estoque;
 
@@ -70,9 +73,11 @@ public class Notebook extends DefaultEntity {
                 inverseJoinColumns = @JoinColumn(name = "id_armazenamento"))
     private List<Armazenamento> listaArmazenamento;
 
-    @ManyToOne
-    @JoinColumn(name = "id_memoria_ram", nullable = false)
-    private MemoriaRam memoriaRam;
+    @ManyToMany
+    @JoinTable(name = "notebook_memoria_ram",
+               joinColumns = @JoinColumn(name = "id_notebook"),
+               inverseJoinColumns = @JoinColumn(name = "id_memoria_ram"))
+    private List<MemoriaRam> listaMemoriaRam;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_tela", nullable = false, unique = true)
@@ -160,6 +165,14 @@ public class Notebook extends DefaultEntity {
     public void setNumUsb(Integer numUsb) {
         this.numUsb = numUsb;
     }
+
+    public String getLimiteRam() {
+        return limiteRam;
+    }
+
+    public void setLimiteRam(String limiteRam) {
+        this.limiteRam = limiteRam;
+    }
     
     public Integer getEstoque() {
         return estoque;
@@ -209,12 +222,12 @@ public class Notebook extends DefaultEntity {
         this.listaArmazenamento = listaArmazenamento;
     }
 
-    public MemoriaRam getMemoriaRam() {
-        return memoriaRam;
+    public List<MemoriaRam> getListaMemoriaRam() {
+        return listaMemoriaRam;
     }
 
-    public void setMemoriaRam(MemoriaRam memoriaRam) {
-        this.memoriaRam = memoriaRam;
+    public void setListaMemoriaRam(List<MemoriaRam> listaMemoriaRam) {
+        this.listaMemoriaRam = listaMemoriaRam;
     }
 
     public Tela getTela() {

@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import br.notelab.dto.pessoa.fornecedor.FornecedorDTO;
@@ -47,7 +49,7 @@ public class FornecedorResourceTest {
             "Fornecedor Create", 
             "create@gmail.com", 
             "93.818.452/0001-66",
-            new TelefoneDTO("60", "9219-4088")
+            List.of(new TelefoneDTO("60", "9219-4088"))
         );
 
         given()
@@ -67,14 +69,14 @@ public class FornecedorResourceTest {
             "Fornecedor Update", 
             "update@gmail.com", 
             "84.052.332/0001-00",
-            new TelefoneDTO("64", "9220-4088"))
+            List.of(new TelefoneDTO("64", "9220-4088")))
         );
 
         FornecedorDTO dto = new FornecedorDTO(
             "Fornecedor Update 2", 
             "update2@gmail.com", 
             "84.052.332/0001-00",
-            new TelefoneDTO("63", "9240-4095")
+            List.of(new TelefoneDTO("63", "9240-4095"))
         );
 
         given()
@@ -93,7 +95,7 @@ public class FornecedorResourceTest {
         "Fornecedor Delete", 
         "delete@gmail.com", 
         "01.304.006/0001-15",
-        new TelefoneDTO("62", "9245-4088"))
+        List.of(new TelefoneDTO("62", "9245-4088")))
         );
 
         given()

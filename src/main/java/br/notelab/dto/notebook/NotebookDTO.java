@@ -45,6 +45,10 @@ public record NotebookDTO( // Linha, serie, todas as listas, placa video,
     @Min(value = 0, message = "O número deve ser maior ou igual a 0")
     Integer numUsb,
 
+    @NotBlank(message = "O limite de expansão não pode ser nulo ou vazio")
+    @Size(min = 3, max = 10, message = "O limite de expansão deve ter entre 3 e 10 caracteres")
+    String limiteRam,
+
     @NotNull(message = "O estoque não pode ser nulo")
     @PositiveOrZero(message = "O estoque não pode ser negativo")
     Integer estoque,
@@ -65,9 +69,8 @@ public record NotebookDTO( // Linha, serie, todas as listas, placa video,
     @NotNull(message = "A lista de armazenamentos não pode ser nula")
     List<Long> listaIdArmazenamento,
 
-    @NotNull(message = "A memória ram não pode ser nula")
-    @Positive(message = "O id da memória ram não pode ser negativo ou 0")
-    Long idMemoriaRam,
+    @NotNull(message = "A lista de memórias ram não pode ser nula")
+    List<Long> listaIdMemoriasRam,
 
     @NotNull(message = "A tela não pode ser nula")
     @Valid
