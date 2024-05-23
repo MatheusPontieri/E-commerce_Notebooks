@@ -11,7 +11,7 @@ public record StatusPedidoResponseDTO(
 ) {
     public static StatusPedidoResponseDTO valueOf(StatusPedido s){
         return new StatusPedidoResponseDTO(
-            s.getDataAtualizacao(),
+            s.getDataCadastro(),
             s.getStatus()
         );
     }

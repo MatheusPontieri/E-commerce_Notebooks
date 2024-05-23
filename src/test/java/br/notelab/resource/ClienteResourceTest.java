@@ -6,7 +6,9 @@ import static org.hamcrest.Matchers.hasItem;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import br.notelab.dto.endereco.EnderecoDTO;
@@ -110,7 +112,7 @@ public class ClienteResourceTest {
             "joao12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            new TelefoneDTO("62", "8425-0318")
+            List.of(new TelefoneDTO("62", "8425-0318"))
         );
 
         given()

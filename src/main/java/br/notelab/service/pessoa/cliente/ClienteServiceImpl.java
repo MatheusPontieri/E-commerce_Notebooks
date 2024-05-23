@@ -43,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
-        // validarListaTelefoneCliente(dto.telefones().stream().map(TelefoneDTO::va), 0L);
+        validarListaTelefoneCliente(dto.telefones(), 0L);
         // validarUsuarioCliente();
 
         Usuario u = new Usuario();
@@ -70,7 +70,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         validarEmailCliente(dto.email(), c.getPessoa().getId());
         validarCpfCliente(dto.cpf(), c.getPessoa().getId());
-        // validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), c.getPessoa().getId());
+        validarListaTelefoneCliente(dto.telefones(), c.getPessoa().getId());
 
         c.setAceitaMarketing(dto.aceitaMarketing());
         updateInstanceOfPessoa(c.getPessoa(), dto);
@@ -105,7 +105,6 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.findByCpf(cpf).stream().map(c -> ClienteResponseDTO.valueOf(c)).toList();
     }
 
-    
     @Override
     public UsuarioResponseDTO login(String email, String senha) {
         Cliente c = clienteRepository.findByEmailAndSenha(email, senha);
@@ -118,7 +117,7 @@ public class ClienteServiceImpl implements ClienteService {
         p.setNome(dto.nome());
         p.setDataNascimento(dto.dataNascimento());
         p.setCpf(dto.cpf());
-       // p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
+        p.setListaTelefone(dto.telefones().stream().map(TelefoneDTO::convertToTelefone).toList());
         p.setSexo(Sexo.valueOf(dto.idSexo()));
         p.setListaEndereco(dto.enderecos().stream().map(e -> convertToEndereco(e)).toList());
 
@@ -134,7 +133,7 @@ public class ClienteServiceImpl implements ClienteService {
         p.setSexo(Sexo.valueOf(dto.idSexo()));
 
         p.getListaEndereco().clear();
-        //dto.listaEndereco().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
+        dto.enderecos().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
 
         //p.getTelefone().setNumero(dto.telefone().numero());
         //p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
@@ -163,8 +162,10 @@ public class ClienteServiceImpl implements ClienteService {
             throw new ValidationException("cpf", "O cpf "+cpf+" já pertence a um cliente ou funcionário");
     }
 
-    // private void validarListaTelefoneCliente(, Long id){
-    //    if(pessoaRepository.findByTelefoneCompleto(codigoArea, numero, id) != null)
-    //        throw new ValidationException("telefone", "O telefone "+ codigoArea.concat(numero) +" já existe");
-    //}
+    private void validarListaTelefoneCliente(List<TelefoneDTO> lista, Long id){
+        for (TelefoneDTO telefone : lista) {
+            if(pessoaRepository.findByTelefoneCompleto(telefone.codigoArea(), telefone.numero(), id) != null)
+                throw new ValidationException("telefone", "O telefone "+ telefone.codigoArea().concat(telefone.numero()) +" já existe");
+        }
+    }
 }

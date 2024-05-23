@@ -55,3 +55,11 @@ insert into telefone_pessoa (id_pessoa, id_telefone) values (1, 3), (2, 4);
 insert into cliente (aceitaMarketing, id_pessoa) values (true, 1);
 
 insert into funcionario (salario, dataContrato, id_pessoa) values (5300, '2024-04-24', 2);
+
+insert into pedido (data, total, id_cliente) values ('2024-05-22 17:03:55.030719', 3500, 1);
+
+insert into itempedido (id_pedido, preco, desconto, quantidade, id_notebook) values 
+(1, 3500, 250, 2, 1),
+(1, 4000, 400, 1, 1);
+
+insert into statuspedido (id_pedido, status) values (1, 1), (1, 2), (1, 3);

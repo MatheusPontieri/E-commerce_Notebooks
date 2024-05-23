@@ -9,7 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -31,9 +30,7 @@ public class Pedido extends DefaultEntity{
     private List<ItemPedido> listaItem;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "status_pedido",
-               joinColumns = @JoinColumn(name = "id_pedido"),
-               inverseJoinColumns = @JoinColumn(name = "status"))
+    @JoinColumn(name = "id_pedido")
     private List<StatusPedido> listaStatus;
 
     public LocalDateTime getData() {
