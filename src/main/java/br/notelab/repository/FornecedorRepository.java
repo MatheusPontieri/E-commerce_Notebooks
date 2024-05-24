@@ -21,6 +21,6 @@ public class FornecedorRepository implements PanacheRepository<Fornecedor> {
     }   
 
     public Fornecedor findByTelefoneCompleto(String codigoArea, String numero, Long id){
-        return find("WHERE telefone.codigoArea = ?1 AND telefone.numero = ?2 AND id != ?3", codigoArea, numero, id).firstResult();
+        return find("SELECT f FROM Fornecedor f JOIN f.listaTelefone t WHERE t.codigoArea = ?1 AND t.numero = ?2 AND f.id != ?3", codigoArea, numero, id).firstResult();
     }
 }

@@ -33,7 +33,7 @@ id_placa_video, id_processador, id_tela, id_especificacao, tipo_placa_video) val
 
 insert into notebook_recurso (id_notebook, id_recurso) values (1, 1), (1, 2), (1, 3);
 
-insert into notebook_armazenamento (id_notebook, id_armazenamento) values (1, 1);
+insert into notebook_armazenamento (id_notebook, id_armazenamento) values (1, 1), (1, 2);
 
 insert into notebook_memoria_ram (id_notebook, id_memoria_ram) values (1, 1), (1, 2);
 

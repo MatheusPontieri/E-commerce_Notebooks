@@ -41,11 +41,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
         validarEmailCliente(dto.email(), 0L);
-        System.out.println("Passou email");
         validarCpfCliente(dto.cpf(), 0L);
-        System.out.println("Passou CPF");
         validarListaTelefoneCliente(dto.telefones(), 0L);
-        System.out.println("Passou telefone");
         // validarUsuarioCliente();
 
         Usuario u = new Usuario();
@@ -134,11 +131,11 @@ public class ClienteServiceImpl implements ClienteService {
         p.getUsuario().setSenha(dto.senha());
         p.setSexo(Sexo.valueOf(dto.idSexo()));
 
+        p.getListaTelefone().clear();
+        dto.telefones().forEach(t -> p.getListaTelefone().add(TelefoneDTO.convertToTelefone(t)));
+
         p.getListaEndereco().clear();
         dto.enderecos().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
-
-        //p.getTelefone().setNumero(dto.telefone().numero());
-        //p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
     }
 
     private Endereco convertToEndereco(EnderecoDTO dto){

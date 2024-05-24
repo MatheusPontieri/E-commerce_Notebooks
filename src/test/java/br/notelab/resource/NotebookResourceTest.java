@@ -162,7 +162,7 @@ public class NotebookResourceTest {
         .get("/notebooks/search/capacidade_memoria_ram/{capacidade}")
         .then()
         .statusCode(200)
-        .body("memoriaRam.capacidade", hasItem(is("4 GB")));
+        .body("listaMemoriaRam.capacidade", everyItem(hasItem("4 GB")));
     }
 
     @Test

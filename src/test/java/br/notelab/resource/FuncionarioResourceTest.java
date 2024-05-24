@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasItem;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +49,7 @@ public class FuncionarioResourceTest {
         .get("/funcionarios/search/nome/{nome}")
         .then()
         .statusCode(200)
-        .body("pessoa.nome", hasItem("Maria"));
+        .body("nome", hasItem("Maria"));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class FuncionarioResourceTest {
         .get("/funcionarios/search/cpf/{cpf}")
         .then()
         .statusCode(200)
-        .body("pessoa.cpf", hasItem("581.019.600-40"));
+        .body("cpf", hasItem("581.019.600-40"));
     }
 
     @Test
@@ -74,7 +75,8 @@ public class FuncionarioResourceTest {
             "lucas12345",
             1,
             Arrays.asList(new EnderecoDTO("77040-456", "Quadra 5", "204 Norte", 12, "Perto da ponte", 2L)),
-            new TelefoneDTO("63", "8429-0319"));
+            List.of(new TelefoneDTO("63", "8429-0319"))
+        );
         
         given()
         .contentType(MediaType.APPLICATION_JSON)
@@ -83,8 +85,8 @@ public class FuncionarioResourceTest {
         .post("/funcionarios")
         .then()
         .statusCode(201)
-        .body("pessoa.nome", is("Lucas Rafael"))
-        .body("pessoa.cpf", is("626.163.140-96"));
+        .body("nome", is("Lucas Rafael"))
+        .body("cpf", is("626.163.140-96"));
     }
 
     @Test
@@ -99,7 +101,7 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-458", "Quadra 2", "207 Sul", 5, null, 2L)),
-            new TelefoneDTO("35", "8404-0319")
+            List.of(new TelefoneDTO("35", "8404-0319"))
         );
         FuncionarioResponseDTO response = funcionarioService.create(dto);
 
@@ -113,7 +115,7 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            new TelefoneDTO("35", "8404-0319")
+            List.of(new TelefoneDTO("35", "8404-0319"))
         );
 
         given()
@@ -138,7 +140,7 @@ public class FuncionarioResourceTest {
             "joaoSilva12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-221", "Quadra 10", "209 Norte", 12, null, 1L)),
-            new TelefoneDTO("63", "8421-5837")
+            List.of(new TelefoneDTO("63", "8421-5837"))
         );
 
         FuncionarioResponseDTO response = funcionarioService.create(dto);

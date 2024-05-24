@@ -53,11 +53,11 @@ public record FuncionarioDTO(
 
     @NotNull(message = "O endereço não pode ser nulo")
     @Valid
-    List<EnderecoDTO> listaEndereco,
+    List<EnderecoDTO> enderecos,
 
     @NotNull(message = "O telefone não pode ser nulo")
     @Valid
-    TelefoneDTO telefone
+    List<TelefoneDTO> telefones
 ) {
     
 }

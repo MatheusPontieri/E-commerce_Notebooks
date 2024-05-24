@@ -5,6 +5,7 @@ import java.util.List;
 import br.notelab.dto.endereco.EnderecoDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioResponseDTO;
+import br.notelab.dto.pessoa.telefone.TelefoneDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
 import br.notelab.model.pessoa.Funcionario;
@@ -41,15 +42,16 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public FuncionarioResponseDTO create(@Valid FuncionarioDTO dto) {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
-        validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), 0L);
+        validarListaTelefoneFuncionario(dto.telefones(), 0L);
         // validarUsuarioFuncionario()
 
         Usuario u = new Usuario();
-        u.setEmail(dto.senha());
+        u.setEmail(dto.email());
         u.setSenha(dto.senha());
         usuarioRepository.persist(u);
 
         Pessoa p = getPessoaFromFuncionarioDTO(dto);
+        p.setUsuario(u);
         pessoaRepository.persist(p);
 
         Funcionario f = new Funcionario();
@@ -66,9 +68,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public void update(Long id, @Valid FuncionarioDTO dto) {
         Funcionario f = funcionarioRepository.findById(id);
 
-        validarEmailCliente(dto.email(), 0L);
-        validarCpfCliente(dto.cpf(), 0L);
-        validarTelefoneCliente(dto.telefone().codigoArea(), dto.telefone().numero(), 0L);
+        validarEmailCliente(dto.email(), f.getPessoa().getId());
+        validarCpfCliente(dto.cpf(), f.getPessoa().getId());
+        validarListaTelefoneFuncionario(dto.telefones(), f.getPessoa().getId());
         // validarUsuarioFuncionario()
 
         f.setSalario(dto.salario());
@@ -117,9 +119,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         p.setNome(dto.nome());
         p.setDataNascimento(dto.dataNascimento());
         p.setCpf(dto.cpf());
-        // p.setTelefone(TelefoneDTO.convertToTelefone(dto.telefone()));
+        p.setListaTelefone(dto.telefones().stream().map(TelefoneDTO::convertToTelefone).toList());
         p.setSexo(Sexo.valueOf(dto.idSexo()));
-        p.setListaEndereco(dto.listaEndereco().stream().map(e -> convertToEndereco(e)).toList());
+        p.setListaEndereco(dto.enderecos().stream().map(e -> convertToEndereco(e)).toList());
 
         return p;
     }
@@ -132,11 +134,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         p.getUsuario().setSenha(dto.senha());
         p.setSexo(Sexo.valueOf(dto.idSexo()));
 
-        p.getListaEndereco().clear();
-        dto.listaEndereco().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
+        p.getListaTelefone().clear();
+        dto.telefones().forEach(t -> p.getListaTelefone().add(TelefoneDTO.convertToTelefone(t)));
 
-        // p.getTelefone().setNumero(dto.telefone().numero());
-        // p.getTelefone().setCodigoArea(dto.telefone().codigoArea());
+        p.getListaEndereco().clear();
+        dto.enderecos().forEach(e -> p.getListaEndereco().add(convertToEndereco(e)));
     }
 
     private Endereco convertToEndereco(EnderecoDTO dto){
@@ -162,8 +164,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             throw new ValidationException("cpf", "O cpf "+cpf+" já pertence a um cliente ou funcionário");
     }
 
-    private void validarTelefoneCliente(String codigoArea, String numero, Long id){
-        if(pessoaRepository.findByTelefoneCompleto(codigoArea, numero, id) != null)
-            throw new ValidationException("telefone", "O telefone "+ codigoArea.concat(numero) +" já existe");
+    private void validarListaTelefoneFuncionario(List<TelefoneDTO> lista, Long id){
+        for (TelefoneDTO telefone : lista) {
+            if(pessoaRepository.findByTelefoneCompleto(telefone.codigoArea(), telefone.numero(), id) != null)
+                throw new ValidationException("telefone", "O telefone "+ telefone.codigoArea().concat(telefone.numero()) +" já existe");
+        }
     }
 }

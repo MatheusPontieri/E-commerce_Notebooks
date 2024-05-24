@@ -37,7 +37,7 @@ public class MemoriaRamResourceTest {
         .get("/memorias_ram/search/{capacidade}")
         .then()
         .statusCode(200)
-        .body("capacidade", hasItem(is("4 GB")));
+        .body("capacidade", hasItem("4 GB"));
     }
 
     @Test

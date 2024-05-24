@@ -53,7 +53,7 @@ public class NotebookRepository implements PanacheRepository<Notebook>{
     }
 
     public List<Notebook> findByCapacidadeMemoriaRam(String capacidade){
-        return find("SELECT n FROM Notebook n WHERE UPPER(n.memoriaRam.capacidade) LIKE ?1", "%" + capacidade.toUpperCase() + "%").list();
+        return find("SELECT n FROM Notebook n JOIN n.listaMemoriaRam m WHERE UPPER(m.capacidade) LIKE ?1", "%" + capacidade.toUpperCase() + "%").list();
     }
 
     public List<Notebook> findByTaxaAtualizacao(String taxa){

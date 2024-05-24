@@ -9,6 +9,7 @@ import br.notelab.dto.endereco.cidade.CidadeDTO;
 import br.notelab.dto.endereco.cidade.CidadeResponseDTO;
 import br.notelab.service.endereco.cidade.CidadeService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -19,6 +20,7 @@ public class CidadeResourceTest {
     public CidadeService cidadeService;
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/cidades").then().statusCode(200);
     }

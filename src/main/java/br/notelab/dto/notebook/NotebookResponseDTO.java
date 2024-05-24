@@ -32,7 +32,7 @@ public record NotebookResponseDTO(
     PlacaVideoResponseDTO placaVideo,
     ProcessadorResponseDTO processador,
     List<ArmazenamentoResponseDTO> listaArmazenamento,
-    List<MemoriaRamResponseDTO> listamemoriaRam,
+    List<MemoriaRamResponseDTO> listaMemoriaRam,
     TelaResponseDTO tela,
     EspecificacaoResponseDTO especificacao,
     List<ConexaoSemFioResponseDTO> listaConexaoSemFio,

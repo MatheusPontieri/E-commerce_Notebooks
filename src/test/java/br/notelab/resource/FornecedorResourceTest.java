@@ -40,7 +40,7 @@ public class FornecedorResourceTest {
         .get("/fornecedores/search/{nome}")
         .then()
         .statusCode(200)
-        .body("nome", hasItem(is("Dell Enterprises")));
+        .body("nome", hasItem("Dell Enterprises"));
     }
 
     @Test
