@@ -21,12 +21,12 @@ public class PlacaVideoResourceTest {
     
     @Test 
     public void findAllTest(){
-        given().when().get("/placas_video").then().statusCode(200);
+        given().when().get("/placas-video").then().statusCode(200);
     }
 
     @Test
     public void findByIdTest(){ 
-        given().when().get("/placas_video/1").then().statusCode(200).body("id", is(1));
+        given().when().get("/placas-video/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class PlacaVideoResourceTest {
         given()
         .when()
         .pathParam("modelo", "RTX 3050")
-        .get("/placas_video/search/modelo/{modelo}")
+        .get("/placas-video/search/modelo/{modelo}")
         .then()
         .statusCode(200)
         .body("modelo", hasItem(is("RTX 3050")));
@@ -45,7 +45,7 @@ public class PlacaVideoResourceTest {
         given()
         .when()
         .pathParam("memoria", "4 GB")
-        .get("/placas_video/search/memoria/{memoria}")
+        .get("/placas-video/search/memoria/{memoria}")
         .then()
         .statusCode(200)
         .body("memoriaVideo", hasItem(is("4 GB")));
@@ -59,7 +59,7 @@ public class PlacaVideoResourceTest {
         .contentType(MediaType.APPLICATION_JSON)
         .body(dto)
         .when()
-        .post("/placas_video")
+        .post("/placas-video")
         .then()
         .statusCode(201)
         .body("modelo", is("Placa Create"));
@@ -75,7 +75,7 @@ public class PlacaVideoResourceTest {
         .body(dto)
         .when()
         .pathParam("id", response.id())
-        .put("/placas_video/{id}")
+        .put("/placas-video/{id}")
         .then()
         .statusCode(204);
     }
@@ -87,7 +87,7 @@ public class PlacaVideoResourceTest {
         given()
         .when()
         .pathParam("id", response.id())
-        .delete("/placas_video/{id}")
+        .delete("/placas-video/{id}")
         .then()
         .statusCode(204);
     }

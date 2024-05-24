@@ -46,7 +46,6 @@ public class PlacaVideoResource {
     }
 
     @POST
-    @RolesAllowed("Funcionario")
     public Response create(PlacaVideoDTO dto){
         return Response
             .status(201)
