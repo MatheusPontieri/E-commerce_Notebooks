@@ -1,11 +1,16 @@
 package br.notelab.resource;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 import br.notelab.dto.notebook.NotebookDTO;
+import br.notelab.form.ImageForm;
+import br.notelab.service.FileService;
 import br.notelab.service.notebook.NotebookService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -13,6 +18,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/notebooks")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,6 +28,9 @@ public class NotebookResource {
 
     @Inject
     public NotebookService notebookService;
+
+    @Inject
+    public FileService fileService;
 
     @GET
     public Response findAll(){
@@ -144,5 +154,22 @@ public class NotebookResource {
     public Response findByEntradaSaida(@PathParam("entradaSaida") String entradaSaida){
         return Response.ok(notebookService.findByEntradaSaida(entradaSaida)).build();
     }
-    
+
+    @PATCH
+    @Path("/{id}/image/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response upload(@PathParam("id") Long id, @MultipartForm ImageForm form){
+        fileService.upload(id, form.getNomeImagem(), form.getImagem());
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @GET
+    @Path("/image/download/{nomeImagem}")
+    public Response download(@PathParam("nomeImagem") String nomeImagem){
+        ResponseBuilder response = Response.ok(fileService.download(nomeImagem), MediaType.APPLICATION_OCTET_STREAM);
+        response.header("Content-Disposition", "attachement: filename=" + nomeImagem);
+        
+        return response.build();
+    }
 }

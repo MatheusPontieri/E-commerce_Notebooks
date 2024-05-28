@@ -49,6 +49,9 @@ public class Notebook extends DefaultEntity {
     @Column(nullable = false)
     private Integer estoque;
 
+    @Column(name = "nome_imagem")
+    private String nomeImagem;
+
     @ManyToMany
     @JoinTable(name="notebook_recurso",
                joinColumns = @JoinColumn(name = "id_notebook"),
@@ -180,6 +183,14 @@ public class Notebook extends DefaultEntity {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
+    }
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
     }
 
     public List<Recurso> getListaRecurso() {
