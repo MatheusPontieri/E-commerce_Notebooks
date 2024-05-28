@@ -2,7 +2,6 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.gpu.PlacaVideoDTO;
 import br.notelab.service.notebook.gpu.PlacaVideoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;

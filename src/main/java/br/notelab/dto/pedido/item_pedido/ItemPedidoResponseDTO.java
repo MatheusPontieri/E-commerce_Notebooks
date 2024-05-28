@@ -5,7 +5,7 @@ import br.notelab.model.pedido.ItemPedido;
 public record ItemPedidoResponseDTO(
     Long id,
     String nome,
-    Double desconto,
+    Cupom cupom,
     Integer quantidade
 ) {
     public static ItemPedidoResponseDTO valueOf(ItemPedido i) {

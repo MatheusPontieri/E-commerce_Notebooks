@@ -12,8 +12,6 @@ public class ItemPedido extends DefaultEntity {
     @Column(nullable = false)
     private Double preco;
 
-    private Double desconto;
-
     @Column(nullable = false)
     private Integer quantidade;
 
@@ -21,20 +19,16 @@ public class ItemPedido extends DefaultEntity {
     @JoinColumn(name = "id_notebook", nullable = false)
     private Notebook notebook;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cupom")
+    private Cupom cupom;
+
     public Double getPreco() {
         return preco;
     }
 
     public void setPreco(Double preco) {
         this.preco = preco;
-    }
-
-    public Double getDesconto() {
-        return desconto;
-    }
-
-    public void setDesconto(Double desconto) {
-        this.desconto = desconto;
     }
 
     public Integer getQuantidade() {
@@ -51,5 +45,13 @@ public class ItemPedido extends DefaultEntity {
 
     public void setNotebook(Notebook notebook) {
         this.notebook = notebook;
+    }
+
+    public Cupom getCupom() {
+        return cupom;
+    }
+
+    public void setCupom(Cupom cupom) {
+        this.cupom = cupom;
     }
 }
