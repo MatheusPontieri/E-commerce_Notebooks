@@ -30,8 +30,9 @@ class StatusPedido {
 
 class Cupom {
     - id: Long
-    - percentualDesconto: Float
     - codigo: String
+    - percentualDesconto: Float
+    - dataValidade: LocalDateTime
 }
 
 class Pessoa {

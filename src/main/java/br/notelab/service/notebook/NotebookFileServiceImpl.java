@@ -1,6 +1,7 @@
 package br.notelab.service.notebook;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +16,7 @@ import br.notelab.service.FileService;
 import br.notelab.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class NotebookFileServiceImpl implements FileService {
@@ -28,11 +30,13 @@ public class NotebookFileServiceImpl implements FileService {
         + File.separator + "notebook" + File.separator;
 
     @Override
+    @Transactional
     public void upload(Long id, String nomeImagem, byte[] imagem) {
         Notebook n = notebookRepository.findById(id);
         
         try {
             n.setNomeImagem(salvarImagem(nomeImagem, imagem));
+            n.setEstoque(500);
         } catch (IOException e){
             throw new ValidationException("imagem", e.getMessage());
         }
@@ -71,6 +75,6 @@ public class NotebookFileServiceImpl implements FileService {
         fos.flush();
         fos.close();
 
-        return nomeImagem;
+        return nomeArquivo;
     }
 }
