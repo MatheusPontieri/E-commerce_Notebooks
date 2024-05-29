@@ -90,7 +90,7 @@ public class PedidoResource {
     public Response findByTotalMaximo(@PathParam("total") Double total){
         return Response.ok(pedidoService.findByTotalAbaixoMaximo(total)).build();
     }
-
+/*
     @GET
     @Path("/search/data-minima/{data}")
     @RolesAllowed("Funcionario")
@@ -104,4 +104,5 @@ public class PedidoResource {
     public Response findByDataMaxima(@PathParam("data") LocalDateTime data){
         return Response.ok(pedidoService.findByDataMaxima(data)).build();
     }
+*/
 }

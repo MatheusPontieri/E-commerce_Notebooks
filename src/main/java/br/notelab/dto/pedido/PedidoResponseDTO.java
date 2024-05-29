@@ -10,16 +10,16 @@ public record PedidoResponseDTO(
     Long id,
     ClienteResponseDTO cliente,
     Double total,
-    List<ItemPedidoResponseDTO> itens,
-    List<StatusPedidoResponseDTO> status
+    List<ItemPedidoResponseDTO> itens
+    //List<StatusPedidoResponseDTO> status
 ){
     public static PedidoResponseDTO valueOf(Pedido p){
         return new PedidoResponseDTO(
             p.getId(),
             ClienteResponseDTO.valueOf(p.getCliente()),
             p.getTotal(),
-            p.getListaItem().stream().map(ItemPedidoResponseDTO::valueOf).toList(),
-            p.getListaStatus().stream().map(StatusPedidoResponseDTO::valueOf).toList()
+            p.getListaItem().stream().map(ItemPedidoResponseDTO::valueOf).toList()
+            //p.getListaStatus().stream().map(StatusPedidoResponseDTO::valueOf).toList()
         );
     }
 }

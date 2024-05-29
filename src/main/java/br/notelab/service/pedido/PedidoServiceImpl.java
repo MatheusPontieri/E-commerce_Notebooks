@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
-import java.util.function.DoubleBinaryOperator;
 
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
@@ -18,9 +17,12 @@ import br.notelab.repository.CupomRepository;
 import br.notelab.repository.NotebookRepository;
 import br.notelab.repository.PedidoRepository;
 import br.notelab.validation.ValidationException;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+@ApplicationScoped
 public class PedidoServiceImpl implements PedidoService {
 
     @Inject
@@ -36,6 +38,7 @@ public class PedidoServiceImpl implements PedidoService {
     public CupomRepository cupomRepository;
 
     @Override
+    @Transactional
     public PedidoResponseDTO create(@Valid PedidoDTO dto) {
         Pedido p = new Pedido();
 
@@ -53,11 +56,13 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional
     public void update(Long id, @Valid PedidoDTO dto) {
 
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         pedidoRepository.deleteById(id);
     }
@@ -160,11 +165,12 @@ public class PedidoServiceImpl implements PedidoService {
 
     // Verificar se o cupom usado realmente pertence é aplicável para aquela marca (fornecedor)
     private boolean verificarCupomFornecedor(Long idCupom, Long idFornecedor){
-        Long idFornecedorCupom = cupomRepository.findById(idCupom).getFornecedor().getId();
+        Cupom c = cupomRepository.findById(idCupom);
+        Long idFornecedorCupom = c.getFornecedor().getId();
         Long idFornecedorNotebook = notebookRepository.findById(idFornecedor).getFornecedor().getId();
 
         if(idFornecedorCupom != idFornecedorNotebook)
-            throw new ValidationException("cupom", "Este cupom não é aplicável para esta marca");
+            throw new ValidationException("cupom", "O cupom " + c.getCodigo() + " não é aplicável para a marca " + notebookRepository.findById(idFornecedor).getFornecedor().getNome());
 
         return true;
     }

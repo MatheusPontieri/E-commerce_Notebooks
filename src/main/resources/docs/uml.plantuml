@@ -236,4 +236,4 @@ Fornecedor "1" *-left-> "*" Telefone
 ' no resource. Colocar validações de banco para pedido e cupom. Implementar lista desejo. 
 ' Colocar mais métodos no resource de Cupom. metodo para atualizar o status do pedido
 ' Tem problema receber integer no pathParam?
-' 
+' E se eu quiser pesquisar pela data? Pois pathparam não aceita data
