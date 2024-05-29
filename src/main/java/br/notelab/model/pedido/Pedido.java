@@ -1,4 +1,4 @@
-package br.notelab.model.pedido;
+ package br.notelab.model.pedido;
 
 import java.time.LocalDateTime;
 import java.util.List;

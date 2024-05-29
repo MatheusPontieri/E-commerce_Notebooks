@@ -229,3 +229,8 @@ Fornecedor "1" *-left-> "*" Telefone
 '7) Funcionário poder ter mais de um perfil (Normal ou Adm)
 
 '8) Várias formas de rodar os testes e encaixar permissão: Passando token no header, usando @TestSecurity
+
+'9) Preciso colocar um objeto inteiro de notebook dentro de listaDesejo?
+
+' Arrumar bean validation. Testar cupom e pedido. Organizar melhor pastas. Organizar melhor sequência de métodos
+' no resource. Colocar validações de banco para pedido e cupom. Implementar lista desejo. 

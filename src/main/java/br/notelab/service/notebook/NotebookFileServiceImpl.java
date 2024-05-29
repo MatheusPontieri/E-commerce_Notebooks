@@ -42,7 +42,6 @@ public class NotebookFileServiceImpl implements FileService {
         }
     }
 
-   
     @Override
     public File download(String nomeImagem) {
         return new File(USER_PATH + nomeImagem);

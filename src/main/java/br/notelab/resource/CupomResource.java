@@ -36,7 +36,7 @@ public class CupomResource {
 
     @GET
     @Path("/search/codigo/{codigo}")
-    public Response findByNome(@PathParam("codigo") String codigo){
+    public Response findByCodigo(@PathParam("codigo") String codigo){
         return Response.ok(cupomService.findByCodigo(codigo)).build();
     }
 

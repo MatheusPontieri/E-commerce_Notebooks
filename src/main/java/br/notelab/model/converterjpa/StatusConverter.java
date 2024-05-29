@@ -16,7 +16,4 @@ public class StatusConverter implements AttributeConverter<Status, Integer> {
     public Status convertToEntityAttribute(Integer id) {
         return Status.valueOf(id);
     }
-
- 
-    
 }
