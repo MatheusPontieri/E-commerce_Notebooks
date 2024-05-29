@@ -3,6 +3,8 @@ package br.notelab.service.pedido;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.function.DoubleBinaryOperator;
 
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
@@ -39,7 +41,12 @@ public class PedidoServiceImpl implements PedidoService {
 
         p.setCliente(clienteRepository.findById(dto.idCliente()));
         p.setData(LocalDateTime.now());
-        p.setListaItem(getItensFromDTO(dto.itens()));
+
+        List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
+        p.setListaItem(listaItens);
+        p.setTotal(calculateTotalPedido(listaItens));
+
+        p.setListaStatus(null);
 
         pedidoRepository.persist(p);
         return PedidoResponseDTO.valueOf(p);
@@ -100,14 +107,14 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findByDataMaxima(data).stream().map(PedidoResponseDTO::valueOf).toList();
     }   
 
-    private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> dto) throws ValidationException{
-        dto.forEach(i -> verificarEstoque(i.idNotebook(), i.quantidade()));
-        dto.forEach(i -> verificarValidadeCupom(i.idCupom()));
-        dto.forEach(i -> verificarCupomFornecedor(i.idCupom(), i.idNotebook()));
+    private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> listaItemDTO) throws ValidationException{
+        listaItemDTO.forEach(i -> verificarEstoque(i.idNotebook(), i.quantidade()));
+        listaItemDTO.forEach(i -> verificarValidadeCupom(i.idCupom()));
+        listaItemDTO.forEach(i -> verificarCupomFornecedor(i.idCupom(), i.idNotebook()));
 
         List<ItemPedido> itens = new ArrayList<>();
 
-        for (ItemPedidoDTO itemDTO : dto) {
+        for (ItemPedidoDTO itemDTO : listaItemDTO) {
             ItemPedido item = new ItemPedido();
             Notebook n = notebookRepository.findById(itemDTO.idNotebook());
             Cupom c = cupomRepository.findById(itemDTO.idCupom());
@@ -124,6 +131,13 @@ public class PedidoServiceImpl implements PedidoService {
         }
 
         return itens;
+    }
+
+    private Double calculateTotalPedido(List<ItemPedido> listaItem){
+        DoubleAccumulator total = new DoubleAccumulator((x, y) -> x + y, 0);
+        listaItem.forEach(i -> total.accumulate(i.getPreco()));
+        
+        return total.get();
     }
 
     private boolean verificarEstoque(Long idNotebook, Integer quantidade){

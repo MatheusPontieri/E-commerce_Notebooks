@@ -1,9 +1,10 @@
 package br.notelab.resource;
 
-import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
+
+import org.junit.jupiter.api.Test;
 
 import br.notelab.dto.endereco.cidade.CidadeDTO;
 import br.notelab.dto.endereco.cidade.CidadeResponseDTO;

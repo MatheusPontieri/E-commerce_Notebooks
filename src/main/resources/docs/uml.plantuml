@@ -234,3 +234,6 @@ Fornecedor "1" *-left-> "*" Telefone
 
 ' Arrumar bean validation. Testar cupom e pedido. Organizar melhor pastas. Organizar melhor sequência de métodos
 ' no resource. Colocar validações de banco para pedido e cupom. Implementar lista desejo. 
+' Colocar mais métodos no resource de Cupom. metodo para atualizar o status do pedido
+' Tem problema receber integer no pathParam?
+' 

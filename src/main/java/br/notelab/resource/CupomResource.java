@@ -1,6 +1,5 @@
 package br.notelab.resource;
 
-import br.notelab.dto.endereco.cidade.CidadeDTO;
 import br.notelab.dto.pedido.cupom.CupomDTO;
 import br.notelab.service.pedido.cupom.CupomService;
 import jakarta.annotation.security.RolesAllowed;
@@ -24,6 +23,7 @@ public class CupomResource {
     public CupomService cupomService;
 
     @GET
+    @RolesAllowed("Funcionario")
     public Response findAll(){
         return Response.ok(cupomService.findAll()).build();
     }
