@@ -11,6 +11,7 @@ public interface PedidoService {
     PedidoResponseDTO create(@Valid PedidoDTO dto);
     void update(Long id, @Valid PedidoDTO dto);
     void delete(Long id);
+    void updateStatusPedido(Long idPedido, Integer idStatus);
     PedidoResponseDTO findById(Long id);
     List<PedidoResponseDTO> findAll();
     List<PedidoResponseDTO> findByCliente(Long idCliente);

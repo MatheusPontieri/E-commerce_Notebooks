@@ -2,6 +2,7 @@ package br.notelab.service.pedido;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
@@ -12,6 +13,9 @@ import br.notelab.model.notebook.Notebook;
 import br.notelab.model.pedido.Cupom;
 import br.notelab.model.pedido.ItemPedido;
 import br.notelab.model.pedido.Pedido;
+import br.notelab.model.pedido.Status;
+import br.notelab.model.pedido.StatusPedido;
+import br.notelab.model.pessoa.Fornecedor;
 import br.notelab.repository.ClienteRepository;
 import br.notelab.repository.CupomRepository;
 import br.notelab.repository.NotebookRepository;
@@ -49,7 +53,8 @@ public class PedidoServiceImpl implements PedidoService {
         p.setListaItem(listaItens);
         p.setTotal(calculateTotalPedido(listaItens));
 
-        p.setListaStatus(null);
+        List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(3));
+        p.setListaStatus(listaStatus);
 
         pedidoRepository.persist(p);
         return PedidoResponseDTO.valueOf(p);
@@ -58,13 +63,27 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public void update(Long id, @Valid PedidoDTO dto) {
+        Pedido p = pedidoRepository.findById(id);
 
+        List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
+        
+        p.getListaItem().clear();
+        p.setListaItem(listaItens);
+        p.setTotal(calculateTotalPedido(listaItens));
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         pedidoRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatusPedido(Long idPedido, Integer idStatus) {
+        Pedido p = pedidoRepository.findById(idPedido);
+
+        p.getListaStatus().add(createStatusPedido(idStatus));
     }
 
     @Override
@@ -112,10 +131,14 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findByDataMaxima(data).stream().map(PedidoResponseDTO::valueOf).toList();
     }   
 
-    private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> listaItemDTO) throws ValidationException{
-        listaItemDTO.forEach(i -> verificarEstoque(i.idNotebook(), i.quantidade()));
-        listaItemDTO.forEach(i -> verificarValidadeCupom(i.idCupom()));
-        listaItemDTO.forEach(i -> verificarCupomFornecedor(i.idCupom(), i.idNotebook()));
+    private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> listaItemDTO){
+        listaItemDTO.forEach(i -> {
+            verificarEstoque(i.idNotebook(), i.quantidade());
+            if (i.idCupom() != null){
+                verificarValidadeCupom(i.idCupom());
+                verificarCupomFornecedor(i.idCupom(), i.idNotebook());
+            }
+        });
 
         List<ItemPedido> itens = new ArrayList<>();
 
@@ -129,7 +152,8 @@ public class PedidoServiceImpl implements PedidoService {
             item.setCupom(c);
 
             Double totalItem = (item.getQuantidade() * n.getPreco());
-            Double desconto = totalItem * c.getPercentualDesconto();
+            Double desconto = 0d;
+            if (c != null) desconto = totalItem * c.getPercentualDesconto();
             item.setPreco(totalItem - desconto);
 
             itens.add(item);
@@ -137,6 +161,14 @@ public class PedidoServiceImpl implements PedidoService {
 
         return itens;
     }
+
+    private StatusPedido createStatusPedido(Integer id){
+        StatusPedido statusPedido = new StatusPedido();
+
+        statusPedido.setStatus(Status.valueOf(id));
+        return statusPedido;
+    }
+
 
     private Double calculateTotalPedido(List<ItemPedido> listaItem){
         DoubleAccumulator total = new DoubleAccumulator((x, y) -> x + y, 0);
@@ -146,31 +178,33 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     private boolean verificarEstoque(Long idNotebook, Integer quantidade){
-        boolean temEstoque = notebookRepository.findById(idNotebook).getEstoque() >= quantidade;
+        Notebook n = notebookRepository.findById(idNotebook);
+        boolean temEstoque = n.getEstoque() >= quantidade;
         
         if (!temEstoque)
-            throw new ValidationException("estoque", "Não há estoque suficiente");
+            throw new ValidationException("estoque", "Não há estoque suficiente de " + n.getDescricao());
 
         return true;
     }
 
     private boolean verificarValidadeCupom(Long idCupom){
-        boolean cupomValido = LocalDateTime.now().isBefore(cupomRepository.findById(idCupom).getDataValidade());
+        Cupom c = cupomRepository.findById(idCupom);
+        boolean cupomValido = LocalDateTime.now().isBefore(c.getDataValidade());
 
         if(!cupomValido)
-            throw new ValidationException("cupom", "Este cupom já expirou");
+            throw new ValidationException("cupom", "O cupom " + c.getCodigo() + " já expirou");
         
         return true;
     }
 
     // Verificar se o cupom usado realmente pertence é aplicável para aquela marca (fornecedor)
-    private boolean verificarCupomFornecedor(Long idCupom, Long idFornecedor){
+    private boolean verificarCupomFornecedor(Long idCupom, Long idNotebook){
         Cupom c = cupomRepository.findById(idCupom);
-        Long idFornecedorCupom = c.getFornecedor().getId();
-        Long idFornecedorNotebook = notebookRepository.findById(idFornecedor).getFornecedor().getId();
+        Fornecedor fornecedorCupom = c.getFornecedor();
+        Fornecedor fornecedorNotebook = notebookRepository.findById(idNotebook).getFornecedor();
 
-        if(idFornecedorCupom != idFornecedorNotebook)
-            throw new ValidationException("cupom", "O cupom " + c.getCodigo() + " não é aplicável para a marca " + notebookRepository.findById(idFornecedor).getFornecedor().getNome());
+        if(fornecedorCupom.getId() != fornecedorNotebook.getId())
+            throw new ValidationException("cupom", "O cupom " + c.getCodigo() + " não é aplicável para a marca " + fornecedorNotebook.getNome());
 
         return true;
     }

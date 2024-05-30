@@ -36,7 +36,6 @@ public class NotebookFileServiceImpl implements FileService {
         
         try {
             n.setNomeImagem(salvarImagem(nomeImagem, imagem));
-            n.setEstoque(500);
         } catch (IOException e){
             throw new ValidationException("imagem", e.getMessage());
         }

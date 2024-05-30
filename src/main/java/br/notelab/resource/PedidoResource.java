@@ -1,15 +1,14 @@
 package br.notelab.resource;
 
-
-import java.time.LocalDateTime;
-
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.service.pedido.PedidoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -17,6 +16,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/pedidos")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -57,6 +57,14 @@ public class PedidoResource {
     public Response delete(@PathParam("id") Long id){
         pedidoService.delete(id);
         return Response.status(204).build();
+    }
+    
+    @PATCH
+    @Path("/status-pedido/{id}")
+    public Response updateStatusPedido(@PathParam("id") Long idPedido, Integer idStatus){
+        pedidoService.updateStatusPedido(idPedido, idStatus);
+
+        return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET

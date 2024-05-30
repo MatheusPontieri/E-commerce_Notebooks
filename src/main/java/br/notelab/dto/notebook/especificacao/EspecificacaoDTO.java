@@ -8,7 +8,7 @@ public record EspecificacaoDTO(
     @Size(min = 3, max = 10, message = "A altura deve ter entre 3 e 10 caracteres")
     String altura,
 
-    @Size(min = 3, max = 10, message = "A altura deve ter entre 3 e 10 caracteres")
+    @Size(min = 3, max = 10, message = "A largura deve ter entre 3 e 10 caracteres")
     String largura,
 
     @Size(min = 3, max = 10, message = "A profundidade deve ter entre 3 e 10 caracteres")

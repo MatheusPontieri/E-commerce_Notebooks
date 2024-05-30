@@ -236,4 +236,8 @@ Fornecedor "1" *-left-> "*" Telefone
 ' no resource. Colocar validações de banco para pedido e cupom. Implementar lista desejo. 
 ' Colocar mais métodos no resource de Cupom. metodo para atualizar o status do pedido
 ' Tem problema receber integer no pathParam?
-' E se eu quiser pesquisar pela data? Pois pathparam não aceita data
+' E se eu quiser pesquisar pela data? Pois pathparam não aceita LocalDateTime (Apenas tipos primitivos e de referencia?)
+' Colocar as validações de cupom tudo em um método só
+' Arrumar FileService para ser geral
+' Colocar nomeImagem direto no dto, pra na hora de cadastrar já subir imagem
+' Erro em update pedido (composição - clear())
