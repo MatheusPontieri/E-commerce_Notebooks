@@ -215,18 +215,18 @@ Fornecedor "1" *-left-> "*" Telefone
 '2) Pessoa e Fornecedor tendo muitos telefones e sendo composição,
 ' usar JoinTable pra criar uma pessoa_telefone e fornecedor_telefone
 
-'3) Lista de desejo: Criar um resource para isso ou colocar no próprio cliente?
+'3) Lista de desejo: Criar um resource para isso ou colocar no próprio cliente?: Próprio Cliente
 
 '4) Quando passar parâmetro pelo path param? Pois posso pegar o cliente
 ' a partir do subject com o JsonWebToken (getSubject) e a partir daí pegar
-' o cliente
+' o cliente: Certo seria conferir se o cliente do token é o mesmo do id que foi passado
 
 '5) Se excluir um cliente, o pedido será excluido também? Como fica a integridade
 ' referencial da tabela pedidos ao excluir um cliente?
 
 '6) Pedido ter um histórico de status de andamento
 
-'7) Funcionário poder ter mais de um perfil (Normal ou Adm)
+'7) Funcionário poder ter mais de um perfil (Normal ou Ad
 
 '8) Várias formas de rodar os testes e encaixar permissão: Passando token no header, usando @TestSecurity
 
@@ -240,4 +240,14 @@ Fornecedor "1" *-left-> "*" Telefone
 ' Colocar as validações de cupom tudo em um método só
 ' Arrumar FileService para ser geral
 ' Colocar nomeImagem direto no dto, pra na hora de cadastrar já subir imagem
-' Erro em update pedido (composição - clear())
+' Organizar melhor ItemPedidoDTO (idNotebook primeiro - e dps organizar a classe normal)
+' Em vez de devolver o objeto todo de fornecedor, não seria interessante devolver só a marca?
+' No update de produto, atualizar idCliente tbm? Faz sentido?
+
+' Parte de Pagamento: 1°) Posso criar diversos endpoints para fechar o pedido, 1 para cada opção de pagamento
+' 2°) Posso criar um resource para pagamento (com vários endpoints de pagamento) e colocar o id do pedido que quero. Então concluo o pedido e o pagamento fica pendente ate eu o finalizar
+' 3°) Posso criar um resource para pagamento com várias opções para adicionar saldo ao site e assim ter dinheiro no site para pagar a compra
+
+' Opção: Fazer tudo em pedido em um unico endpoint (colocar a opção (cartao, pix, boleto) e colocar os dados de cartao) -> Se não for cartão, ignora os dados. Se for, aplica ele na compra.
+
+' Ou fazer 2 endpoints, um pra compra com cartão (dto de pedido com dados de cartao), e outro pra compra com pix / boleto, etc (dto com opção de geracao)

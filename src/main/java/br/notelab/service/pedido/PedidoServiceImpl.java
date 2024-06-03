@@ -53,6 +53,7 @@ public class PedidoServiceImpl implements PedidoService {
         p.setListaItem(listaItens);
         p.setTotal(calculateTotalPedido(listaItens));
 
+        // Arrumar
         List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(3));
         p.setListaStatus(listaStatus);
 
@@ -65,11 +66,13 @@ public class PedidoServiceImpl implements PedidoService {
     public void update(Long id, @Valid PedidoDTO dto) {
         Pedido p = pedidoRepository.findById(id);
 
-        List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
-        
-        p.getListaItem().clear();
-        p.setListaItem(listaItens);
-        p.setTotal(calculateTotalPedido(listaItens));
+        List<ItemPedido> itensFromDTO = getItensFromDTO(dto.itens());
+        List<ItemPedido> itensFromBanco = p.getListaItem();
+
+        itensFromBanco.clear();
+        itensFromDTO.forEach(i -> itensFromBanco.add(i));
+
+        p.setTotal(calculateTotalPedido(itensFromBanco));
     }
 
     @Override
