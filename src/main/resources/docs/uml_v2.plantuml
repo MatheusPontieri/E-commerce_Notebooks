@@ -173,26 +173,30 @@ class EntradaSaida {
     - nome: String
 }
 
+Pedido "1" *--> "*" ItemPedido
+' right
+Pedido "*" o-right-> "1" Cliente
 'left
-Pedido "1" *--down> "*" ItemPedido
-Pedido "*" o-up-> "1" Cliente
-'Pedido "1" *-right-> "*" StatusPedido
-'StatusPedido "*" -up-> "1" Status
-ItemPedido "*" o-right-> "1" Notebook
-ItemPedido "*" o-left-> "1" Cupom
-Cupom "*" o--> "1" Fornecedor
+Pedido "1" *-left-> "*" StatusPedido
+StatusPedido "*" -up-> "1" Status
+ItemPedido "*" o--> "1" Notebook
+'left
+ItemPedido "*" o--> "1" Cupom
+'Cupom "*" --> "1" Fornecedor
 
-'Pessoa "1" *--> "*" Endereco
-Pessoa "1" *-left-> "*" Telefone
-'Pessoa "*" -up-> "1" Sexo
-'Pessoa "1" -up-> "1" Usuario
+Pessoa "1" *--> "*" Endereco
+' right
+Pessoa "1" *-down-> "*" Telefone
+Pessoa "*" --> "1" Sexo
+Pessoa "1" --> "1" Usuario
 
-Cliente "1" -left-> "1" Pessoa
-'Funcionario "1" --> "1" Pessoa
-Cliente "*" *-right-> "*" Notebook: listaDesejo
+' right
+Cliente "1" -right-> "1" Pessoa
+Funcionario "1" --> "1" Pessoa
+Cliente "*" *--> "*" Notebook: listaDesejo
 
-'Endereco "*" o-right-> "1" Cidade
-'Cidade "*" o-right-> "1" Estado
+Endereco "*" o-right-> "1" Cidade
+Cidade "*" o-right-> "1" Estado
 
 Notebook "1" *--> "1" Tela
 Notebook "*" o--> "1" Processador
@@ -202,7 +206,7 @@ Notebook "*" o--> "*" Armazenamento
 Notebook "*" o--> "*" MemoriaRam
 Notebook "1" *--> "1" Especificacao
 Notebook "*" o--> "*" Recurso
-Notebook "*" o--> "1" Fornecedor
+'Notebook "*" o--> "1" Fornecedor
 Notebook "*" o--> "*" ConexaoSemFio
 Notebook "*" o--> "*" EntradaSaida
 
