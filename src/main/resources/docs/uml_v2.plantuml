@@ -35,6 +35,26 @@ class Cupom {
     - dataValidade: LocalDateTime
 }
 
+abstract Pagamento {
+
+}
+
+class Pix {
+
+}
+
+class Boleto {
+
+}
+
+class Cartao {
+
+}
+
+enum TipoCartao {
+
+}
+
 class Pessoa {
     - id: Long
     - nome: String
@@ -174,26 +194,27 @@ class EntradaSaida {
 }
 
 Pedido "1" *--> "*" ItemPedido
-' right
 Pedido "*" o-right-> "1" Cliente
-'left
 Pedido "1" *-left-> "*" StatusPedido
 StatusPedido "*" -up-> "1" Status
 ItemPedido "*" o--> "1" Notebook
-'left
-ItemPedido "*" o--> "1" Cupom
-'Cupom "*" --> "1" Fornecedor
+ItemPedido "*" o-right-> "1" Cupom
+Cupom "*" -right-> "1" Fornecedor
 
-Pessoa "1" *--> "*" Endereco
-' right
+Pedido "1" -up-> "*" Pagamento
+Pix --|> Pagamento
+Cartao --|> Pagamento
+Boleto --|> Pagamento
+Cartao "*" -left-> "*" TipoCartao
+
+Pessoa "1" *-right-> "*" Endereco
+Pessoa "*" -up-> "1" Sexo
+Pessoa "1" -up-> "1" Usuario
 Pessoa "1" *-down-> "*" Telefone
-Pessoa "*" --> "1" Sexo
-Pessoa "1" --> "1" Usuario
 
-' right
 Cliente "1" -right-> "1" Pessoa
 Funcionario "1" --> "1" Pessoa
-Cliente "*" *--> "*" Notebook: listaDesejo
+Cliente "*" o--> "*" Notebook: listaDesejo
 
 Endereco "*" o-right-> "1" Cidade
 Cidade "*" o-right-> "1" Estado
@@ -206,11 +227,11 @@ Notebook "*" o--> "*" Armazenamento
 Notebook "*" o--> "*" MemoriaRam
 Notebook "1" *--> "1" Especificacao
 Notebook "*" o--> "*" Recurso
-'Notebook "*" o--> "1" Fornecedor
+Notebook "*" o-up-> "1" Fornecedor
 Notebook "*" o--> "*" ConexaoSemFio
 Notebook "*" o--> "*" EntradaSaida
 
-Fornecedor "1" *-left-> "*" Telefone
+Fornecedor "1" *-right-> "*" Telefone
 
 @enduml
 

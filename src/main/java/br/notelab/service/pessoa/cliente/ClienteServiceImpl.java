@@ -16,6 +16,7 @@ import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.ClienteRepository;
 import br.notelab.repository.PessoaRepository;
 import br.notelab.repository.UsuarioRepository;
+import br.notelab.service.hash.HashService;
 import br.notelab.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -37,6 +38,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Inject
     public CidadeRepository cidadeRepository;
 
+    @Inject
+    public HashService hashService;
+
     @Override
     @Transactional
     public ClienteResponseDTO create(@Valid ClienteDTO dto) {
@@ -47,7 +51,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         Usuario u = new Usuario();
         u.setEmail(dto.email());
-        u.setSenha(dto.senha());
+        u.setSenha(hashService.getHashSenha(dto.senha()));
         usuarioRepository.persist(u);
 
         Pessoa p = getPessoaFromClienteDTO(dto);

@@ -10,8 +10,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record PedidoDTO(
-    @NotNull(message = "O id do fornecedor não pode ser nulo")
-    @Positive(message = "O id do fornecedor não pode ser negativo ou 0")
+    @NotNull(message = "O id do cliente não pode ser nulo")
+    @Positive(message = "O id do cliente não pode ser negativo ou 0")
     Long idCliente,
 
     @NotNull(message = "A lista de itens não pode ser nula")
