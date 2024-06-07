@@ -24,7 +24,7 @@ public class ClienteResource {
     public ClienteService clienteService;
 
     @GET
-    @RolesAllowed("Funcionario")
+    @RolesAllowed({"Funcionario", "Adm"})
     public Response findAll(){
         return Response.ok(clienteService.findAll()).build();
     }
