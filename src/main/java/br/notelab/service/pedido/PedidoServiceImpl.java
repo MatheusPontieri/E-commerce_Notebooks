@@ -10,6 +10,7 @@ import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
 import br.notelab.dto.pedido.item_pedido.ItemPedidoDTO;
 import br.notelab.model.notebook.Notebook;
+import br.notelab.model.pagamento.Pix;
 import br.notelab.model.pedido.Cupom;
 import br.notelab.model.pedido.ItemPedido;
 import br.notelab.model.pedido.Pedido;
@@ -56,6 +57,14 @@ public class PedidoServiceImpl implements PedidoService {
         // Arrumar
         List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(3));
         p.setListaStatus(listaStatus);
+
+        Pix pix = new Pix();
+        pix.setChaveRecebedor("notelab_store@gmail.com");
+        pix.setDataExpiracao(LocalDateTime.now().plusDays(1));
+        pix.setValor(1500d);
+        pix.setDataLimite(LocalDateTime.now().plusDays(2));
+
+        p.setPagamento(pix);
 
         pedidoRepository.persist(p);
         return PedidoResponseDTO.valueOf(p);

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.notelab.model.DefaultEntity;
+import br.notelab.model.pagamento.Pagamento;
 import br.notelab.model.pessoa.Cliente;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pedido extends DefaultEntity{
@@ -32,6 +34,10 @@ public class Pedido extends DefaultEntity{
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_pedido")
     private List<StatusPedido> listaStatus;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_pagamento")
+    private Pagamento pagamento;
 
     public LocalDateTime getData() {
         return data;
@@ -71,5 +77,13 @@ public class Pedido extends DefaultEntity{
 
     public void setListaStatus(List<StatusPedido> listaStatus) {
         this.listaStatus = listaStatus;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 }

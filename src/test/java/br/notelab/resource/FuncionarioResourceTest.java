@@ -75,7 +75,8 @@ public class FuncionarioResourceTest {
             "lucas12345",
             1,
             Arrays.asList(new EnderecoDTO("77040-456", "Quadra 5", "204 Norte", 12, "Perto da ponte", 2L)),
-            List.of(new TelefoneDTO("63", "8429-0319"))
+            List.of(new TelefoneDTO("63", "8429-0319")),
+            1
         );
         
         given()
@@ -101,7 +102,8 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-458", "Quadra 2", "207 Sul", 5, null, 2L)),
-            List.of(new TelefoneDTO("35", "8404-0319"))
+            List.of(new TelefoneDTO("35", "8404-0319")),
+            2
         );
         FuncionarioResponseDTO response = funcionarioService.create(dto);
 
@@ -115,7 +117,8 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            List.of(new TelefoneDTO("35", "8404-0319"))
+            List.of(new TelefoneDTO("35", "8404-0319")),
+            1
         );
 
         given()
@@ -140,7 +143,8 @@ public class FuncionarioResourceTest {
             "joaoSilva12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-221", "Quadra 10", "209 Norte", 12, null, 1L)),
-            List.of(new TelefoneDTO("63", "8421-5837"))
+            List.of(new TelefoneDTO("63", "8421-5837")),
+            2
         );
 
         FuncionarioResponseDTO response = funcionarioService.create(dto);

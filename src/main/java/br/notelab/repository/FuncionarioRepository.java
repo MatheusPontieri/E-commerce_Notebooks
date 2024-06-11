@@ -2,7 +2,7 @@ package br.notelab.repository;
 
 import java.util.List;
 
-import br.notelab.model.pessoa.Funcionario;
+import br.notelab.model.pessoa.funcionario.Funcionario;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

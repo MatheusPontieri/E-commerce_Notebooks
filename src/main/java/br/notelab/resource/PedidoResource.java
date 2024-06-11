@@ -4,7 +4,6 @@ import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.service.pedido.PedidoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;

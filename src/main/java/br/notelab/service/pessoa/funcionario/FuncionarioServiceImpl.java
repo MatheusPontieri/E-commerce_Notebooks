@@ -8,10 +8,11 @@ import br.notelab.dto.pessoa.funcionario.FuncionarioResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
-import br.notelab.model.pessoa.Funcionario;
 import br.notelab.model.pessoa.Pessoa;
 import br.notelab.model.pessoa.Sexo;
 import br.notelab.model.pessoa.Usuario;
+import br.notelab.model.pessoa.funcionario.Funcionario;
+import br.notelab.model.pessoa.funcionario.Perfil;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.FuncionarioRepository;
 import br.notelab.repository.PessoaRepository;
@@ -58,6 +59,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         f.setSalario(dto.salario());
         f.setDataContrato(dto.dataContrato());
         f.setPessoa(p);
+        f.setPerfil(Perfil.valueOf(dto.idPerfil()));
 
         funcionarioRepository.persist(f);
         return FuncionarioResponseDTO.valueOf(f);

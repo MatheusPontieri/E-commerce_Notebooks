@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.notelab.dto.pedido.item_pedido.ItemPedidoResponseDTO;
 import br.notelab.dto.pessoa.cliente.ClienteResponseDTO;
+import br.notelab.model.pagamento.Pagamento;
 import br.notelab.model.pedido.Pedido;
 
 public record PedidoResponseDTO(
@@ -11,7 +12,8 @@ public record PedidoResponseDTO(
     ClienteResponseDTO cliente,
     Double total,
     List<ItemPedidoResponseDTO> itens,
-    List<StatusPedidoResponseDTO> status
+    List<StatusPedidoResponseDTO> status,
+    Pagamento pagamento
 ){
     public static PedidoResponseDTO valueOf(Pedido p){
         return new PedidoResponseDTO(
@@ -19,7 +21,8 @@ public record PedidoResponseDTO(
             ClienteResponseDTO.valueOf(p.getCliente()),
             p.getTotal(),
             p.getListaItem().stream().map(ItemPedidoResponseDTO::valueOf).toList(),
-            p.getListaStatus().stream().map(StatusPedidoResponseDTO::valueOf).toList()
+            p.getListaStatus().stream().map(StatusPedidoResponseDTO::valueOf).toList(),
+            p.getPagamento()
         );
     }
 }

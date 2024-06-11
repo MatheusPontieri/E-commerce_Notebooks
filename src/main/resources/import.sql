@@ -56,7 +56,7 @@ insert into telefone_pessoa (id_pessoa, id_telefone) values (1, 3), (2, 4);
 
 insert into cliente (aceitaMarketing, id_pessoa) values (true, 1);
 
-insert into funcionario (salario, dataContrato, id_pessoa) values (5300, '2024-04-24', 2);
+insert into funcionario (salario, dataContrato, id_pessoa, perfil) values (5300, '2024-04-24', 2, 1);
 
 insert into cupom (codigo, percentual_desconto, data_validade, id_fornecedor) values ('DELL15OFF', 0.15, '2024-06-10 23:59:59.000000', 1),
 ('LENOVO20OFF', 0.20, '2024-06-10 23:59:59.000000', 2);

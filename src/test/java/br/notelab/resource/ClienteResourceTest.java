@@ -3,7 +3,6 @@ package br.notelab.resource;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasToString;
 
 import java.time.LocalDate;
 import java.util.Arrays;

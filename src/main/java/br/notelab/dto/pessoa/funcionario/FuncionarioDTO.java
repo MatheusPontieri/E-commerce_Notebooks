@@ -57,7 +57,12 @@ public record FuncionarioDTO(
 
     @NotNull(message = "O telefone não pode ser nulo")
     @Valid
-    List<TelefoneDTO> telefones
+    List<TelefoneDTO> telefones,
+
+    @NotNull(message = "O perfil não pode ser nulo")
+    @Min(value = 1, message = "O valor deve ser 1 ou 2")
+    @Max(value = 2, message = "O valor deve ser 1 ou 2")
+    Integer idPerfil
 ) {
     
 }

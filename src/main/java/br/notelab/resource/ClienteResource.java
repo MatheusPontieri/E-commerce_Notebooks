@@ -1,5 +1,7 @@
 package br.notelab.resource;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.service.pessoa.cliente.ClienteService;
 import jakarta.annotation.security.RolesAllowed;
@@ -19,13 +21,15 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ClienteResource {
+
+    private JsonWebToken jwt;
     
     @Inject
     public ClienteService clienteService;
 
     @GET
     @RolesAllowed({"Funcionario", "Adm"})
-    public Response findAll(){
+    public Response findAll(){ 
         return Response.ok(clienteService.findAll()).build();
     }
 
