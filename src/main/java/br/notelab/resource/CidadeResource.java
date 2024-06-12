@@ -1,5 +1,7 @@
 package br.notelab.resource;
 
+import org.jboss.logging.Logger;
+
 import br.notelab.dto.endereco.cidade.CidadeDTO;
 import br.notelab.service.endereco.cidade.CidadeService;
 import jakarta.annotation.security.RolesAllowed;
@@ -19,6 +21,9 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CidadeResource {
+
+    private static final Logger LOG = Logger.getLogger(CidadeResource.class);
+
     @Inject
     public CidadeService cidadeService;
 
@@ -31,6 +36,7 @@ public class CidadeResource {
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
+        LOG.warnv("Fala Rafa {0}", id);
         return Response.ok(cidadeService.findById(id)).build();
     }
 
