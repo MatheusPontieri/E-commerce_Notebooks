@@ -248,24 +248,25 @@ Fornecedor "1" *-right-> "*" Telefone
 
 @enduml
 
-'1) Por que preciso do preço no ItemPedidoDTO se já mando o id
-' do produto e o desconto pra calcular no back?
-
-'2) Pessoa e Fornecedor tendo muitos telefones e sendo composição,
-' usar JoinTable pra criar uma pessoa_telefone e fornecedor_telefone
-
-'3) Lista de desejo: Criar um resource para isso ou colocar no próprio cliente?: Próprio Cliente
+' Reformular processo de compra -> Colocar preço no ItemPedido
+' Colocar método para adicionar produto aos desejos em clienteResource e remover
+' Colocar um método no Resource para ir atualizando o status do pedido
+' Permissão nos resources e nos testes (fazer cupom e pedido)
+' Reformular NotebookDTO para ter direto informações de tela e especificação
+' Dar uma olhada geral, todos os models, DTOs
+' Fazer a vinculação de alguém já cadastrado com a mesma Pessoa
+' Acrescentar Logs e todos os Resources
 
 '4) Quando passar parâmetro pelo path param? Pois posso pegar o cliente
 ' a partir do subject com o JsonWebToken (getSubject) e a partir daí pegar
 ' o cliente: Certo seria conferir se o cliente do token é o mesmo do id que foi passado
 
 '5) Se excluir um cliente, o pedido será excluido também? Como fica a integridade
-' referencial da tabela pedidos ao excluir um cliente?
+' referencial da tabela pedidos ao excluir um cliente?. O certo é ter o status ativado/desativado
 
 '6) Pedido ter um histórico de status de andamento
 
-'7) Funcionário poder ter mais de um perfil (Normal ou Ad
+'7) Funcionário poder ter mais de um perfil (Normal ou Adm)
 
 '8) Várias formas de rodar os testes e encaixar permissão: Passando token no header, usando @TestSecurity
 
@@ -281,7 +282,7 @@ Fornecedor "1" *-right-> "*" Telefone
 ' Colocar nomeImagem direto no dto, pra na hora de cadastrar já subir imagem
 ' Organizar melhor ItemPedidoDTO (idNotebook primeiro - e dps organizar a classe normal)
 ' Em vez de devolver o objeto todo de fornecedor, não seria interessante devolver só a marca?
-' No update de produto, atualizar idCliente tbm? Faz sentido?
+' No update de venda, atualizar idCliente tbm? Faz sentido?
 
 ' Parte de Pagamento: 1°) Posso criar diversos endpoints para fechar o pedido, 1 para cada opção de pagamento
 ' 2°) Posso criar um resource para pagamento (com vários endpoints de pagamento) e colocar o id do pedido que quero. Então concluo o pedido e o pagamento fica pendente ate eu o finalizar

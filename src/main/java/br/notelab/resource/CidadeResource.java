@@ -36,7 +36,7 @@ public class CidadeResource {
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.warnv("Fala Rafa {0}", id);
+        LOG.warnv("Fala Edgar {0}", id);
         return Response.ok(cidadeService.findById(id)).build();
     }
 

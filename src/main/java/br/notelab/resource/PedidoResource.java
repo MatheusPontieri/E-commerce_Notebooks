@@ -1,5 +1,6 @@
 package br.notelab.resource;
 
+import br.notelab.dto.pagamento.CartaoDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.service.pedido.PedidoService;
 import jakarta.annotation.security.RolesAllowed;
@@ -62,6 +63,44 @@ public class PedidoResource {
     @Path("/status-pedido/{id}")
     public Response updateStatusPedido(@PathParam("id") Long idPedido, Integer idStatus){
         pedidoService.updateStatusPedido(idPedido, idStatus);
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @POST
+    @Path("/{id}/pagamento/info/pix")
+    public Response gerarInformacoesPix(){
+
+
+        return Response.status(201).entity(null).build();
+    }
+
+    @POST
+    @Path("/{id}/pagamento/info/boleto")
+    public Response gerarInformacoesBoleto(){
+
+
+        return Response.status(201).entity(null).build();
+    }
+
+    @PATCH
+    @Path("/{id}/pagamento/pix")
+    public Response registrarPagamentoPix(@PathParam("id") Long id){
+
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/{id}/pagamento/boleto")
+    public Response registrarPagamentoBoleto(@PathParam("id") Long id){
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/{id}/pagamento/cartao")
+    public Response registrarPagamentoCartao(@PathParam("id") Long id, CartaoDTO cartao){ 
 
         return Response.status(Status.NO_CONTENT).build();
     }

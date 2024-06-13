@@ -3,6 +3,7 @@ package br.notelab.service.pedido;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.notelab.dto.pagamento.CartaoDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
 import jakarta.validation.Valid;
@@ -12,6 +13,9 @@ public interface PedidoService {
     void update(Long id, @Valid PedidoDTO dto);
     void delete(Long id);
     void updateStatusPedido(Long idPedido, Integer idStatus);
+    void registrarPagamentoPix(Long idPedido);
+    void registrarPagamentoBoleto(Long idPedido);
+    void registrarPagamentoCartao(Long id, CartaoDTO cartao);
     PedidoResponseDTO findById(Long id);
     List<PedidoResponseDTO> findAll();
     List<PedidoResponseDTO> findByCliente(Long idCliente);

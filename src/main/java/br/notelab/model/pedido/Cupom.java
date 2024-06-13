@@ -56,6 +56,4 @@ public class Cupom extends DefaultEntity {
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
-
-   
 }

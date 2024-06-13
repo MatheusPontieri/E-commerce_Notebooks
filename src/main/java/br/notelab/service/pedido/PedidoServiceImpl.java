@@ -55,16 +55,10 @@ public class PedidoServiceImpl implements PedidoService {
         p.setTotal(calculateTotalPedido(listaItens));
 
         // Arrumar
-        List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(3));
+        List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(1));
         p.setListaStatus(listaStatus);
 
-        Pix pix = new Pix();
-        pix.setChaveRecebedor("notelab_store@gmail.com");
-        pix.setDataExpiracao(LocalDateTime.now().plusDays(1));
-        pix.setValor(1500d);
-        pix.setDataLimite(LocalDateTime.now().plusDays(2));
-
-        p.setPagamento(pix);
+        p.setPagamento(null);
 
         pedidoRepository.persist(p);
         return PedidoResponseDTO.valueOf(p);
