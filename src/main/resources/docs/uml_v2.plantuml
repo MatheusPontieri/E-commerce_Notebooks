@@ -36,23 +36,30 @@ class Cupom {
 }
 
 abstract Pagamento {
-
+    - valor: Double
+    - dataLimite: LocalDateTime
 }
 
 class Pix {
-
+    - chaveDestinatario: String
+    - identificador: String
 }
 
 class Boleto {
-
+    - codigo: String
 }
 
 class Cartao {
-
+    - titularCartao: String
+    - cpfCartao: String
+    - numero: String
+    - dataValidade: LocalDate
+    - codigoSeguranca: Integer
 }
 
-enum TipoCartao {
-
+enum ModalidadeCartao {
+    + DEBITO: int
+    + CREDITO: int
 }
 
 class Pessoa {
@@ -206,11 +213,11 @@ ItemPedido "*" o--> "1" Notebook
 ItemPedido "*" o-right-> "1" Cupom
 Cupom "*" o-right-> "1" Fornecedor
 
-Pedido "1" -up-> "*" Pagamento
+Pedido "1" *-up-> "1" Pagamento
 Pix --|> Pagamento
 Cartao --|> Pagamento
 Boleto --|> Pagamento
-Cartao "*" -up-> "*" TipoCartao
+Cartao "*" -up-> "*" ModalidadeCartao
 
 Pessoa "1" *-right-> "*" Endereco
 Pessoa "*" -up-> "1" Sexo

@@ -16,12 +16,9 @@ public abstract class Pagamento extends DefaultEntity {
     @Column(nullable = false)
     private Double valor;
 
-    // O pagamento deve ser efetuado até esta data
+    // Data de Vencimento
     @Column(name = "data_limite", nullable = false)
     private LocalDateTime dataLimite;
-
-    // @Column(name = "data_pagamento")
-    // private LocalDateTime dataPagamento;
 
     public Double getValor() {
         return valor;

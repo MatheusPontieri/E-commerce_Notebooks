@@ -1,7 +1,5 @@
 package br.notelab.model.pagamento;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -9,24 +7,24 @@ import jakarta.persistence.Entity;
 public class Pix extends Pagamento {
     
     @Column(nullable = false)
-    private String chaveRecebedor;
+    private String chaveDestinatario;
 
-    @Column(name = "data_expiracao", nullable = false)
-    private LocalDateTime dataExpiracao;
+    @Column(nullable = false)
+    private String identificador;
 
-    public String getChaveRecebedor() {
-        return chaveRecebedor;
+    public String getChaveDestinatario() {
+        return chaveDestinatario;
     }
 
-    public void setChaveRecebedor(String chaveRecebedor) {
-        this.chaveRecebedor = chaveRecebedor;
+    public void setChaveDestinatario(String chaveDestinatario) {
+        this.chaveDestinatario = chaveDestinatario;
     }
 
-    public LocalDateTime getDataExpiracao() {
-        return dataExpiracao;
+    public String getIdentificador() {
+        return identificador;
     }
 
-    public void setDataExpiracao(LocalDateTime dataExpiracao) {
-        this.dataExpiracao = dataExpiracao;
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 }

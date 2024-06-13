@@ -8,8 +8,8 @@ import jakarta.persistence.Entity;
 @Entity
 public class Cartao extends Pagamento {
 
-    @Column(name = "titular_cartao", nullable = false)
-    private String titularCartao;
+    @Column(name = "titular", nullable = false)
+    private String titular;
 
     @Column(name = "cpf_cartao", nullable = false)
     private String cpfCartao;
@@ -23,14 +23,15 @@ public class Cartao extends Pagamento {
     @Column(name = "codigo_seguranca", nullable = false)
     private Integer codigoSeguranca;
 
-    // private TipoCartao tipo; Débito ou Crédito
+    @Column(name = "modalidade_cartao", nullable = false)
+    private ModalidadeCartao modalidade;
 
-    public String getTitularCartao() {
-        return titularCartao;
+    public String getTitular() {
+        return titular;
     }
 
-    public void setTitularCartao(String titularCartao) {
-        this.titularCartao = titularCartao;
+    public void setTitular(String titular) {
+        this.titular = titular;
     }
 
     public String getNumero() {
@@ -55,5 +56,13 @@ public class Cartao extends Pagamento {
 
     public void setCodigoSeguranca(Integer codigoSeguranca) {
         this.codigoSeguranca = codigoSeguranca;
+    }
+    
+    public ModalidadeCartao getModalidade() {
+        return modalidade;
+    }
+
+    public void setModalidade(ModalidadeCartao modalidade) {
+        this.modalidade = modalidade;
     }
 }
