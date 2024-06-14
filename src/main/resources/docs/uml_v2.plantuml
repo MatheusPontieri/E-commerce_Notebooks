@@ -36,6 +36,7 @@ class Cupom {
 }
 
 abstract Pagamento {
+    - id: Long
     - valor: Double
     - dataLimite: LocalDateTime
 }
@@ -256,6 +257,16 @@ Fornecedor "1" *-right-> "*" Telefone
 ' Dar uma olhada geral, todos os models, DTOs
 ' Fazer a vinculação de alguém já cadastrado com a mesma Pessoa
 ' Acrescentar Logs e todos os Resources
+' Cascata em Pagamento (Olhar)
+
+' Fecha Pedido (Back) -> Cartao (Pede os dados do cartão e cria uma forma de pagamento e vincula com a compra feita)
+'                     -> Pix / Boleto (Gera o código de cada e mostra. Aí aparece o botão pagar)
+' Vou vincular apenas quando pagar
+
+
+
+
+
 
 '4) Quando passar parâmetro pelo path param? Pois posso pegar o cliente
 ' a partir do subject com o JsonWebToken (getSubject) e a partir daí pegar

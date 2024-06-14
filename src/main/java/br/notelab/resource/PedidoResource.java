@@ -69,7 +69,7 @@ public class PedidoResource {
 
     @POST
     @Path("/{id}/pagamento/info/pix")
-    public Response gerarInformacoesPix(){
+    public Response gerarInformacoesPix(@PathParam("id") Long id){
 
 
         return Response.status(201).entity(null).build();

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.notelab.model.pagamento.Cartao;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -34,5 +35,4 @@ public record CartaoDTO(
     @Max(value = 4, message = "O código de segurana deve ter no máximo 4 dígitos")
     Integer codigoSeguranca
 ) {
-    
 }

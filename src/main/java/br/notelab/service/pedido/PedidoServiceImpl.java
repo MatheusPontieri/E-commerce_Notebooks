@@ -6,10 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
+import br.notelab.dto.pagamento.BoletoResponseDTO;
+import br.notelab.dto.pagamento.CartaoDTO;
+import br.notelab.dto.pagamento.PixResponseDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
 import br.notelab.dto.pedido.item_pedido.ItemPedidoDTO;
 import br.notelab.model.notebook.Notebook;
+import br.notelab.model.pagamento.Boleto;
+import br.notelab.model.pagamento.Cartao;
 import br.notelab.model.pagamento.Pix;
 import br.notelab.model.pedido.Cupom;
 import br.notelab.model.pedido.ItemPedido;
@@ -20,6 +25,7 @@ import br.notelab.model.pessoa.Fornecedor;
 import br.notelab.repository.ClienteRepository;
 import br.notelab.repository.CupomRepository;
 import br.notelab.repository.NotebookRepository;
+import br.notelab.repository.PagamentoRepository;
 import br.notelab.repository.PedidoRepository;
 import br.notelab.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -32,6 +38,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Inject
     public PedidoRepository pedidoRepository;
+
+    @Inject
+    public PagamentoRepository pagamentoRepository;
 
     @Inject
     public NotebookRepository notebookRepository;
@@ -90,6 +99,55 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido p = pedidoRepository.findById(idPedido);
 
         p.getListaStatus().add(createStatusPedido(idStatus));
+    }
+
+    @Override
+    @Transactional
+    public PixResponseDTO gerarInformacoesPix(Long idPedido){
+        Double total = pedidoRepository.findById(idPedido).getTotal();
+        
+        Pix pix = new Pix();
+        pix.setValor(total);
+        pix.setDataLimite(LocalDateTime.now().plusHours(1));
+        pix.setChaveDestinatario("notelab_store@gmail.com");
+        pix.setIdentificador("valor aleatório ;-;");
+
+        pagamentoRepository.persist(pix);
+        return PixResponseDTO.valueOf(pix);
+    }
+
+    @Override
+    @Transactional
+    public BoletoResponseDTO gerarInformacoesBoleto(Long idPedido){
+        Double total = pedidoRepository.findById(idPedido).getTotal();
+
+        Boleto boleto = new Boleto();
+        boleto.setValor(total);
+        boleto.setDataLimite(LocalDateTime.now().plusHours(10));
+        boleto.setCodigo("valor aleatório ;-;");
+
+        pagamentoRepository.persist(boleto);
+        return BoletoResponseDTO.valueOf(boleto);
+    }
+
+    @Override
+    public void registrarPagamentoPix(Long idPedido, Long idPix){
+        Pedido p = pedidoRepository.findById(idPedido);
+        p.setPagamento(pagamentoRepository.findById(idPix));
+    }
+
+    @Override
+    public void registrarPagamentoBoleto(Long idPedido, Long idBoleto){
+        Pedido p = pedidoRepository.findById(idPedido);
+        p.setPagamento(pagamentoRepository.findById(idBoleto));
+    }
+
+    @Override
+    public void registrarPagamentoCartao(Long idPedido, CartaoDTO cartao){
+        Pedido p = pedidoRepository.findById(idPedido);
+        
+        Cartao c = new Cartao();
+        c
     }
 
     @Override
