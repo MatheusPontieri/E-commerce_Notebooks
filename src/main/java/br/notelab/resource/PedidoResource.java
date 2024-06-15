@@ -42,7 +42,7 @@ public class PedidoResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.infov("Buscando pedido com id {0}", id);
+        LOG.infov("Buscando pedido com id {0} ", id);
 
         return Response.ok(pedidoService.findById(id)).build();
     }

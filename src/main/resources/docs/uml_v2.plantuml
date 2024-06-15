@@ -81,11 +81,6 @@ class Funcionario {
     - salario: Double
 }
 
-enum Perfil {
-    + FUNC: int
-    + ADMIN: int
-}
-
 class Usuario {
     - id: Long
     - email: String
@@ -228,7 +223,6 @@ Pessoa "1" *-down-> "*" Telefone
 Cliente "1" -right-> "1" Pessoa
 Funcionario "1" --> "1" Pessoa
 Cliente "*" o--> "*" Notebook: listaDesejo
-Funcionario "*" -up-> "1" Perfil
 
 Endereco "*" o-right-> "1" Cidade
 Cidade "*" o-right-> "1" Estado
