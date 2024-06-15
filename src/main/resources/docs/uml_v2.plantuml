@@ -4,6 +4,7 @@ class Pedido {
     - id: Long
     - data: LocalDateTime
     - total: Double
+    - prazoPagamento: LocalDateTime
 }
 
 class ItemPedido {
@@ -14,7 +15,7 @@ class ItemPedido {
 
 enum Status {
     + AGUARDANDO_PAGAMENTO: int
-    + PAGAMENTO_NÃO_AUTORIZADO: int
+    + PAGAMENTO_EXPIRADO: int
     + PAGAMENTO_AUTORIZADO: int
     + SEPARADO_DO_ESTOQUE: int
     + ENTREGUE_A_TRANSPORTADORA: int
@@ -38,7 +39,6 @@ class Cupom {
 abstract Pagamento {
     - id: Long
     - valor: Double
-    - dataLimite: LocalDateTime
 }
 
 class Pix {

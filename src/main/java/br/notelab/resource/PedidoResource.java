@@ -1,9 +1,10 @@
 package br.notelab.resource;
 
+import java.time.LocalDate;
+
 import br.notelab.dto.pagamento.CartaoDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.service.pedido.PedidoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -14,6 +15,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -70,31 +72,28 @@ public class PedidoResource {
     @POST
     @Path("/{id}/pagamento/info/pix")
     public Response gerarInformacoesPix(@PathParam("id") Long id){
-
-
-        return Response.status(201).entity(null).build();
+        return Response.status(201).entity(pedidoService.gerarInformacoesPix(id)).build();
     }
 
     @POST
     @Path("/{id}/pagamento/info/boleto")
-    public Response gerarInformacoesBoleto(){
-
-
-        return Response.status(201).entity(null).build();
+    public Response gerarInformacoesBoleto(@PathParam("id") Long id){
+        return Response.status(201).entity(pedidoService.gerarInformacoesBoleto(id)).build();
     }
 
     @PATCH
-    @Path("/{id}/pagamento/pix")
-    public Response registrarPagamentoPix(@PathParam("id") Long id){
+    @Path("/{id}/pagamento/pix/{id-pix}")
+    public Response registrarPagamentoPix(@PathParam("id") Long idPedido, @PathParam("id-pix") Long idPix){
 
-
+        pedidoService.registrarPagamentoPix(idPedido, idPix);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @PATCH
-    @Path("/{id}/pagamento/boleto")
-    public Response registrarPagamentoBoleto(@PathParam("id") Long id){
+    @Path("/{id}/pagamento/boleto/{id-boleto}")
+    public Response registrarPagamentoBoleto(@PathParam("id") Long idPedido, @PathParam("id-boleto") Long idBoleto){
 
+        pedidoService.registrarPagamentoBoleto(idPedido, idBoleto);
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -123,32 +122,20 @@ public class PedidoResource {
         return Response.ok(pedidoService.findByStatus(id)).build();
     }
 
+    /*
     @GET
-    @Path("/search/total-minimo/{total}")
-    @RolesAllowed("Funcionario")
-    public Response findByTotalMinimo(@PathParam("total") Double total){
-        return Response.ok(pedidoService.findByTotalAcimaMinimo(total)).build();
+    @Path("/search/total")
+    // @RolesAllowed("Funcionario")
+    public Response findByTotal(@QueryParam("valorInicial") Double valorInicial, @QueryParam("valorFinal") Double valorFinal){
+        return Response.ok(pedidoService.findBetweenTotais(valorInicial, valorFinal)).build();
     }
 
     @GET
-    @Path("/search/total-maximo/{total}")
-    @RolesAllowed("Funcionario")
-    public Response findByTotalMaximo(@PathParam("total") Double total){
-        return Response.ok(pedidoService.findByTotalAbaixoMaximo(total)).build();
-    }
-/*
-    @GET
-    @Path("/search/data-minima/{data}")
-    @RolesAllowed("Funcionario")
-    public Response findByDataMinima(@PathParam("data") LocalDateTime data){
-        return Response.ok(pedidoService.findByDataMinima(data)).build();
+    @Path("/search/data")
+    // @RolesAllowed("Funcionario")
+    public Response findByData(@QueryParam("dataInicial") LocalDate dataInicial, @QueryParam("dataFinal") LocalDate dataFinal){
+        return Response.ok(pedidoService.findBetweenDatas(dataFinal, dataFinal)).build();
     }
 
-    @GET
-    @Path("/search/data-maxima/{data}")
-    @RolesAllowed("Funcionario")
-    public Response findByDataMaxima(@PathParam("data") LocalDateTime data){
-        return Response.ok(pedidoService.findByDataMaxima(data)).build();
-    }
-*/
+    */
 }

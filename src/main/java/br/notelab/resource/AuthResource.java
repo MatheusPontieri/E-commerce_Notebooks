@@ -41,12 +41,14 @@ public class AuthResource {
         if(dto.perfil() == 1)
             usuario = clienteService.login(dto.email(), hash);
         else if(dto.perfil() == 2)
-            usuario = funcionarioService.login(dto.email(), hash);
+            usuario = funcionarioService.loginFuncionario(dto.email(), hash);
+        else if(dto.perfil() == 3)
+            usuario = funcionarioService.loginAdministrador(dto.email(), hash);
         else
             return Response.status(Status.NOT_FOUND).build();
 
         return Response.ok()
-                    .header("Authorization", jwtService.generatedJwt(usuario, dto.perfil()))
-                    .build();
+            .header("Authorization", jwtService.generatedJwt(usuario, dto.perfil()))
+            .build();
     }
 }

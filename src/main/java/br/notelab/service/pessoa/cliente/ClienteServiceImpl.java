@@ -6,6 +6,8 @@ import br.notelab.dto.endereco.EnderecoDTO;
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.dto.pessoa.cliente.ClienteResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
+import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
+import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
 import br.notelab.model.pessoa.Cliente;
@@ -47,7 +49,6 @@ public class ClienteServiceImpl implements ClienteService {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
         validarListaTelefoneCliente(dto.telefones(), 0L);
-        // validarUsuarioCliente();
 
         Usuario u = new Usuario();
         u.setEmail(dto.email());
@@ -86,6 +87,24 @@ public class ClienteServiceImpl implements ClienteService {
         
         clienteRepository.deleteById(id);
         pessoaRepository.deleteById(idPessoa);
+    }
+
+    @Override
+    @Transactional
+    public void updateEmail(Long id, @Valid EmailPatchDTO dto) {
+        Cliente c = clienteRepository.findById(id);
+        Usuario u = c.getPessoa().getUsuario();
+
+        u.setEmail(dto.email());
+    }
+
+    @Override
+    @Transactional
+    public void updateSenha(Long id, @Valid SenhaPatchDTO dto) {
+        Cliente c = clienteRepository.findById(id);
+        Usuario u = c.getPessoa().getUsuario();
+
+        u.setSenha(hashService.getHashSenha(dto.senha()));
     }
 
     @Override

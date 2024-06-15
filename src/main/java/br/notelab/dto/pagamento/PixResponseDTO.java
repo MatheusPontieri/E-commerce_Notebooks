@@ -7,7 +7,6 @@ import br.notelab.model.pagamento.Pix;
 public record PixResponseDTO(
     Long id,
     Double valor,
-    LocalDateTime dataLimite,
     String chaveDestinatario,
     String identificador
 ) {
@@ -16,7 +15,6 @@ public record PixResponseDTO(
         return new PixResponseDTO(
             pix.getId(),
             pix.getValor(),
-            pix.getDataLimite(),
             pix.getChaveDestinatario(),
             pix.getIdentificador()
         );

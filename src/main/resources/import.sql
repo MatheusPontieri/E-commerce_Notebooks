@@ -46,11 +46,13 @@ insert into estado (nome, sigla) values ('Goias', 'GO'), ('Tocantins', 'TO');
 insert into cidade (nome, id_estado) values ('Anapolis', 1), ('Palmas', 2);
 
 insert into usuario (email, senha) values ('rafael@gmail.com', '+S1oFRn+kGusilJo843gPnKyJTINwGmWF+sk6c/Cmda3lGZPIkDR8Qy1Z3k/W9+Wa09NbNzQojxR2AaOGL0/dA=='),
-('maria@gmail.com', 'k4IJ09tBrs3/1bNrVS4tERIXsTWdK/EFWZEFwA3ahZLzx7vzpQHwOOC6uFY7jH4mni/tMNh2YvX1XypBOyj4lA==');
+('maria@gmail.com', 'k4IJ09tBrs3/1bNrVS4tERIXsTWdK/EFWZEFwA3ahZLzx7vzpQHwOOC6uFY7jH4mni/tMNh2YvX1XypBOyj4lA=='),
+('pedro@gmail.com', 'z04+sUjvFC8AdjQmdgcyA4u4sNRKz5ZpEGxpolZHPFd/C96NasFTKw8wcUDH1Nv6be+2NwR3uP4oqTlG1Fze1Q==');
 
 insert into pessoa (nome, data_nascimento, cpf, sexo, id_usuario) values 
 ('Rafael', '2000-03-22', '955.514.170-34', 1, 1),
-('Maria', '1980-08-05', '581.019.600-40', 2, 2);
+('Maria', '1980-08-05', '581.019.600-40', 2, 2),
+('Pedro', '2005-06-25', '645.669.250-48', 1, 3);
 
 insert into telefone_pessoa (id_pessoa, id_telefone) values (1, 3), (2, 4);
 
@@ -58,12 +60,14 @@ insert into cliente (aceitaMarketing, id_pessoa) values (true, 1);
 
 insert into funcionario (salario, dataContrato, id_pessoa, perfil) values (5300, '2024-04-24', 2, 1);
 
-insert into cupom (codigo, percentual_desconto, data_validade, id_fornecedor) values ('DELL15OFF', 0.15, '2024-06-10 23:59:59.000000', 1),
-('LENOVO20OFF', 0.20, '2024-06-10 23:59:59.000000', 2);
+insert into funcionario (salario, dataContrato, id_pessoa, perfil) values (8000, '2024-03-24', 3, 2);
 
-insert into pedido (data, total, id_cliente) values ('2024-05-22 17:03:55.030719', 3500, 1);
+insert into cupom (codigo, percentual_desconto, data_validade, id_fornecedor) values ('DELL15OFF', 0.15, '2024-06-18 23:59:59.000001', 1),
+('LENOVO20OFF', 0.20, '2024-06-18 23:59:59.000000', 2);
+
+insert into pedido (data, total, id_cliente, prazo_pagamento) values ('2024-06-14 17:03:55', 3500, 1, '2024-06-14 22:30:00');
 
 insert into itempedido (preco, id_pedido, quantidade, id_notebook, id_cupom) values 
 (3500, 1, 1, 1, 1);
 
-insert into statuspedido (id_pedido, status) values (1, 2), (1, 3);
+insert into statuspedido (id_pedido, status) values (1, 1), (1, 3);

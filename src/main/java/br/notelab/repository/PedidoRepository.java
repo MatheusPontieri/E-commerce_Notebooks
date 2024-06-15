@@ -1,5 +1,6 @@
 package br.notelab.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,19 +23,7 @@ public class PedidoRepository implements PanacheRepository<Pedido>{
         return find("JOIN listaStatus l WHERE l.status = ?1", Status.valueOf(idStatus)).list();
     }
 
-    public List<Pedido> findByTotalAcimaMinimo(Double total){
-        return find("WHERE total >= ?1", total).list();
-    }
-
-    public List<Pedido> findByTotalAbaixoMaximo(Double total){
-        return find("WHERE total <= ?1", total).list();
-    }
-
-    public List<Pedido> findByDataMinima(LocalDateTime data){
-        return find("WHERE data >= ?1", data).list();
-    }
-
-    public List<Pedido> findByDataMaxima(LocalDateTime data){
-        return find("WHERE data <= ?1", data).list();
+    public List<Pedido> findPedidosExpirados(LocalDateTime dataVerificacao){
+        return find("WHERE ?1 > prazoPagamento AND pagamento IS NULL", dataVerificacao).list();
     }
 }

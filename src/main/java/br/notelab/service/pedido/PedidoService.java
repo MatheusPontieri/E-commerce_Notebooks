@@ -1,6 +1,6 @@
 package br.notelab.service.pedido;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import br.notelab.dto.pagamento.BoletoResponseDTO;
@@ -25,8 +25,4 @@ public interface PedidoService {
     List<PedidoResponseDTO> findByCliente(Long idCliente);
     List<PedidoResponseDTO> findByItem(Long idNotebook);
     List<PedidoResponseDTO> findByStatus(Integer idStatus);
-    List<PedidoResponseDTO> findByTotalAcimaMinimo(Double total);
-    List<PedidoResponseDTO> findByTotalAbaixoMaximo(Double total);
-    List<PedidoResponseDTO> findByDataMinima(LocalDateTime data);
-    List<PedidoResponseDTO> findByDataMaxima(LocalDateTime data);
 }

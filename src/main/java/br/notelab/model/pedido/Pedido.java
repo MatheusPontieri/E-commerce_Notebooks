@@ -35,7 +35,10 @@ public class Pedido extends DefaultEntity{
     @JoinColumn(name = "id_pedido")
     private List<StatusPedido> listaStatus;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "prazo_pagamento", nullable = false)
+    private LocalDateTime prazoPagamento;
+
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinColumn(name = "id_pagamento")
     private Pagamento pagamento;
 
@@ -77,6 +80,14 @@ public class Pedido extends DefaultEntity{
 
     public void setListaStatus(List<StatusPedido> listaStatus) {
         this.listaStatus = listaStatus;
+    }
+
+    public LocalDateTime getPrazoPagamento() {
+        return prazoPagamento;
+    }
+
+    public void setPrazoPagamento(LocalDateTime prazoPagamento) {
+        this.prazoPagamento = prazoPagamento;
     }
 
     public Pagamento getPagamento() {

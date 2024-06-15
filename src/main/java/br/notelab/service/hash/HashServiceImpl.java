@@ -33,5 +33,6 @@ public class HashServiceImpl implements HashService {
         HashService hash = new HashServiceImpl();
         System.out.println(hash.getHashSenha("rafael123"));
         System.out.println(hash.getHashSenha("maria123"));
+        System.out.println(hash.getHashSenha("pedro123"));
     }
 }

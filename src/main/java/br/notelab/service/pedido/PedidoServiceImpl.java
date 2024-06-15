@@ -1,9 +1,11 @@
 package br.notelab.service.pedido;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
 import br.notelab.dto.pagamento.BoletoResponseDTO;
@@ -28,6 +30,7 @@ import br.notelab.repository.NotebookRepository;
 import br.notelab.repository.PagamentoRepository;
 import br.notelab.repository.PedidoRepository;
 import br.notelab.validation.ValidationException;
+import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -58,16 +61,14 @@ public class PedidoServiceImpl implements PedidoService {
 
         p.setCliente(clienteRepository.findById(dto.idCliente()));
         p.setData(LocalDateTime.now());
+        p.setPrazoPagamento(LocalDateTime.now().plusSeconds(20));
 
         List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
         p.setListaItem(listaItens);
         p.setTotal(calculateTotalPedido(listaItens));
 
-        // Arrumar
         List<StatusPedido> listaStatus = Arrays.asList(createStatusPedido(1));
         p.setListaStatus(listaStatus);
-
-        p.setPagamento(null);
 
         pedidoRepository.persist(p);
         return PedidoResponseDTO.valueOf(p);
@@ -105,12 +106,11 @@ public class PedidoServiceImpl implements PedidoService {
     @Transactional
     public PixResponseDTO gerarInformacoesPix(Long idPedido){
         Double total = pedidoRepository.findById(idPedido).getTotal();
-        
+
         Pix pix = new Pix();
         pix.setValor(total);
-        pix.setDataLimite(LocalDateTime.now().plusHours(1));
         pix.setChaveDestinatario("notelab_store@gmail.com");
-        pix.setIdentificador("valor aleatório ;-;");
+        pix.setIdentificador(UUID.randomUUID().toString());
 
         pagamentoRepository.persist(pix);
         return PixResponseDTO.valueOf(pix);
@@ -123,31 +123,36 @@ public class PedidoServiceImpl implements PedidoService {
 
         Boleto boleto = new Boleto();
         boleto.setValor(total);
-        boleto.setDataLimite(LocalDateTime.now().plusHours(10));
-        boleto.setCodigo("valor aleatório ;-;");
+        boleto.setCodigo(UUID.randomUUID().toString());
 
         pagamentoRepository.persist(boleto);
         return BoletoResponseDTO.valueOf(boleto);
     }
 
     @Override
+    @Transactional
     public void registrarPagamentoPix(Long idPedido, Long idPix){
         Pedido p = pedidoRepository.findById(idPedido);
         p.setPagamento(pagamentoRepository.findById(idPix));
     }
 
     @Override
+    @Transactional
     public void registrarPagamentoBoleto(Long idPedido, Long idBoleto){
         Pedido p = pedidoRepository.findById(idPedido);
         p.setPagamento(pagamentoRepository.findById(idBoleto));
     }
 
     @Override
-    public void registrarPagamentoCartao(Long idPedido, CartaoDTO cartao){
+    @Transactional
+    public void registrarPagamentoCartao(Long idPedido, CartaoDTO cartaoDTO){
         Pedido p = pedidoRepository.findById(idPedido);
         
-        Cartao c = new Cartao();
-        c
+        Cartao c = CartaoDTO.convertToCartao(cartaoDTO);
+        c.setValor(p.getTotal());
+        
+        pagamentoRepository.persist(c);
+        p.setPagamento(c);
     }
 
     @Override
@@ -175,34 +180,8 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findByStatus(idStatus).stream().map(PedidoResponseDTO::valueOf).toList();
     }
 
-    @Override
-    public List<PedidoResponseDTO> findByTotalAcimaMinimo(Double total) {
-        return pedidoRepository.findByTotalAcimaMinimo(total).stream().map(PedidoResponseDTO::valueOf).toList();
-    }
-
-    @Override
-    public List<PedidoResponseDTO> findByTotalAbaixoMaximo(Double total) {
-        return pedidoRepository.findByTotalAbaixoMaximo(total).stream().map(PedidoResponseDTO::valueOf).toList();
-    }
-
-    @Override
-    public List<PedidoResponseDTO> findByDataMinima(LocalDateTime data) {
-        return pedidoRepository.findByDataMinima(data).stream().map(PedidoResponseDTO::valueOf).toList();
-    }
-
-    @Override
-    public List<PedidoResponseDTO> findByDataMaxima(LocalDateTime data) {
-        return pedidoRepository.findByDataMaxima(data).stream().map(PedidoResponseDTO::valueOf).toList();
-    }   
-
     private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> listaItemDTO){
-        listaItemDTO.forEach(i -> {
-            verificarEstoque(i.idNotebook(), i.quantidade());
-            if (i.idCupom() != null){
-                verificarValidadeCupom(i.idCupom());
-                verificarCupomFornecedor(i.idCupom(), i.idNotebook());
-            }
-        });
+        validarListaItemDTO(listaItemDTO);
 
         List<ItemPedido> itens = new ArrayList<>();
 
@@ -214,11 +193,7 @@ public class PedidoServiceImpl implements PedidoService {
             item.setNotebook(n);
             item.setQuantidade(itemDTO.quantidade());
             item.setCupom(c);
-
-            Double totalItem = (item.getQuantidade() * n.getPreco());
-            Double desconto = 0d;
-            if (c != null) desconto = totalItem * c.getPercentualDesconto();
-            item.setPreco(totalItem - desconto);
+            item.setPreco(itemDTO.preco());
 
             itens.add(item);
         }
@@ -230,6 +205,8 @@ public class PedidoServiceImpl implements PedidoService {
         StatusPedido statusPedido = new StatusPedido();
 
         statusPedido.setStatus(Status.valueOf(id));
+        statusPedido.setDataCadastro(LocalDateTime.now());
+
         return statusPedido;
     }
 
@@ -239,6 +216,17 @@ public class PedidoServiceImpl implements PedidoService {
         listaItem.forEach(i -> total.accumulate(i.getPreco()));
         
         return total.get();
+    }
+
+    private void validarListaItemDTO(List<ItemPedidoDTO> listaDTO){
+        for (ItemPedidoDTO item : listaDTO) {
+            verificarEstoque(item.idNotebook(), item.quantidade());
+
+            if (item.idCupom() != null){
+                verificarValidadeCupom(item.idCupom());
+                verificarCupomFornecedor(item.idCupom(), item.idNotebook());
+            }
+        }
     }
 
     private boolean verificarEstoque(Long idNotebook, Integer quantidade){
@@ -261,7 +249,6 @@ public class PedidoServiceImpl implements PedidoService {
         return true;
     }
 
-    // Verificar se o cupom usado realmente pertence é aplicável para aquela marca (fornecedor)
     private boolean verificarCupomFornecedor(Long idCupom, Long idNotebook){
         Cupom c = cupomRepository.findById(idCupom);
         Fornecedor fornecedorCupom = c.getFornecedor();
@@ -271,5 +258,28 @@ public class PedidoServiceImpl implements PedidoService {
             throw new ValidationException("cupom", "O cupom " + c.getCodigo() + " não é aplicável para a marca " + fornecedorNotebook.getNome());
 
         return true;
+    }
+
+    @Scheduled(every = "5s") // Mudar Tempo e dataLimite para pedido
+    @Transactional
+    public void atualizarPedidoExpirados(){
+        LocalDateTime now = LocalDateTime.now();
+        List<Pedido> pedidosExpirados = pedidoRepository.findPedidosExpirados(now);
+
+        for (Pedido p : pedidosExpirados){
+            for (StatusPedido statusPedido : p.getListaStatus()) { // Verifica se já não está expirado
+                if(statusPedido.getStatus().getId() == 2)
+                    return;
+            }
+
+            updateStatusPedido(p.getId(), 2); // 2 -> Pagamento Expirado
+
+            for (ItemPedido item : p.getListaItem()) { // Devolvendo ao estoque
+                Notebook n = item.getNotebook();
+                Integer estoque = n.getEstoque();
+
+                n.setEstoque(estoque + item.getQuantidade());
+            }
+        }
     }
 }

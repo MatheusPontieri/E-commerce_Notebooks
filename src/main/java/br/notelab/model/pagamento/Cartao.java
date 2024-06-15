@@ -34,6 +34,14 @@ public class Cartao extends Pagamento {
         this.titular = titular;
     }
 
+    public String getCpfCartao() {
+        return cpfCartao;
+    }
+
+    public void setCpfCartao(String cpfCartao) {
+        this.cpfCartao = cpfCartao;
+    }
+
     public String getNumero() {
         return numero;
     }
@@ -57,7 +65,7 @@ public class Cartao extends Pagamento {
     public void setCodigoSeguranca(Integer codigoSeguranca) {
         this.codigoSeguranca = codigoSeguranca;
     }
-    
+
     public ModalidadeCartao getModalidade() {
         return modalidade;
     }

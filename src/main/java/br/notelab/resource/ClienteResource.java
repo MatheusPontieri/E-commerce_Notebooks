@@ -1,14 +1,18 @@
 package br.notelab.resource;
 
+import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
+import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
+import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
 import br.notelab.service.pessoa.cliente.ClienteService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -16,14 +20,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/clientes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ClienteResource {
 
-    private JsonWebToken jwt;
-    
     @Inject
     public ClienteService clienteService;
 
@@ -71,5 +74,21 @@ public class ClienteResource {
     public Response delete(@PathParam("id") Long id){
         clienteService.delete(id);
         return Response.status(204).build();
+    }
+
+    @PATCH
+    @Path("/{id}/email")
+    public Response updateEmail(@PathParam("id") Long id, EmailPatchDTO dto){
+        clienteService.updateEmail(id, dto);
+        
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/{id}/senha")
+    public Response updateSenha(@PathParam("id") Long id, SenhaPatchDTO dto){
+        clienteService.updateSenha(id, dto);
+        
+        return Response.status(Status.NO_CONTENT).build();
     }
 }

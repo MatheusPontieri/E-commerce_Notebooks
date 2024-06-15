@@ -6,6 +6,8 @@ import br.notelab.dto.endereco.EnderecoDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioDTO;
 import br.notelab.dto.pessoa.funcionario.FuncionarioResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
+import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
+import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
 import br.notelab.model.pessoa.Pessoa;
@@ -17,6 +19,7 @@ import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.FuncionarioRepository;
 import br.notelab.repository.PessoaRepository;
 import br.notelab.repository.UsuarioRepository;
+import br.notelab.service.hash.HashService;
 import br.notelab.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -38,17 +41,19 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Inject
     public CidadeRepository cidadeRepository;
 
+    @Inject
+    public HashService hashService;
+
     @Override
     @Transactional
     public FuncionarioResponseDTO create(@Valid FuncionarioDTO dto) {
         validarEmailCliente(dto.email(), 0L);
         validarCpfCliente(dto.cpf(), 0L);
         validarListaTelefoneFuncionario(dto.telefones(), 0L);
-        // validarUsuarioFuncionario()
 
         Usuario u = new Usuario();
         u.setEmail(dto.email());
-        u.setSenha(dto.senha());
+        u.setSenha(hashService.getHashSenha(dto.senha()));
         usuarioRepository.persist(u);
 
         Pessoa p = getPessoaFromFuncionarioDTO(dto);
@@ -90,6 +95,24 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
+    @Transactional
+    public void updateEmail(Long id, @Valid EmailPatchDTO dto) {
+        Funcionario c = funcionarioRepository.findById(id);
+        Usuario u = c.getPessoa().getUsuario();
+
+        u.setEmail(dto.email());
+    }
+
+    @Override
+    @Transactional
+    public void updateSenha(Long id, @Valid SenhaPatchDTO dto) {
+        Funcionario c = funcionarioRepository.findById(id);
+        Usuario u = c.getPessoa().getUsuario();
+
+        u.setSenha(hashService.getHashSenha(dto.senha()));
+    }
+
+    @Override
     public FuncionarioResponseDTO findById(Long id) {
         return FuncionarioResponseDTO.valueOf(funcionarioRepository.findById(id));
     }
@@ -110,8 +133,14 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public UsuarioResponseDTO login(String email, String senha) {
-        Funcionario f = funcionarioRepository.findByEmailAndSenha(email, senha);
+    public UsuarioResponseDTO loginFuncionario(String email, String senha) {
+        Funcionario f = funcionarioRepository.findFuncionarioByEmailAndSenha(email, senha);
+        return UsuarioResponseDTO.valueOf(f.getPessoa());
+    }
+
+    @Override
+    public UsuarioResponseDTO loginAdministrador(String email, String senha) {
+        Funcionario f = funcionarioRepository.findAdministradorByEmailAndSenha(email, senha);
         return UsuarioResponseDTO.valueOf(f.getPessoa());
     }
 

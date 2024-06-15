@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Status {
     AGUARDANDO_PAGAMENTO(1, "Aguardando confirmação do pagamento"),
-    PAGAMENTO_NÃO_AUTORIZADO(2, "Pagamento não autorizado pela financeira"),
-    PAGAMENTO_AUTORIZADO(3, "Pagamento recebido"),
+    PAGAMENTO_EXPIRADO(2, "Pagamento expirado"),
+    PAGAMENTO_CONFIRMADO(3, "Pagamento confirmado"),
     SEPARADO_DO_ESTOQUE(4, "Separado do estoque"),
     ENTREGUE_A_TRANSPORTADORA(5, "Entregue para a transportadora"),
     ENTREGUE(6, "Entregue"),
