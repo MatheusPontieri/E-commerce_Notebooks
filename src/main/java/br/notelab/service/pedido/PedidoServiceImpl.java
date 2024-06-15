@@ -61,7 +61,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         p.setCliente(clienteRepository.findById(dto.idCliente()));
         p.setData(LocalDateTime.now());
-        p.setPrazoPagamento(LocalDateTime.now().plusSeconds(20));
+        p.setPrazoPagamento(LocalDateTime.now().plusSeconds(10));
 
         List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
         p.setListaItem(listaItens);
@@ -265,12 +265,18 @@ public class PedidoServiceImpl implements PedidoService {
     public void atualizarPedidoExpirados(){
         LocalDateTime now = LocalDateTime.now();
         List<Pedido> pedidosExpirados = pedidoRepository.findPedidosExpirados(now);
+        boolean jaExpirado;
 
         for (Pedido p : pedidosExpirados){
+            jaExpirado = false;
             for (StatusPedido statusPedido : p.getListaStatus()) { // Verifica se já não está expirado
-                if(statusPedido.getStatus().getId() == 2)
-                    return;
+                if(statusPedido.getStatus().getId() == 2){
+                    jaExpirado = true;
+                    break;
+                }
             }
+            if(jaExpirado)
+                continue;
 
             updateStatusPedido(p.getId(), 2); // 2 -> Pagamento Expirado
 
@@ -281,5 +287,6 @@ public class PedidoServiceImpl implements PedidoService {
                 n.setEstoque(estoque + item.getQuantidade());
             }
         }
+
     }
 }

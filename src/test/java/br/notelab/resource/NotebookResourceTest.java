@@ -15,6 +15,7 @@ import br.notelab.dto.notebook.especificacao.EspecificacaoDTO;
 import br.notelab.dto.notebook.tela.TelaDTO;
 import br.notelab.service.notebook.NotebookService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -25,11 +26,13 @@ public class NotebookResourceTest {
     public NotebookService notebookService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/notebooks").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/notebooks/1").then().statusCode(200).body("id", is(1));
     }
@@ -199,6 +202,7 @@ public class NotebookResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         NotebookDTO dto = new NotebookDTO(
             "Lenovo IdeaPad L340",
@@ -236,6 +240,7 @@ public class NotebookResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         NotebookResponseDTO response = notebookService.create(
             new NotebookDTO(
@@ -297,6 +302,7 @@ public class NotebookResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         NotebookResponseDTO dto = notebookService.create(new NotebookDTO(
             "Lenovo IdeaPad L345",

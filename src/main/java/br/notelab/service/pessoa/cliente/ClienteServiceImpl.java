@@ -1,5 +1,6 @@
 package br.notelab.service.pessoa.cliente;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.notelab.dto.endereco.EnderecoDTO;
@@ -10,12 +11,14 @@ import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
 import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.model.endereco.Endereco;
+import br.notelab.model.notebook.Notebook;
 import br.notelab.model.pessoa.Cliente;
 import br.notelab.model.pessoa.Pessoa;
 import br.notelab.model.pessoa.Sexo;
 import br.notelab.model.pessoa.Usuario;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.ClienteRepository;
+import br.notelab.repository.NotebookRepository;
 import br.notelab.repository.PessoaRepository;
 import br.notelab.repository.UsuarioRepository;
 import br.notelab.service.hash.HashService;
@@ -39,6 +42,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Inject
     public CidadeRepository cidadeRepository;
+
+    @Inject
+    public NotebookRepository notebookRepository;
 
     @Inject
     public HashService hashService;
@@ -105,6 +111,33 @@ public class ClienteServiceImpl implements ClienteService {
         Usuario u = c.getPessoa().getUsuario();
 
         u.setSenha(hashService.getHashSenha(dto.senha()));
+    }
+
+    @Override
+    @Transactional
+    public void adicionarItemDesejo(Long id, Long idNotebook) {
+        Cliente c = clienteRepository.findById(id);
+        List<Notebook> listaDesejo = c.getListaDesejo();
+
+        if(c.getListaDesejo() == null)
+            listaDesejo = new ArrayList<>();
+        
+        else
+            listaDesejo = c.getListaDesejo();
+        
+        listaDesejo.add(notebookRepository.findById(idNotebook));
+    }
+
+    @Override
+    @Transactional
+    public void removerItemDesejo(Long id, Long idNotebook) {
+        Cliente c = clienteRepository.findById(id);
+        List<Notebook> listaDesejo = c.getListaDesejo();
+
+        if(listaDesejo == null)
+            throw new ValidationException("listaDesejo", "Não há notebook para ser removido!");
+                
+        listaDesejo.remove(notebookRepository.findById(idNotebook));
     }
 
     @Override

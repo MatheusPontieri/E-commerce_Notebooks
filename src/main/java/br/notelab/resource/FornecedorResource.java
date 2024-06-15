@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.pessoa.fornecedor.FornecedorDTO;
 import br.notelab.service.pessoa.fornecedor.FornecedorService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,23 +24,27 @@ public class FornecedorResource {
     public FornecedorService fornecedorService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(fornecedorService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(fornecedorService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(fornecedorService.findByNome(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(FornecedorDTO dto){
         return Response
             .status(201)
@@ -48,6 +53,7 @@ public class FornecedorResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, FornecedorDTO dto){
         fornecedorService.update(id, dto);
@@ -55,6 +61,7 @@ public class FornecedorResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         fornecedorService.delete(id);

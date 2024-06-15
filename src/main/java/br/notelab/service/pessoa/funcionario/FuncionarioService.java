@@ -19,6 +19,5 @@ public interface FuncionarioService {
     List<FuncionarioResponseDTO> findAll();
     List<FuncionarioResponseDTO> findByNome(String nome);
     List<FuncionarioResponseDTO> findByCpf(String cpf);
-    UsuarioResponseDTO loginFuncionario(String email, String senha);
-    UsuarioResponseDTO loginAdministrador(String email, String senha);
+    UsuarioResponseDTO login(String email, String senha);
 }

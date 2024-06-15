@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.recurso.RecursoDTO;
 import br.notelab.dto.notebook.recurso.RecursoResponseDTO;
 import br.notelab.service.notebook.recurso.RecursoService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class RecursoResourceTest {
     public RecursoService RecursoService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/recursos").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/recursos/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class RecursoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         RecursoDTO dto = new RecursoDTO("Recurso Create");
 
@@ -55,6 +60,7 @@ public class RecursoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         RecursoResponseDTO response = RecursoService.create(new RecursoDTO("Recurso Update"));
         RecursoDTO dto = new RecursoDTO("Recurso Update 2");
@@ -70,6 +76,7 @@ public class RecursoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         RecursoResponseDTO response = RecursoService.create(new RecursoDTO("Recurso Delete"));
 

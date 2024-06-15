@@ -17,6 +17,7 @@ import br.notelab.dto.pessoa.telefone.TelefoneDTO;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.service.pessoa.funcionario.FuncionarioService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -30,18 +31,19 @@ public class FuncionarioResourceTest {
     public CidadeRepository cidadeRepository;
 
     @Test
-    // @Order
-    // @TestSecurity
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/funcionarios").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){
         given().when().get("/funcionarios/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){
         given()
         .when()
@@ -53,6 +55,7 @@ public class FuncionarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByCpfTest(){
         given()
         .when()
@@ -64,6 +67,7 @@ public class FuncionarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         FuncionarioDTO dto = new FuncionarioDTO(
             LocalDate.parse("2022-04-26"),
@@ -75,8 +79,7 @@ public class FuncionarioResourceTest {
             "lucas12345",
             1,
             Arrays.asList(new EnderecoDTO("77040-456", "Quadra 5", "204 Norte", 12, "Perto da ponte", 2L)),
-            List.of(new TelefoneDTO("63", "8429-0319")),
-            1
+            List.of(new TelefoneDTO("63", "8429-0319"))
         );
         
         given()
@@ -91,6 +94,7 @@ public class FuncionarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         FuncionarioDTO dto = new FuncionarioDTO(
             LocalDate.parse("2020-02-15"),
@@ -102,8 +106,7 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-458", "Quadra 2", "207 Sul", 5, null, 2L)),
-            List.of(new TelefoneDTO("35", "8404-0319")),
-            2
+            List.of(new TelefoneDTO("35", "8404-0319"))
         );
         FuncionarioResponseDTO response = funcionarioService.create(dto);
 
@@ -117,8 +120,7 @@ public class FuncionarioResourceTest {
             "joaoantonio12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-456", "Quadra 3", "204 Sul", 0, null, 1L)),
-            List.of(new TelefoneDTO("35", "8404-0319")),
-            1
+            List.of(new TelefoneDTO("35", "8404-0319"))
         );
 
         given()
@@ -132,6 +134,7 @@ public class FuncionarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         FuncionarioDTO dto = new FuncionarioDTO(
             LocalDate.parse("2005-04-26"),
@@ -143,8 +146,7 @@ public class FuncionarioResourceTest {
             "joaoSilva12345",
             1,
             Arrays.asList(new EnderecoDTO("77021-221", "Quadra 10", "209 Norte", 12, null, 1L)),
-            List.of(new TelefoneDTO("63", "8421-5837")),
-            2
+            List.of(new TelefoneDTO("63", "8421-5837"))
         );
 
         FuncionarioResponseDTO response = funcionarioService.create(dto);

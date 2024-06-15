@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.gpu.PlacaVideoDTO;
 import br.notelab.service.notebook.gpu.PlacaVideoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,29 +23,34 @@ public class PlacaVideoResource {
     public PlacaVideoService placaVideoService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(placaVideoService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(placaVideoService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/modelo/{modelo}")
     public Response findByModelo(@PathParam("modelo") String modelo){
         return Response.ok(placaVideoService.findByModelo(modelo)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/memoria/{memoria}")
     public Response findByMemoriaVideo(@PathParam("memoria") String memoria){
         return Response.ok(placaVideoService.findByMemoriaVideo(memoria)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(PlacaVideoDTO dto){
         return Response
             .status(201)
@@ -53,6 +59,7 @@ public class PlacaVideoResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, PlacaVideoDTO dto){
         placaVideoService.update(id, dto);
@@ -61,6 +68,7 @@ public class PlacaVideoResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         placaVideoService.delete(id);

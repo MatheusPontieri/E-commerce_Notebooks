@@ -249,23 +249,17 @@ Fornecedor "1" *-right-> "*" Telefone
 
 @enduml
 
-' Reformular processo de compra -> Colocar preço no ItemPedido
-' Colocar método para adicionar produto aos desejos em clienteResource e remover
-' Colocar um método no Resource para ir atualizando o status do pedido
-' Permissão nos resources e nos testes (fazer cupom e pedido)
-' Reformular NotebookDTO para ter direto informações de tela e especificação
+' Reformular processo de compra -> Colocar preço no ItemPedido                        OK
+' Colocar método para adicionar produto aos desejos em clienteResource e remover      OK
+' Colocar um método no Resource para ir atualizando o status do pedido                OK
+' Permissão nos resources e nos testes (fazer cupom e pedido)                       
 ' Dar uma olhada geral, todos os models, DTOs
-' Fazer a vinculação de alguém já cadastrado com a mesma Pessoa
-' Acrescentar Logs e todos os Resources
-' Cascata em Pagamento (Olhar)
+' Acrescentar Logs e todos os Resources                                               OK
+' Cascata em Pagamento (Olhar) Testar Excluir
 
 ' Fecha Pedido (Back) -> Cartao (Pede os dados do cartão e cria uma forma de pagamento e vincula com a compra feita)
 '                     -> Pix / Boleto (Gera o código de cada e mostra. Aí aparece o botão pagar)
 ' Vou vincular apenas quando pagar
-
-
-
-
 
 
 '4) Quando passar parâmetro pelo path param? Pois posso pegar o cliente

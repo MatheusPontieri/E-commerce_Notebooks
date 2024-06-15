@@ -16,11 +16,7 @@ public class FuncionarioRepository implements PanacheRepository<Funcionario> {
         return find("SELECT f FROM Funcionario f WHERE f.pessoa.cpf LIKE ?1", "%"+cpf+"%").list();
     }
 
-    public Funcionario findFuncionarioByEmailAndSenha(String email, String senha){
-        return find("SELECT f FROM Funcionario f WHERE f.pessoa.usuario.email = ?1 AND f.pessoa.usuario.senha = ?2 AND f.perfil = 1", email, senha).firstResult();
-    }
-
-    public Funcionario findAdministradorByEmailAndSenha(String email, String senha){
-        return find("SELECT f FROM Funcionario f WHERE f.pessoa.usuario.email = ?1 AND f.pessoa.usuario.senha = ?2 AND f.perfil = 2", email, senha).firstResult();
+    public Funcionario findByEmailAndSenha(String email, String senha){
+        return find("SELECT f FROM Funcionario f WHERE f.pessoa.usuario.email = ?1 AND f.pessoa.usuario.senha = ?2", email, senha).firstResult();
     }
 }

@@ -34,11 +34,13 @@ public class ClienteResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){
         given().when().get("/clientes/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){
         given()
         .when()
@@ -50,6 +52,7 @@ public class ClienteResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByCpfTest(){
         given()
         .when()
@@ -86,6 +89,7 @@ public class ClienteResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Cliente")
     public void updateTest(){
         ClienteDTO dto = new ClienteDTO(
             "João Silva",
@@ -123,7 +127,7 @@ public class ClienteResourceTest {
     }
 
     @Test
-    @TestSecurity()
+    @TestSecurity(user = "test", roles = "Cliente")
     public void deleteTest(){
        ClienteDTO dto = new ClienteDTO(
             "João Pedro",

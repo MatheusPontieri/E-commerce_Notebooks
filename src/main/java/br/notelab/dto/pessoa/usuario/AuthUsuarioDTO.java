@@ -17,8 +17,8 @@ public record AuthUsuarioDTO(
     String senha,
 
     @NotNull(message = "A opção do perfil não pode ser nula")
-    @Min(value = 1, message = "O valor deve ser 1, 2 ou 3")
-    @Max(value = 3, message = "O valor deve ser 1, 2 ou 3")
+    @Min(value = 1, message = "O valor deve ser 1 ou 2")
+    @Max(value = 2, message = "O valor deve ser 1 ou 2")
     int perfil
 ) {
     

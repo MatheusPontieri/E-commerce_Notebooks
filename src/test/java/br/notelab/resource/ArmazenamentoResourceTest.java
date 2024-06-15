@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.memoria.ArmazenamentoDTO;
 import br.notelab.dto.notebook.memoria.ArmazenamentoResponseDTO;
 import br.notelab.service.notebook.memoria.ArmazenamentoService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class ArmazenamentoResourceTest {
     public ArmazenamentoService armazenamentoService;
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/armazenamentos").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){
         given().when().get("/armazenamentos/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){
         given()
         .when()
@@ -41,6 +45,7 @@ public class ArmazenamentoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByCapacidadeTest(){
         given()
         .when()
@@ -52,6 +57,7 @@ public class ArmazenamentoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         ArmazenamentoDTO dto = new ArmazenamentoDTO("SSD Create", "3 TB");
         
@@ -67,6 +73,7 @@ public class ArmazenamentoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         ArmazenamentoResponseDTO response = armazenamentoService.create(new ArmazenamentoDTO("SSD Update", "2 TB"));
         ArmazenamentoDTO dto = new ArmazenamentoDTO("SSD Update", "1 TB");
@@ -82,6 +89,7 @@ public class ArmazenamentoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         ArmazenamentoResponseDTO response = armazenamentoService.create(new ArmazenamentoDTO("SSD Delete", "1 TB"));
 

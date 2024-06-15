@@ -14,7 +14,6 @@ import br.notelab.model.pessoa.Pessoa;
 import br.notelab.model.pessoa.Sexo;
 import br.notelab.model.pessoa.Usuario;
 import br.notelab.model.pessoa.funcionario.Funcionario;
-import br.notelab.model.pessoa.funcionario.Perfil;
 import br.notelab.repository.CidadeRepository;
 import br.notelab.repository.FuncionarioRepository;
 import br.notelab.repository.PessoaRepository;
@@ -64,7 +63,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         f.setSalario(dto.salario());
         f.setDataContrato(dto.dataContrato());
         f.setPessoa(p);
-        f.setPerfil(Perfil.valueOf(dto.idPerfil()));
 
         funcionarioRepository.persist(f);
         return FuncionarioResponseDTO.valueOf(f);
@@ -133,14 +131,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public UsuarioResponseDTO loginFuncionario(String email, String senha) {
-        Funcionario f = funcionarioRepository.findFuncionarioByEmailAndSenha(email, senha);
-        return UsuarioResponseDTO.valueOf(f.getPessoa());
-    }
-
-    @Override
-    public UsuarioResponseDTO loginAdministrador(String email, String senha) {
-        Funcionario f = funcionarioRepository.findAdministradorByEmailAndSenha(email, senha);
+    public UsuarioResponseDTO login(String email, String senha) {
+        Funcionario f = funcionarioRepository.findByEmailAndSenha(email, senha);
         return UsuarioResponseDTO.valueOf(f.getPessoa());
     }
 

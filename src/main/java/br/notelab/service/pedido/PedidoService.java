@@ -1,6 +1,5 @@
 package br.notelab.service.pedido;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import br.notelab.dto.pagamento.BoletoResponseDTO;

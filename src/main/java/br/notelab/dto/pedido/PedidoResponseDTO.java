@@ -1,5 +1,6 @@
 package br.notelab.dto.pedido;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import br.notelab.dto.pedido.item_pedido.ItemPedidoResponseDTO;
@@ -13,6 +14,7 @@ public record PedidoResponseDTO(
     Double total,
     List<ItemPedidoResponseDTO> itens,
     List<StatusPedidoResponseDTO> status,
+    LocalDateTime prazoPagamento,
     Pagamento pagamento
 ){
     public static PedidoResponseDTO valueOf(Pedido p){
@@ -22,6 +24,7 @@ public record PedidoResponseDTO(
             p.getTotal(),
             p.getListaItem().stream().map(ItemPedidoResponseDTO::valueOf).toList(),
             p.getListaStatus().stream().map(StatusPedidoResponseDTO::valueOf).toList(),
+            p.getPrazoPagamento(),
             p.getPagamento()
         );
     }

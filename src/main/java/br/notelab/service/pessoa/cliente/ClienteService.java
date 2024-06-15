@@ -15,6 +15,8 @@ public interface ClienteService {
     void delete(Long id);
     void updateEmail(Long id, @Valid EmailPatchDTO dto);
     void updateSenha(Long id, @Valid SenhaPatchDTO dto);
+    void adicionarItemDesejo(Long id, Long idNotebook);
+    void removerItemDesejo(Long id, Long idNotebook);
     ClienteResponseDTO findById(Long id);
     List<ClienteResponseDTO> findAll();
     List<ClienteResponseDTO> findByNome(String nome);

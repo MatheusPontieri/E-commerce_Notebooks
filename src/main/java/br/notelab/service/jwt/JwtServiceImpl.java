@@ -21,10 +21,9 @@ public class JwtServiceImpl implements JwtService {
 
         Set<String> roles = new HashSet<>();
 
-        switch (perfil) {
-           case 1 -> roles.add("Cliente");
-           case 2 -> roles.add("Funcionario");
-           case 3 -> roles.add("Administrador");
+        switch(perfil){
+            case 1 -> roles.add("Cliente");
+            case 2 -> roles.add("Funcionario");
         }
         
         return Jwt.issuer("notelab-jwt")

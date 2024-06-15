@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.conexao.ConexaoSemFioDTO;
 import br.notelab.dto.notebook.conexao.ConexaoSemFioResponseDTO;
 import br.notelab.service.notebook.conexao.ConexaoSemFioService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class ConexaoSemFioResourceTest {
     public ConexaoSemFioService conexaoSemFioService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/conexoes").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/conexoes/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class ConexaoSemFioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         ConexaoSemFioDTO dto = new ConexaoSemFioDTO("Conexão Create");
 
@@ -55,6 +60,7 @@ public class ConexaoSemFioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         ConexaoSemFioResponseDTO response = conexaoSemFioService.create(new ConexaoSemFioDTO("Conexao Update"));
         ConexaoSemFioDTO dto = new ConexaoSemFioDTO("Conexao Update 2");
@@ -70,6 +76,7 @@ public class ConexaoSemFioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         ConexaoSemFioResponseDTO response = conexaoSemFioService.create(new ConexaoSemFioDTO("Conexao Delete"));
 

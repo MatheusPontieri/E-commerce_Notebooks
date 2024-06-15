@@ -22,8 +22,6 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CidadeResource {
 
-    private static final Logger LOG = Logger.getLogger(CidadeResource.class);
-
     @Inject
     public CidadeService cidadeService;
 
@@ -34,25 +32,28 @@ public class CidadeResource {
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.warnv("Fala Lucas {0}", id);
         return Response.ok(cidadeService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/nome_cidade/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(cidadeService.findByNome(nome)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/nome_estado/{nome}")
     public Response findByNomeEstado(@PathParam("nome") String nome){
         return Response.ok(cidadeService.findByEstado(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(CidadeDTO dto){
         return Response
             .status(201)
@@ -61,6 +62,7 @@ public class CidadeResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, CidadeDTO dto){
         cidadeService.update(id, dto);
@@ -68,6 +70,7 @@ public class CidadeResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         cidadeService.delete(id);

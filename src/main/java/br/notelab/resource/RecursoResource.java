@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.recurso.RecursoDTO;
 import br.notelab.service.notebook.recurso.RecursoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,23 +23,27 @@ public class RecursoResource {
     public RecursoService recursoService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(recursoService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(recursoService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(recursoService.findByNome(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(RecursoDTO dto){
         return Response
             .status(201)
@@ -47,6 +52,7 @@ public class RecursoResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, RecursoDTO dto){
         recursoService.update(id, dto);
@@ -54,6 +60,7 @@ public class RecursoResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         recursoService.delete(id);

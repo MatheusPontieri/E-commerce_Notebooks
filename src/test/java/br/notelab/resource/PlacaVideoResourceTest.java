@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.gpu.PlacaVideoDTO;
 import br.notelab.dto.notebook.gpu.PlacaVideoResponseDTO;
 import br.notelab.service.notebook.gpu.PlacaVideoService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class PlacaVideoResourceTest {
     public PlacaVideoService placaVideoService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/placas-video").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/placas-video/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByModeloTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class PlacaVideoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByMemoriaVideoTest(){ 
         given()
         .when()
@@ -52,6 +57,7 @@ public class PlacaVideoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         PlacaVideoDTO dto = new PlacaVideoDTO("Placa Create", "Memoria C");
 
@@ -66,6 +72,7 @@ public class PlacaVideoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         PlacaVideoResponseDTO response = placaVideoService.create(new PlacaVideoDTO("Placa Update", "Memoria U"));
         PlacaVideoDTO dto = new PlacaVideoDTO("Placa Up 2", "Memoria C2");
@@ -81,6 +88,7 @@ public class PlacaVideoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         PlacaVideoResponseDTO response = placaVideoService.create(new PlacaVideoDTO("Placa Delete", "Memoria U"));
 

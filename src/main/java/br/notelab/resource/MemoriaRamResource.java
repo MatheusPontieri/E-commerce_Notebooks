@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.memoria.MemoriaRamDTO;
 import br.notelab.service.notebook.memoria.MemoriaRamService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,23 +24,27 @@ public class MemoriaRamResource {
     public MemoriaRamService memoriaRamService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(memoriaRamService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(memoriaRamService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/{capacidade}")
     public Response findByCapacidade(@PathParam("capacidade") String capacidade){
         return Response.ok(memoriaRamService.findByCapacidade(capacidade)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(MemoriaRamDTO dto){
         return Response
             .status(201)
@@ -48,6 +53,7 @@ public class MemoriaRamResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, MemoriaRamDTO dto){
         memoriaRamService.update(id, dto);
@@ -55,6 +61,7 @@ public class MemoriaRamResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         memoriaRamService.delete(id);

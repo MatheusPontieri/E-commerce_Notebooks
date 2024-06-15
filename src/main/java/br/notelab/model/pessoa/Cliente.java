@@ -6,6 +6,7 @@ import br.notelab.model.DefaultEntity;
 import br.notelab.model.notebook.Notebook;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -20,7 +21,7 @@ public class Cliente extends DefaultEntity {
     @JoinColumn(name = "id_pessoa", nullable = false, unique = true)
     private Pessoa pessoa;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "lista_desejo", 
                joinColumns = @JoinColumn(name = "id_cliente"),
                inverseJoinColumns = @JoinColumn(name = "id_notebook"))
@@ -40,5 +41,13 @@ public class Cliente extends DefaultEntity {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public List<Notebook> getListaDesejo() {
+        return listaDesejo;
+    }
+
+    public void setListaDesejo(List<Notebook> listaDesejo) {
+        this.listaDesejo = listaDesejo;
     }
 }

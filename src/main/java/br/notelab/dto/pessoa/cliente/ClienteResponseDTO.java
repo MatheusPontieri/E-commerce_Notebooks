@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.notelab.dto.endereco.EnderecoResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneResponseDTO;
+import br.notelab.model.notebook.Notebook;
 import br.notelab.model.pessoa.Cliente;
 
 public record ClienteResponseDTO(
@@ -15,7 +16,8 @@ public record ClienteResponseDTO(
     String cpf,
     String email, 
     List<TelefoneResponseDTO> telefones,
-    List<EnderecoResponseDTO> enderecos
+    List<EnderecoResponseDTO> enderecos,
+    List<Notebook> listaDesejo
 ) {
     public static ClienteResponseDTO valueOf(Cliente c){
         return new ClienteResponseDTO(
@@ -26,7 +28,8 @@ public record ClienteResponseDTO(
             c.getPessoa().getCpf(),
             c.getPessoa().getUsuario().getEmail(),
             c.getPessoa().getListaTelefone().stream().map(TelefoneResponseDTO::valueOf).toList(),
-            c.getPessoa().getListaEndereco().stream().map(EnderecoResponseDTO::valueOf).toList()
+            c.getPessoa().getListaEndereco().stream().map(EnderecoResponseDTO::valueOf).toList(),
+            c.getListaDesejo()
         );
     }
 }

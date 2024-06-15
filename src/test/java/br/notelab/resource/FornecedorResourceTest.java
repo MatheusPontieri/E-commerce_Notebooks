@@ -13,6 +13,7 @@ import br.notelab.dto.pessoa.fornecedor.FornecedorResponseDTO;
 import br.notelab.dto.pessoa.telefone.TelefoneDTO;
 import br.notelab.service.pessoa.fornecedor.FornecedorService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -23,16 +24,19 @@ public class FornecedorResourceTest {
     public FornecedorService fornecedorService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/fornecedores").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/fornecedores/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){ 
         given()
         .when()
@@ -44,6 +48,7 @@ public class FornecedorResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         FornecedorDTO dto = new FornecedorDTO(
             "Fornecedor Create", 
@@ -64,6 +69,7 @@ public class FornecedorResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         FornecedorResponseDTO response = fornecedorService.create(new FornecedorDTO(
             "Fornecedor Update", 
@@ -90,6 +96,7 @@ public class FornecedorResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         FornecedorResponseDTO response = fornecedorService.create(new FornecedorDTO(
         "Fornecedor Delete", 

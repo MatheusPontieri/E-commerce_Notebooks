@@ -29,24 +29,28 @@ public class CupomResource {
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(cupomService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/codigo/{codigo}")
     public Response findByCodigo(@PathParam("codigo") String codigo){
         return Response.ok(cupomService.findByCodigo(codigo)).build();
     }
 
     @GET
-    @Path("/search/fornecedor/{idFornecedor}")
-    public Response findByFornecedor(@PathParam("idFornecedor") Long idFornecedor){
+    @RolesAllowed({"Funcionario"})
+    @Path("/search/fornecedor/{id-fornecedor}")
+    public Response findByFornecedor(@PathParam("id-fornecedor") Long idFornecedor){
         return Response.ok(cupomService.findByFornecedor(idFornecedor)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(CupomDTO dto){
         return Response
             .status(201)
@@ -55,6 +59,7 @@ public class CupomResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, CupomDTO dto){
         cupomService.update(id, dto);
@@ -62,6 +67,7 @@ public class CupomResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         cupomService.delete(id);

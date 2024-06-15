@@ -10,6 +10,7 @@ import br.notelab.dto.endereco.estado.EstadoDTO;
 import br.notelab.dto.endereco.estado.EstadoResponseDTO;
 import br.notelab.service.endereco.estado.EstadoService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class EstadoResourceTest {
     public EstadoService estadoService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/estados").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/estados/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         EstadoDTO dto = new EstadoDTO("Estado Create", "EC");
 
@@ -56,6 +61,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         EstadoResponseDTO response = estadoService.create(new EstadoDTO("Estado Update", "EU"));
         EstadoDTO dto = new EstadoDTO("Estado Update 2", "E2");
@@ -71,6 +77,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         EstadoResponseDTO response = estadoService.create(new EstadoDTO("Estado Delete", "ED"));
 

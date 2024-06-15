@@ -1,9 +1,12 @@
 package br.notelab.resource;
 
+import org.jboss.logging.Logger;
+
 import br.notelab.dto.pessoa.funcionario.FuncionarioDTO;
 import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
 import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
 import br.notelab.service.pessoa.funcionario.FuncionarioService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,35 +25,47 @@ import jakarta.ws.rs.core.Response.Status;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FuncionarioResource {
+
+    private static final Logger LOG = Logger.getLogger(FuncionarioResource.class);
     
     @Inject
     public FuncionarioService funcionarioService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
+        LOG.infov("Buscando todos os funcionários");
         return Response.ok(funcionarioService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
+        LOG.infov("Buscando funcionário com id {0}", id);
         return Response.ok(funcionarioService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
+        LOG.infov("Buscando todos os funcionários com nome {0}", nome);
         return Response.ok(funcionarioService.findByNome(nome)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/cpf/{cpf}")
     public Response findByCpf(@PathParam("cpf") String cpf){
+        LOG.infov("Buscando todos os funcionários com cpf {0}", cpf);
         return Response.ok(funcionarioService.findByCpf(cpf)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(FuncionarioDTO dto){
+        LOG.infov("Criando funcionário");
         return Response
             .status(201)
             .entity(funcionarioService.create(dto))
@@ -58,32 +73,42 @@ public class FuncionarioResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, FuncionarioDTO dto){
+        LOG.infov("Atualizando funcionário com id {0}", id);
+
         funcionarioService.update(id, dto);
         return Response.status(204).build();
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
+        LOG.infov("Removendo funcionário com id {0}", id);
+
         funcionarioService.delete(id);
         return Response.status(204).build();
     }
 
     @PATCH
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/email")
     public Response updateEmail(@PathParam("id") Long id, EmailPatchDTO dto){
-        funcionarioService.updateEmail(id, dto);
-        
+        LOG.infov("Atualizando email do funcionário com id {0}", id);
+
+        funcionarioService.updateEmail(id, dto);        
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @PATCH
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/senha")
     public Response updateSenha(@PathParam("id") Long id, SenhaPatchDTO dto){
-        funcionarioService.updateSenha(id, dto);
-        
+        LOG.infov("Atualizando senha do funcionário com id {0}", id);
+
+        funcionarioService.updateSenha(id, dto);        
         return Response.status(Status.NO_CONTENT).build();
     }
 }

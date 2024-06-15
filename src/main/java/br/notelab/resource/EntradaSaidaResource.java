@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.conexao.EntradaSaidaDTO;
 import br.notelab.service.notebook.conexao.EntradaSaidaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,23 +24,27 @@ public class EntradaSaidaResource {
     public EntradaSaidaService entradaSaidaService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(entradaSaidaService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(entradaSaidaService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(entradaSaidaService.findByNome(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(EntradaSaidaDTO dto){
         return Response
             .status(201)
@@ -48,6 +53,7 @@ public class EntradaSaidaResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, EntradaSaidaDTO dto){
         entradaSaidaService.update(id, dto);
@@ -55,6 +61,7 @@ public class EntradaSaidaResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         entradaSaidaService.delete(id);

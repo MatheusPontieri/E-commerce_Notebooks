@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.notebook.memoria.ArmazenamentoDTO;
 import br.notelab.service.notebook.memoria.ArmazenamentoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,29 +24,34 @@ public class ArmazenamentoResource {
     public ArmazenamentoService armazenamentoService;
 
     @GET
+    @RolesAllowed("Funcionario")
     public Response findAll(){
         return Response.ok(armazenamentoService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed("Funcionario")
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(armazenamentoService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(armazenamentoService.findByNome(nome)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/capacidade/{capacidade}")
     public Response findByCapacidade(@PathParam("capacidade") String capacidade){
         return Response.ok(armazenamentoService.findByCapacidade(capacidade)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(ArmazenamentoDTO dto){
         return Response
             .status(201)
@@ -54,6 +60,7 @@ public class ArmazenamentoResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, ArmazenamentoDTO dto){
         armazenamentoService.update(id, dto);
@@ -61,6 +68,7 @@ public class ArmazenamentoResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         armazenamentoService.delete(id);

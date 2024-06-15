@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.conexao.EntradaSaidaDTO;
 import br.notelab.dto.notebook.conexao.EntradaSaidaResponseDTO;
 import br.notelab.service.notebook.conexao.EntradaSaidaService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class EntradaSaidaResourceTest {
     public EntradaSaidaService entradaSaidaService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/entradas_saidas").then().statusCode(200);
     }
     
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/entradas_saidas/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByNomeTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class EntradaSaidaResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         EntradaSaidaDTO dto = new EntradaSaidaDTO("EntradaSaida Create");
 
@@ -55,6 +60,7 @@ public class EntradaSaidaResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         EntradaSaidaResponseDTO response = entradaSaidaService.create(new EntradaSaidaDTO("EntradaSaida Update"));
         EntradaSaidaDTO dto = new EntradaSaidaDTO("EntradaSaida Update 2");
@@ -70,6 +76,7 @@ public class EntradaSaidaResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         EntradaSaidaResponseDTO response = entradaSaidaService.create(new EntradaSaidaDTO("EntradaSaida Delete"));
 

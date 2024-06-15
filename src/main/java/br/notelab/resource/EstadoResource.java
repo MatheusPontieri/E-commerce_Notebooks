@@ -2,6 +2,7 @@ package br.notelab.resource;
 
 import br.notelab.dto.endereco.estado.EstadoDTO;
 import br.notelab.service.endereco.estado.EstadoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,23 +23,27 @@ public class EstadoResource {
     public EstadoService estadoService;
 
     @GET
+    @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(estadoService.findAll()).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
         return Response.ok(estadoService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(estadoService.findByNome(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(EstadoDTO dto){
         return Response
             .status(201)
@@ -47,6 +52,7 @@ public class EstadoResource {
     }
 
     @PUT
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, EstadoDTO dto){
         estadoService.update(id, dto);
@@ -54,6 +60,7 @@ public class EstadoResource {
     }
 
     @DELETE
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         estadoService.delete(id);

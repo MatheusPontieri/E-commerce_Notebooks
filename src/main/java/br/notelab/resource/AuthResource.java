@@ -1,11 +1,14 @@
 package br.notelab.resource;
 
+import org.jboss.logging.Logger;
+
 import br.notelab.dto.pessoa.usuario.AuthUsuarioDTO;
 import br.notelab.dto.pessoa.usuario.UsuarioResponseDTO;
 import br.notelab.service.hash.HashService;
 import br.notelab.service.jwt.JwtService;
 import br.notelab.service.pessoa.cliente.ClienteService;
 import br.notelab.service.pessoa.funcionario.FuncionarioService;
+import br.notelab.validation.ValidationException;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -20,6 +23,8 @@ import jakarta.ws.rs.core.Response.Status;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthResource {
+
+    private static final Logger LOG = Logger.getLogger(AuthResource.class);
     
     @Inject
     public ClienteService clienteService;
@@ -38,14 +43,20 @@ public class AuthResource {
         String hash = hashService.getHashSenha(dto.senha());
         UsuarioResponseDTO usuario = null;
 
-        if(dto.perfil() == 1)
-            usuario = clienteService.login(dto.email(), hash);
-        else if(dto.perfil() == 2)
-            usuario = funcionarioService.loginFuncionario(dto.email(), hash);
-        else if(dto.perfil() == 3)
-            usuario = funcionarioService.loginAdministrador(dto.email(), hash);
-        else
-            return Response.status(Status.NOT_FOUND).build();
+        try {
+            if(dto.perfil() == 1){
+                usuario = clienteService.login(dto.email(), hash);
+                LOG.infof("Cliente com email %s fez login no sistema", usuario.email());
+            }
+            else if(dto.perfil() == 2){
+                usuario = funcionarioService.login(dto.email(), hash);
+                LOG.infof("Funcionario com email %s fez login no sistema", usuario.email());
+            }
+            else
+                return Response.status(Status.NOT_FOUND).build();
+        } catch (Exception e) {
+            throw new ValidationException("email, senha, perfil", "login inválido");
+        }
 
         return Response.ok()
             .header("Authorization", jwtService.generatedJwt(usuario, dto.perfil()))

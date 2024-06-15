@@ -10,6 +10,7 @@ import br.notelab.dto.notebook.memoria.MemoriaRamDTO;
 import br.notelab.dto.notebook.memoria.MemoriaRamResponseDTO;
 import br.notelab.service.notebook.memoria.MemoriaRamService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,16 +21,19 @@ public class MemoriaRamResourceTest {
     public MemoriaRamService memoriaRamService;
     
     @Test 
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findAllTest(){
         given().when().get("/memorias_ram").then().statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByIdTest(){ 
         given().when().get("/memorias_ram/1").then().statusCode(200).body("id", is(1));
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void findByCapacidadeTest(){ 
         given()
         .when()
@@ -41,6 +45,7 @@ public class MemoriaRamResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void createTest(){
         MemoriaRamDTO dto = new MemoriaRamDTO("Ram Create");
 
@@ -55,6 +60,7 @@ public class MemoriaRamResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void updateTest(){
         MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Update"));
         MemoriaRamDTO dto = new MemoriaRamDTO("Ram Up 2");
@@ -70,6 +76,7 @@ public class MemoriaRamResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "test", roles = "Funcionario")
     public void deleteTest(){
         MemoriaRamResponseDTO response = memoriaRamService.create(new MemoriaRamDTO("Ram Delete"));
 
