@@ -42,7 +42,7 @@ public class ClienteResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.infov("Buscando cliente com o id {0}", id);
+        LOG.infof("Buscando cliente com o id %d", id);
         return Response.ok(clienteService.findById(id)).build();
     }
 
@@ -50,7 +50,7 @@ public class ClienteResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
-        LOG.infov("Buscando cliente pelo nome {0}", nome);
+        LOG.infof("Buscando cliente pelo nome %s", nome);
         return Response.ok(clienteService.findByNome(nome)).build();
     }
 
@@ -58,7 +58,7 @@ public class ClienteResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/cpf/{cpf}")
     public Response findByCpf(@PathParam("cpf") String cpf){
-        LOG.infov("Buscando cliente com o cpf {0}", cpf);
+        LOG.infof("Buscando cliente com o cpf %s", cpf);
         return Response.ok(clienteService.findByCpf(cpf)).build();
     }
 
@@ -75,7 +75,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, ClienteDTO dto){
-        LOG.infov("Atualizando cliente com id {0}", id);
+        LOG.infof("Atualizando cliente com id %d", id);
         clienteService.update(id, dto);
         return Response.status(204).build();
     }
@@ -84,7 +84,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente", "Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
-        LOG.infov("Removendo cliente com id {0}", id);
+        LOG.infof("Removendo cliente com id %d", id);
         clienteService.delete(id);
         return Response.status(204).build();
     }
@@ -93,7 +93,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/email")
     public Response updateEmail(@PathParam("id") Long id, EmailPatchDTO dto){
-        LOG.infov("Atualizando email do cliente com id {0}", id);
+        LOG.infof("Atualizando email do cliente com id %d", id);
         clienteService.updateEmail(id, dto);
         
         return Response.status(Status.NO_CONTENT).build();
@@ -103,7 +103,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/senha")
     public Response updateSenha(@PathParam("id") Long id, SenhaPatchDTO dto){
-        LOG.infov("Atualizando senha do cliente com id {0}", id);
+        LOG.infof("Atualizando senha do cliente com id %d", id);
         clienteService.updateSenha(id, dto);
         
         return Response.status(Status.NO_CONTENT).build();
@@ -113,7 +113,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/inclusao-item-desejo/{id-item}")
     public Response adicionarItemDesejo(@PathParam("id") Long id, @PathParam("id-item") Long idItem){
-        LOG.infov("Inserindo item na lista de desejo do cliente com id {0}", id);
+        LOG.infof("Inserindo item na lista de desejo do cliente com id %d", id);
         clienteService.adicionarItemDesejo(id, idItem);
 
         return Response.status(Status.NO_CONTENT).build();
@@ -123,7 +123,7 @@ public class ClienteResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/exclusao-item-desejo/{id-item}")
     public Response removerItemDesejo(@PathParam("id") Long id, @PathParam("id-item") Long idItem){
-        LOG.infov("Removendo item da lista de desejo do cliente com id {0}", id);
+        LOG.infof("Removendo item da lista de desejo do cliente com id %d", id);
         clienteService.removerItemDesejo(id, idItem);
 
         return Response.status(Status.NO_CONTENT).build();

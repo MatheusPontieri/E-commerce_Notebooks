@@ -4,6 +4,7 @@ import org.jboss.logging.Logger;
 
 import br.notelab.dto.pagamento.CartaoDTO;
 import br.notelab.dto.pedido.PedidoDTO;
+import br.notelab.dto.pedido.StatusPatchDTO;
 import br.notelab.service.pedido.PedidoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -42,7 +43,7 @@ public class PedidoResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.infov("Buscando pedido com id {0} ", id);
+        LOG.infof("Buscando pedido com id %d", id);
 
         return Response.ok(pedidoService.findById(id)).build();
     }
@@ -62,7 +63,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, PedidoDTO dto){
-        LOG.infov("Atualizando pedido com id {0}", id);
+        LOG.infof("Atualizando pedido com id %d", id);
 
         pedidoService.update(id, dto);
         return Response.status(204).build();
@@ -72,7 +73,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
-        LOG.infov("Excluindo pedido com id {0}", id);
+        LOG.infof("Excluindo pedido com id %d", id);
 
         pedidoService.delete(id);
         return Response.status(204).build();
@@ -81,11 +82,10 @@ public class PedidoResource {
     @PATCH
     @RolesAllowed({"Funcionario"})
     @Path("/status-pedido/{id}")
-    public Response updateStatusPedido(@PathParam("id") Long idPedido, Integer idStatus){
-        LOG.infov("Atualizando status do pedido com id {0} para status {1}", idPedido, idStatus);
+    public Response updateStatusPedido(@PathParam("id") Long idPedido, StatusPatchDTO status){
+        LOG.infof("Atualizando status do pedido com id %d para status %d", idPedido, status.idStatus());
 
-        pedidoService.updateStatusPedido(idPedido, idStatus);
-
+        pedidoService.updateStatusPedido(idPedido, status.idStatus());
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -93,7 +93,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/pagamento/info/pix")
     public Response gerarInformacoesPix(@PathParam("id") Long id){
-        LOG.infov("Gerando informações de pagamento PIX para pedido com id {0}", id);
+        LOG.infof("Gerando informações de pagamento PIX para pedido com id %d", id);
 
         return Response.status(201).entity(pedidoService.gerarInformacoesPix(id)).build();
     }
@@ -102,7 +102,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/pagamento/info/boleto")
     public Response gerarInformacoesBoleto(@PathParam("id") Long id){
-        LOG.infov("Gerando informações de pagamento boleto para pedido com id {0}", id);
+        LOG.infof("Gerando informações de pagamento boleto para pedido com id %d", id);
 
         return Response.status(201).entity(pedidoService.gerarInformacoesBoleto(id)).build();
     }
@@ -111,7 +111,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/pagamento/pix/{id-pix}")
     public Response registrarPagamentoPix(@PathParam("id") Long idPedido, @PathParam("id-pix") Long idPix){
-        LOG.infov("Registrando pagamento PIX para pedido com id {0} e id PIX {1}", idPedido, idPix);
+        LOG.infof("Registrando pagamento PIX para pedido com id %d e id PIX %d", idPedido, idPix);
 
         pedidoService.registrarPagamentoPix(idPedido, idPix);
         return Response.status(Status.NO_CONTENT).build();
@@ -121,7 +121,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/pagamento/boleto/{id-boleto}")
     public Response registrarPagamentoBoleto(@PathParam("id") Long idPedido, @PathParam("id-boleto") Long idBoleto){
-        LOG.infov("Registrando pagamento boleto para pedido com id {0} e id boleto {1}", idPedido, idBoleto);
+        LOG.infof("Registrando pagamento boleto para pedido com id %d e id boleto %d", idPedido, idBoleto);
 
         pedidoService.registrarPagamentoBoleto(idPedido, idBoleto);
         return Response.status(Status.NO_CONTENT).build();
@@ -131,7 +131,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente"})
     @Path("/{id}/pagamento/cartao")
     public Response registrarPagamentoCartao(@PathParam("id") Long id, CartaoDTO cartao){ 
-        LOG.infov("Registrando pagamento com cartão para pedido com id {0}", id);
+        LOG.infof("Registrando pagamento com cartão para pedido com id %d", id);
 
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -140,7 +140,7 @@ public class PedidoResource {
     @RolesAllowed({"Cliente", "Funcionario"})
     @Path("/search/cliente/{id}")
     public Response findByCliente(@PathParam("id") Long id){
-        LOG.infov("Buscando pedidos pelo cliente com id {0}", id);
+        LOG.infof("Buscando pedidos pelo cliente com id %d", id);
 
         return Response.ok(pedidoService.findByCliente(id)).build();
     }
@@ -149,7 +149,7 @@ public class PedidoResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/item/{id}")
     public Response findByItem(@PathParam("id") Long id){
-        LOG.infov("Buscando pedidos pelo notebook com id {0}", id);
+        LOG.infof("Buscando pedidos pelo notebook com id %d", id);
 
         return Response.ok(pedidoService.findByItem(id)).build();
     }
@@ -158,7 +158,7 @@ public class PedidoResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/status/{id}")
     public Response findByStatus(@PathParam("id") Integer id){
-        LOG.infov("Buscando pedidos pelo status com id {0}", id);
+        LOG.infof("Buscando pedidos pelo status com id %d", id);
 
         return Response.ok(pedidoService.findByStatus(id)).build();
     }

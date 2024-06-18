@@ -81,7 +81,7 @@ public class NotebookResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
-        LOG.infov("Excluindo notebook com id %d", id);
+        LOG.infof("Excluindo notebook com id %d", id);
         notebookService.delete(id);
         return Response.status(204).build();
     }
@@ -89,91 +89,91 @@ public class NotebookResource {
     @GET
     @Path("/search/preco_min/{preco}")
     public Response findByPrecoMin(@PathParam("preco") Double preco){
-        LOG.infov("Buscando notebooks com preço mínimo %.2f", preco);
+        LOG.infof("Buscando notebooks com preço mínimo %.2f", preco);
         return Response.ok(notebookService.findByPrecoMin(preco)).build();
     }
 
     @GET
     @Path("/search/preco_max/{preco}")
     public Response findByPrecoMax(@PathParam("preco") Double preco){
-        LOG.infov("Buscando notebooks com preço máximo %.2f", preco);
+        LOG.infof("Buscando notebooks com preço máximo %.2f", preco);
         return Response.ok(notebookService.findByPrecoMax(preco)).build();
     }
 
     @GET
     @Path("/search/preco/{min}/{max}")
     public Response findByPrecoMinMax(@PathParam("min") Double min, @PathParam("max") Double max){
-        LOG.infov("Buscando notebooks com preço entre %.2f e %.2f", min, max);
+        LOG.infof("Buscando notebooks com preço entre %.2f e %.2f", min, max);
         return Response.ok(notebookService.findByPrecoMinMax(min, max)).build();
     }
 
     @GET
     @Path("/search/sistema_operacional/{sistema}")
     public Response findBySistemaOperacional(@PathParam("sistema") String sistema){
-        LOG.infov("Buscando notebooks com sistema operacional %s", sistema);
+        LOG.infof("Buscando notebooks com sistema operacional %s", sistema);
         return Response.ok(notebookService.findBySistemaOperacional(sistema)).build();
     }
 
     @GET
     @Path("/search/gamer/{isGamer}")
     public Response findByGamer(@PathParam("isGamer") Boolean isGamer){
-        LOG.infov("Buscando notebooks para gamer: %b", isGamer);
+        LOG.infof("Buscando notebooks para gamer: %b", isGamer);
         return Response.ok(notebookService.findByGamer(isGamer)).build();
     }
 
     @GET
     @Path("/search/recurso/{recurso}")
     public Response findByRecurso(@PathParam("recurso") String recurso){
-        LOG.infov("Buscando notebooks com recurso %s", recurso);
+        LOG.infof("Buscando notebooks com recurso %s", recurso);
         return Response.ok(notebookService.findByRecurso(recurso)).build();
     }
 
     @GET
     @Path("/search/placa_video/{placa}")
     public Response findByPlacaVideo(@PathParam("placa") String placaVideo){
-        LOG.infov("Buscando notebooks com placa de vídeo %s", placaVideo);
+        LOG.infof("Buscando notebooks com placa de vídeo %s", placaVideo);
         return Response.ok(notebookService.findByPlacaVideo(placaVideo)).build();
     }
 
     @GET
     @Path("/search/processador/{processador}")
     public Response findByProcessador(@PathParam("processador") String processador){
-        LOG.infov("Buscando notebooks com processador %s", processador);
+        LOG.infof("Buscando notebooks com processador %s", processador);
         return Response.ok(notebookService.findByProcessador(processador)).build();
     }
 
     @GET
     @Path("/search/nome_armazenamento/{nome}")
     public Response findByNomeArmazenamento(@PathParam("nome") String nome){
-        LOG.infov("Buscando notebooks com nome de armazenamento %s", nome);
+        LOG.infof("Buscando notebooks com nome de armazenamento %s", nome);
         return Response.ok(notebookService.findByNomeArmazenamento(nome)).build();
     }
 
     @GET
     @Path("/search/capacidade_armazenamento/{capacidade}")
     public Response findByCapacidadeArmazenamento(@PathParam("capacidade") String capacidade){
-        LOG.infov("Buscando notebooks com capacidade de armazenamento %s", capacidade);
+        LOG.infof("Buscando notebooks com capacidade de armazenamento %s", capacidade);
         return Response.ok(notebookService.findByCapacidadeArmazenamento(capacidade)).build();
     }
 
     @GET
     @Path("/search/capacidade_memoria_ram/{capacidade}")
     public Response findByCapacidadeMemoriaRam(@PathParam("capacidade") String capacidade){
-        LOG.infov("Buscando notebooks com capacidade de memória RAM %s", capacidade);
+        LOG.infof("Buscando notebooks com capacidade de memória RAM %s", capacidade);
         return Response.ok(notebookService.findByCapacidadeMemoriaRam(capacidade)).build();
     }
 
     @GET
     @Path("/search/taxa_atualizacao/{taxa}")
     public Response findByTaxaAtualizacao(@PathParam("taxa") String taxa){
-        LOG.infov("Buscando notebooks com taxa de atualização %s", taxa);
+        LOG.infof("Buscando notebooks com taxa de atualização %s", taxa);
         return Response.ok(notebookService.findByTaxaAtualizacao(taxa)).build();
     }
     
     @GET
     @Path("/search/conexao_sem_fio/{conexao}")
     public Response findByConexaoSemFio(@PathParam("conexao") String conexao){
-        LOG.infov("Buscando notebooks com conexão sem fio %s", conexao);
+        LOG.infof("Buscando notebooks com conexão sem fio %s", conexao);
         return Response.ok(notebookService.findByConexaoSemFio(conexao)).build();
     }
 
@@ -189,7 +189,7 @@ public class NotebookResource {
     @RolesAllowed({"Funcionario"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(@PathParam("id") Long id, @MultipartForm ImageForm form){
-        LOG.infov("Upload de imagem para notebook com id %d", id);
+        LOG.infof("Upload de imagem para notebook com id %d", id);
         fileService.upload(id, form.getNomeImagem(), form.getImagem());
 
         return Response.status(Status.NO_CONTENT).build();
@@ -200,7 +200,7 @@ public class NotebookResource {
     @RolesAllowed({"Funcionario"})
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem){
-        LOG.infov("Download da imagem %s", nomeImagem);
+        LOG.infof("Download da imagem %s", nomeImagem);
 
         ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
         response.header("Content-Disposition", "attachement: filename=" + nomeImagem);

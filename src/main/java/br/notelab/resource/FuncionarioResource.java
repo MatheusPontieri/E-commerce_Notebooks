@@ -42,7 +42,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.infov("Buscando funcionário com id {0}", id);
+        LOG.infof("Buscando funcionário com id %d", id);
         return Response.ok(funcionarioService.findById(id)).build();
     }
 
@@ -50,7 +50,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
-        LOG.infov("Buscando todos os funcionários com nome {0}", nome);
+        LOG.infof("Buscando todos os funcionários com nome %s", nome);
         return Response.ok(funcionarioService.findByNome(nome)).build();
     }
 
@@ -58,7 +58,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/search/cpf/{cpf}")
     public Response findByCpf(@PathParam("cpf") String cpf){
-        LOG.infov("Buscando todos os funcionários com cpf {0}", cpf);
+        LOG.infof("Buscando todos os funcionários com cpf %s", cpf);
         return Response.ok(funcionarioService.findByCpf(cpf)).build();
     }
 
@@ -76,7 +76,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, FuncionarioDTO dto){
-        LOG.infov("Atualizando funcionário com id {0}", id);
+        LOG.infof("Atualizando funcionário com id %d", id);
 
         funcionarioService.update(id, dto);
         return Response.status(204).build();
@@ -86,7 +86,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
-        LOG.infov("Removendo funcionário com id {0}", id);
+        LOG.infof("Removendo funcionário com id %d", id);
 
         funcionarioService.delete(id);
         return Response.status(204).build();
@@ -96,7 +96,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}/email")
     public Response updateEmail(@PathParam("id") Long id, EmailPatchDTO dto){
-        LOG.infov("Atualizando email do funcionário com id {0}", id);
+        LOG.infof("Atualizando email do funcionário com id %d", id);
 
         funcionarioService.updateEmail(id, dto);        
         return Response.status(Status.NO_CONTENT).build();
@@ -106,7 +106,7 @@ public class FuncionarioResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}/senha")
     public Response updateSenha(@PathParam("id") Long id, SenhaPatchDTO dto){
-        LOG.infov("Atualizando senha do funcionário com id {0}", id);
+        LOG.infof("Atualizando senha do funcionário com id %d", id);
 
         funcionarioService.updateSenha(id, dto);        
         return Response.status(Status.NO_CONTENT).build();

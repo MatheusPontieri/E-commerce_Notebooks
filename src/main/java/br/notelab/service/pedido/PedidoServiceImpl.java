@@ -14,7 +14,7 @@ import br.notelab.dto.pagamento.PixResponseDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
 import br.notelab.dto.pedido.item_pedido.ItemPedidoDTO;
-import br.notelab.model.notebook.Notebook;
+import br.notelab.model.notebook.Notebook;  
 import br.notelab.model.pagamento.Boleto;
 import br.notelab.model.pagamento.Cartao;
 import br.notelab.model.pagamento.Pix;
@@ -61,7 +61,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         p.setCliente(clienteRepository.findById(dto.idCliente()));
         p.setData(LocalDateTime.now());
-        p.setPrazoPagamento(LocalDateTime.now().plusSeconds(10));
+        p.setPrazoPagamento(LocalDateTime.now().plusSeconds(20));
 
         List<ItemPedido> listaItens = getItensFromDTO(dto.itens());
         p.setListaItem(listaItens);
