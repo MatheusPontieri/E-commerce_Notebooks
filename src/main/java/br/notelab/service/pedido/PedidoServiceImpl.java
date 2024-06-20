@@ -1,6 +1,5 @@
 package br.notelab.service.pedido;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ import br.notelab.dto.pagamento.PixResponseDTO;
 import br.notelab.dto.pedido.PedidoDTO;
 import br.notelab.dto.pedido.PedidoResponseDTO;
 import br.notelab.dto.pedido.item_pedido.ItemPedidoDTO;
-import br.notelab.model.notebook.Notebook;  
+import br.notelab.model.notebook.Notebook;
 import br.notelab.model.pagamento.Boleto;
 import br.notelab.model.pagamento.Cartao;
 import br.notelab.model.pagamento.Pix;
@@ -99,7 +98,7 @@ public class PedidoServiceImpl implements PedidoService {
     public void updateStatusPedido(Long idPedido, Integer idStatus) {
         Pedido p = pedidoRepository.findById(idPedido);
 
-        p.getListaStatus().add(createStatusPedido(idStatus));
+        //addStatusPedido(p, idStatus);
     }
 
     @Override
@@ -134,6 +133,8 @@ public class PedidoServiceImpl implements PedidoService {
     public void registrarPagamentoPix(Long idPedido, Long idPix){
         Pedido p = pedidoRepository.findById(idPedido);
         p.setPagamento(pagamentoRepository.findById(idPix));
+
+        //addStatusPedido(p, 3); // Pagamento Autorizado
     }
 
     @Override
@@ -183,7 +184,7 @@ public class PedidoServiceImpl implements PedidoService {
     private List<ItemPedido> getItensFromDTO(List<ItemPedidoDTO> listaItemDTO){
         validarListaItemDTO(listaItemDTO);
 
-        List<ItemPedido> itens = new ArrayList<>();
+        List<ItemPedido> listaItens = new ArrayList<>();
 
         for (ItemPedidoDTO itemDTO : listaItemDTO) {
             ItemPedido item = new ItemPedido();
@@ -195,15 +196,15 @@ public class PedidoServiceImpl implements PedidoService {
             item.setCupom(c);
             item.setPreco(itemDTO.preco());
 
-            itens.add(item);
+            listaItens.add(item);
         }
 
-        return itens;
+        return listaItens;
     }
 
     private StatusPedido createStatusPedido(Integer id){
         StatusPedido statusPedido = new StatusPedido();
-
+        
         statusPedido.setStatus(Status.valueOf(id));
         statusPedido.setDataCadastro(LocalDateTime.now());
 

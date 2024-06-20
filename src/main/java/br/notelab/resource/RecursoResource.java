@@ -23,7 +23,7 @@ public class RecursoResource {
     public RecursoService recursoService;
 
     @GET
-    @RolesAllowed({"Funcionario"})
+    // @RolesAllowed({"Funcionario"})
     public Response findAll(){
         return Response.ok(recursoService.findAll()).build();
     }

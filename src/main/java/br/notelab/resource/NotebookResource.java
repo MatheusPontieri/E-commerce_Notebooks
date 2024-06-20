@@ -37,7 +37,7 @@ public class NotebookResource {
     public FileService fileService;
 
     @GET
-    @RolesAllowed({"Funcionario"})
+    // @RolesAllowed({"Funcionario"})
     public Response findAll(){
         LOG.info("Buscando todos os notebooks");
         return Response.ok(notebookService.findAll()).build();
