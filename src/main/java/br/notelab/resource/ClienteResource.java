@@ -29,7 +29,7 @@ public class ClienteResource {
     private static final Logger LOG = Logger.getLogger(ClienteResource.class);
 
     @Inject
-    public ClienteService clienteService;
+    ClienteService clienteService;
 
     @GET
     @RolesAllowed({"Funcionario"})
@@ -42,7 +42,7 @@ public class ClienteResource {
     @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id){
-        LOG.infof("Buscando cliente com o id %d", id);
+        LOG.infof("Buscando funcionário com o id %d", id);
         return Response.ok(clienteService.findById(id)).build();
     }
 
@@ -62,7 +62,9 @@ public class ClienteResource {
         return Response.ok(clienteService.findByCpf(cpf)).build();
     }
 
+
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(ClienteDTO dto){
         LOG.infov("Criando cliente");
         return Response
@@ -72,7 +74,7 @@ public class ClienteResource {
     }
 
     @PUT
-    @RolesAllowed({"Cliente"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, ClienteDTO dto){
         LOG.infof("Atualizando cliente com id %d", id);
@@ -81,7 +83,7 @@ public class ClienteResource {
     }
 
     @DELETE
-    @RolesAllowed({"Cliente", "Funcionario"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id){
         LOG.infof("Removendo cliente com id %d", id);
@@ -90,7 +92,7 @@ public class ClienteResource {
     }
 
     @PATCH
-    @RolesAllowed({"Cliente"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/email")
     public Response updateEmail(@PathParam("id") Long id, EmailPatchDTO dto){
         LOG.infof("Atualizando email do cliente com id %d", id);
@@ -100,7 +102,7 @@ public class ClienteResource {
     }
 
     @PATCH
-    @RolesAllowed({"Cliente"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/senha")
     public Response updateSenha(@PathParam("id") Long id, SenhaPatchDTO dto){
         LOG.infof("Atualizando senha do cliente com id %d", id);
@@ -110,7 +112,7 @@ public class ClienteResource {
     }
 
     @PATCH
-    @RolesAllowed({"Cliente"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/inclusao-item-desejo/{id-item}")
     public Response adicionarItemDesejo(@PathParam("id") Long id, @PathParam("id-item") Long idItem){
         LOG.infof("Inserindo item na lista de desejo do cliente com id %d", id);
@@ -120,7 +122,7 @@ public class ClienteResource {
     }
 
     @PATCH
-    @RolesAllowed({"Cliente"})
+    @RolesAllowed({"Funcionario"})
     @Path("/{id}/exclusao-item-desejo/{id-item}")
     public Response removerItemDesejo(@PathParam("id") Long id, @PathParam("id-item") Long idItem){
         LOG.infof("Removendo item da lista de desejo do cliente com id %d", id);

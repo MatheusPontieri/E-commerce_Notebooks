@@ -19,4 +19,8 @@ public class ClienteRepository implements PanacheRepository<Cliente> {
     public Cliente findByEmailAndSenha(String email, String senha){
         return find("SELECT c FROM Cliente c WHERE c.pessoa.usuario.email = ?1 AND c.pessoa.usuario.senha = ?2", email, senha).firstResult();
     }
+
+    public Cliente findByEmail(String email){
+        return find("SELECT c FROM Cliente c WHERE c.pessoa.usuario.email = ?1", email).singleResult();
+    }
 }

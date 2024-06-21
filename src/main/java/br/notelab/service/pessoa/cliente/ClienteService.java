@@ -21,5 +21,6 @@ public interface ClienteService {
     List<ClienteResponseDTO> findAll();
     List<ClienteResponseDTO> findByNome(String nome);
     List<ClienteResponseDTO> findByCpf(String cpf);
+    ClienteResponseDTO findByEmail(String email);
     UsuarioResponseDTO login(String email, String senha);
 } 

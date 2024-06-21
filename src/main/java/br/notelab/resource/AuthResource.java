@@ -39,7 +39,7 @@ public class AuthResource {
     public JwtService jwtService; 
 
     @POST
-    public Response login(@Valid AuthUsuarioDTO dto){
+    public Response login(@Valid AuthUsuarioDTO dto) {
         String hash = hashService.getHashSenha(dto.senha());
         UsuarioResponseDTO usuario = null;
 

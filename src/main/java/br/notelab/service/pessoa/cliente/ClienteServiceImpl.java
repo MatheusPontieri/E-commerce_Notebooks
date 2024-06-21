@@ -161,6 +161,11 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public ClienteResponseDTO findByEmail(String email) {
+        return ClienteResponseDTO.valueOf(clienteRepository.findByEmail(email));
+    }
+
+    @Override
     public UsuarioResponseDTO login(String email, String senha) {
         Cliente c = clienteRepository.findByEmailAndSenha(email, senha);
         return UsuarioResponseDTO.valueOf(c.getPessoa());
