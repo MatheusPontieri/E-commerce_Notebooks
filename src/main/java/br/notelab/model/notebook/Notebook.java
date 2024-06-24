@@ -3,6 +3,7 @@ package br.notelab.model.notebook;
 import java.util.List;
 
 import br.notelab.model.DefaultEntity;
+import br.notelab.model.imagem.Imagem;
 import br.notelab.model.notebook.conexao.ConexaoSemFio;
 import br.notelab.model.notebook.conexao.EntradaSaida;
 import br.notelab.model.notebook.gpu.PlacaVideo;
@@ -17,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -48,9 +50,6 @@ public class Notebook extends DefaultEntity {
 
     @Column(nullable = false)
     private Integer estoque;
-
-    @Column(name = "nome_imagem")
-    private String nomeImagem;
 
     @ManyToMany
     @JoinTable(name="notebook_recurso",
@@ -104,6 +103,13 @@ public class Notebook extends DefaultEntity {
 
     @Column(name = "tipo_placa_video", nullable = false)
     private TipoPlacaVideo tipoPlacaVideo;
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "notebook_imagem",
+               joinColumns = @JoinColumn(name = "id_notebook"),
+               inverseJoinColumns = @JoinColumn(name = "id_imagem", unique = true))
+    private List<Imagem> listaImagem;
 
     public String getDescricao() {
         return descricao;
@@ -183,14 +189,6 @@ public class Notebook extends DefaultEntity {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
-    }
-
-    public String getNomeImagem() {
-        return nomeImagem;
-    }
-
-    public void setNomeImagem(String nomeImagem) {
-        this.nomeImagem = nomeImagem;
     }
 
     public List<Recurso> getListaRecurso() {
@@ -279,5 +277,13 @@ public class Notebook extends DefaultEntity {
 
     public void setTipoPlacaVideo(TipoPlacaVideo tipoPlacaVideo) {
         this.tipoPlacaVideo = tipoPlacaVideo;
+    }
+
+    public List<Imagem> getListaImagem() {
+        return listaImagem;
+    }
+
+    public void setListaImagem(List<Imagem> listaImagem) {
+        this.listaImagem = listaImagem;
     }
 }

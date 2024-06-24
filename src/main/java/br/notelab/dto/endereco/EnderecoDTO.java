@@ -1,5 +1,7 @@
 package br.notelab.dto.endereco;
 
+import org.jboss.jandex.Main;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

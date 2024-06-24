@@ -1,4 +1,4 @@
-package br.notelab.service.notebook;
+package br.notelab.service.pessoa;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 import br.notelab.model.imagem.Imagem;
-import br.notelab.model.notebook.Notebook;
-import br.notelab.repository.NotebookRepository;
+import br.notelab.model.pessoa.Pessoa;
+import br.notelab.repository.PessoaRepository;
 import br.notelab.service.file.FileService;
 import br.notelab.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,21 +20,21 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
-public class NotebookFileServiceImpl implements FileService {
+public class PessoaFileServiceImpl implements FileService {
 
     @Inject
-    public NotebookRepository notebookRepository;
+    public PessoaRepository pessoaRepository;
 
     private static final String USER_PATH = System.getProperty("user.home")
         + File.separator + "quarkus"
         + File.separator + "images"
-        + File.separator + "notebook" + File.separator;
+        + File.separator + "pessoa" + File.separator;
 
     @Override
     @Transactional
     public void upload(Long id, String nomeImagem, byte[] imagem) {
-        Notebook n = notebookRepository.findById(id);
-        List<Imagem> listaImagem = n.getListaImagem();
+        Pessoa p = pessoaRepository.findById(id);
+        List<Imagem> listaImagem = p.getListaImagem();
 
         if (listaImagem.isEmpty()) 
             listaImagem = new ArrayList<>();

@@ -24,7 +24,7 @@ public class CidadeResource {
 
     @Inject
     public CidadeService cidadeService;
-
+    
     @GET
     @RolesAllowed("Funcionario")
     public Response findAll(){

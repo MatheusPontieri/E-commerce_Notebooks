@@ -201,6 +201,11 @@ class EntradaSaida {
     - nome: String
 }
 
+class Imagem {
+    - id: Long
+    - nomeImagem: String
+}
+
 Pedido "1" *--> "*" ItemPedido
 Pedido "*" o-right-> "1" Cliente
 Pedido "1" *-left-> "*" StatusPedido

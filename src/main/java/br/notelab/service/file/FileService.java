@@ -1,4 +1,4 @@
-package br.notelab.service;
+package br.notelab.service.file;
 
 import java.io.File;
 
