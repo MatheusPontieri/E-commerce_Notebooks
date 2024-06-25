@@ -95,8 +95,8 @@ public class ClienteBasicoResource {
 
     @PATCH
     @RolesAllowed({"Cliente"})
-    @Path("/exclusao-item-desejo/{id-item}")
-    public Response removerItemDesejo(@PathParam("id-item") Long idItem){
+    @Path("/exclusao-item-desejo/{id}")
+    public Response removerItemDesejo(@PathParam("id") Long idItem){
         String email = jwt.getSubject();
         clienteService.removerItemDesejo(clienteService.findByEmail(email).id(), idItem);
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import br.notelab.model.DefaultEntity;
 import br.notelab.model.endereco.Endereco;
-import br.notelab.model.imagem.Imagem;
+import br.notelab.model.file.FileInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,7 +46,7 @@ public class Pessoa extends DefaultEntity {
     @JoinTable(name = "pessoa_imagem",
                joinColumns = @JoinColumn(name = "id_pessoa"),
                inverseJoinColumns = @JoinColumn(name = "id_imagem", unique = true))
-    private List<Imagem> listaImagem;
+    private List<FileInfo> listaNomeImagem;
 
     public String getNome() {
         return nome;
@@ -104,11 +104,11 @@ public class Pessoa extends DefaultEntity {
         this.listaEndereco = listaEndereco;
     }
 
-    public List<Imagem> getListaImagem() {
-        return listaImagem;
+    public List<FileInfo> getListaNomeImagem() {
+        return listaNomeImagem;
     }
 
-    public void setListaImagem(List<Imagem> listaImagem) {
-        this.listaImagem = listaImagem;
+    public void setListaNomeImagem(List<FileInfo> listaImagem) {
+        this.listaNomeImagem = listaImagem;
     }
 }

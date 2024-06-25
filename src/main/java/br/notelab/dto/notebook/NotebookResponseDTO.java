@@ -2,7 +2,7 @@ package br.notelab.dto.notebook;
 
 import java.util.List;
 
-import br.notelab.dto.file.ImagemResponseDTO;
+import br.notelab.dto.file.FileInfoResponseDTO;
 import br.notelab.dto.notebook.conexao.ConexaoSemFioResponseDTO;
 import br.notelab.dto.notebook.conexao.EntradaSaidaResponseDTO;
 import br.notelab.dto.notebook.especificacao.EspecificacaoResponseDTO;
@@ -39,7 +39,7 @@ public record NotebookResponseDTO(
     List<ConexaoSemFioResponseDTO> listaConexaoSemFio,
     List<EntradaSaidaResponseDTO> listaEntradaSaida,
     TipoPlacaVideo tipoPlacaVideo,
-    List<ImagemResponseDTO> listaImagem
+    List<FileInfoResponseDTO> listaNomeImagem
 ) {
     public static NotebookResponseDTO valueOf(Notebook n) {
         return new NotebookResponseDTO(
@@ -65,7 +65,7 @@ public record NotebookResponseDTO(
             n.getListaConexao().stream().map(c -> ConexaoSemFioResponseDTO.valueOf(c)).toList(), 
             n.getListaEntradaSaida().stream().map(e -> EntradaSaidaResponseDTO.valueOf(e)).toList(), 
             n.getTipoPlacaVideo(),
-            n.getListaImagem().stream().map(ImagemResponseDTO::valueOf).toList()
+            n.getListaNomeImagem().stream().map(FileInfoResponseDTO::valueOf).toList()
         );
     }
 }

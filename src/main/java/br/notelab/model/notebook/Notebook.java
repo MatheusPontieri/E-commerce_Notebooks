@@ -3,7 +3,7 @@ package br.notelab.model.notebook;
 import java.util.List;
 
 import br.notelab.model.DefaultEntity;
-import br.notelab.model.imagem.Imagem;
+import br.notelab.model.file.FileInfo;
 import br.notelab.model.notebook.conexao.ConexaoSemFio;
 import br.notelab.model.notebook.conexao.EntradaSaida;
 import br.notelab.model.notebook.gpu.PlacaVideo;
@@ -109,7 +109,7 @@ public class Notebook extends DefaultEntity {
     @JoinTable(name = "notebook_imagem",
                joinColumns = @JoinColumn(name = "id_notebook"),
                inverseJoinColumns = @JoinColumn(name = "id_imagem", unique = true))
-    private List<Imagem> listaImagem;
+    private List<FileInfo> listaNomeImagem;
 
     public String getDescricao() {
         return descricao;
@@ -279,11 +279,11 @@ public class Notebook extends DefaultEntity {
         this.tipoPlacaVideo = tipoPlacaVideo;
     }
 
-    public List<Imagem> getListaImagem() {
-        return listaImagem;
+    public List<FileInfo> getListaNomeImagem() {
+        return listaNomeImagem;
     }
 
-    public void setListaImagem(List<Imagem> listaImagem) {
-        this.listaImagem = listaImagem;
+    public void setListaNomeImagem(List<FileInfo> listaNomeImagem) {
+        this.listaNomeImagem = listaNomeImagem;
     }
 }

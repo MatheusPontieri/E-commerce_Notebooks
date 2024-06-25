@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import br.notelab.model.imagem.Imagem;
+import br.notelab.model.file.FileInfo;
 import br.notelab.model.pessoa.Pessoa;
 import br.notelab.repository.PessoaRepository;
 import br.notelab.service.file.FileService;
@@ -34,16 +34,18 @@ public class PessoaFileServiceImpl implements FileService {
     @Transactional
     public void upload(Long id, String nomeImagem, byte[] imagem) {
         Pessoa p = pessoaRepository.findById(id);
-        List<Imagem> listaImagem = p.getListaImagem();
+        List<FileInfo> listaNomeImagem = p.getListaNomeImagem();
 
-        if (listaImagem.isEmpty()) 
-            listaImagem = new ArrayList<>();
+        if (listaNomeImagem == null) { 
+            listaNomeImagem = new ArrayList<>();
+            p.setListaNomeImagem(listaNomeImagem);
+        }   
 
         try {
-            Imagem i = new Imagem();
-            i.setNomeImagem(salvarImagem(nomeImagem, imagem));
+            FileInfo i = new FileInfo();
+            i.setFileName(salvarImagem(nomeImagem, imagem));
 
-            listaImagem.add(i);
+            listaNomeImagem.add(i);
         } catch (IOException e){
             throw new ValidationException("imagem", e.getMessage());
         }

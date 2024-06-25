@@ -6,6 +6,7 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import br.notelab.dto.notebook.NotebookDTO;
 import br.notelab.form.ImageForm;
 import br.notelab.service.file.FileService;
+import br.notelab.service.notebook.NotebookFileServiceImpl;
 import br.notelab.service.notebook.NotebookService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -34,7 +35,7 @@ public class NotebookResource {
     public NotebookService notebookService;
 
     @Inject
-    public FileService fileService;
+    public NotebookFileServiceImpl fileService;
 
     @GET
     // @RolesAllowed({"Funcionario"})
