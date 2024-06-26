@@ -11,9 +11,9 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider   
-public class CorsFilterRequest implements ContainerRequestFilter {
+public class RequestFilter implements ContainerRequestFilter {
 
-  private static final Logger LOG = Logger.getLogger(CorsFilterRequest.class);
+  private static final Logger LOG = Logger.getLogger(RequestFilter.class);
 
   @Context
   private HttpRequest request;
