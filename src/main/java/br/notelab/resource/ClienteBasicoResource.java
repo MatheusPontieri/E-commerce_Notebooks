@@ -1,10 +1,14 @@
 package br.notelab.resource;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.notelab.dto.pessoa.cliente.ClienteDTO;
 import br.notelab.dto.pessoa.usuario.EmailPatchDTO;
 import br.notelab.dto.pessoa.usuario.SenhaPatchDTO;
+import br.notelab.form.ImageForm;
+import br.notelab.service.pessoa.PessoaFileServiceImpl;
 import br.notelab.service.pessoa.cliente.ClienteService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -19,6 +23,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 
 @Path("/clientes_basicos")
@@ -26,8 +31,13 @@ import jakarta.ws.rs.core.Response.Status;
 @Produces(MediaType.APPLICATION_JSON)
 public class ClienteBasicoResource {
 
+    private static final Logger LOG = Logger.getLogger(ClienteBasicoResource.class);
+
     @Inject
     ClienteService clienteService;
+
+    @Inject 
+    PessoaFileServiceImpl fileService;
     
     @Inject
     JsonWebToken jwt;
@@ -101,5 +111,32 @@ public class ClienteBasicoResource {
         clienteService.removerItemDesejo(clienteService.findByEmail(email).id(), idItem);
 
         return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/image/upload")
+    @RolesAllowed({"Cliente"})
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response upload(@MultipartForm ImageForm form){
+        String email = jwt.getSubject();
+        Long id = clienteService.findByEmail(email).id();
+
+        LOG.infof("Upload de imagem para cliente com id %d", id);
+        fileService.upload(id, form.getNomeImagem(), form.getImagem());
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @GET
+    @Path("/image/download/{nomeImagem}")
+    @RolesAllowed({"Cliente"})
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("nomeImagem") String nomeImagem){
+        LOG.infof("Download da imagem %s", nomeImagem);
+
+        ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+        response.header("Content-Disposition", "attachement: filename=" + nomeImagem);
+        
+        return response.build();
     }
 }
