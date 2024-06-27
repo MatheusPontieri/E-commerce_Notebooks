@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class EstadoResource {
     @Inject
-    public EstadoService estadoService;
+    EstadoService estadoService;
 
     @GET
     @RolesAllowed({"Funcionario"})

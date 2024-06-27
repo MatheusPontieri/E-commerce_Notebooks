@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CupomResource {
     @Inject
-    public CupomService cupomService;
+    CupomService cupomService;
 
     @GET
     @RolesAllowed("Funcionario")

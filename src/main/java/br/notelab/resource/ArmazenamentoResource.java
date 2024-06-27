@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 public class ArmazenamentoResource {
 
     @Inject
-    public ArmazenamentoService armazenamentoService;
+    ArmazenamentoService armazenamentoService;
 
     @GET
     @RolesAllowed("Funcionario")

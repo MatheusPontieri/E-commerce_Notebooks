@@ -17,8 +17,7 @@ enum Status {
     + AGUARDANDO_PAGAMENTO: int
     + PAGAMENTO_EXPIRADO: int
     + PAGAMENTO_AUTORIZADO: int
-    + SEPARADO_DO_ESTOQUE: int
-    + ENTREGUE_A_TRANSPORTADORA: int
+    + ENVIADO: int
     + ENTREGUE: int
     + DESISTIDO: int
     + DEVOLVIDO: int
@@ -201,9 +200,9 @@ class EntradaSaida {
     - nome: String
 }
 
-class Imagem {
+class FileInfo {
     - id: Long
-    - nomeImagem: String
+    - fileName: String
 }
 
 Pedido "1" *--> "*" ItemPedido

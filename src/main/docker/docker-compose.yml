@@ -42,7 +42,11 @@ services:
 
       - GRAYLOG_ROOT_PASSWORD_SHA2= 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 # You can generate the SHA256-hash of your password with `echo -n <password> | sha256sum`
 
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/ # You can change the IP-address to 127.0.0.1 if you want to run it locally, and any external IP-address if you want to run it on a server.
+      - GRAYLOG_HTTP_EXTERNAL_URI = http://10.121.5.54:9002/ # You can change the IP-address to 127.0.0.1 if you want to run it locally, and any external IP-address if you want to run it on a server.
+      
+      # - GRAYLOG_HTTP_BIND_ADDRESS = 10.121.5.54:9000
+
+      # - GRAYLOG_HTTP_PUBLISH_URI = http://graylog:9001/
 
       - GRAYLOG_ELASTICSEARCH_HOSTS=http://opensearch:9200
     # Sets the correct timezone within Graylog
@@ -66,7 +70,7 @@ services:
     ports:
       - 5044:5044/udp       # Beats UDP
       - 5044:5044/tcp       # Beats TCP
-      - 9000:9000           # Graylog web interface and REST API
+      - 9002:9000    # Graylog web interface and REST API
       - 1514:1514/udp       # Syslog UDP
       - 5555:5555/tcp       # Raw/Plaintext TCP input
 networks:

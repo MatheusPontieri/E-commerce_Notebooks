@@ -23,8 +23,8 @@ import jakarta.ws.rs.core.Response;
 public class CidadeResource {
 
     @Inject
-    public CidadeService cidadeService;
-    
+    CidadeService cidadeService;
+
     @GET
     @RolesAllowed("Funcionario")
     public Response findAll(){

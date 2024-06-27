@@ -7,11 +7,10 @@ public enum Status {
     AGUARDANDO_PAGAMENTO(1, "Aguardando confirmação do pagamento"),
     PAGAMENTO_EXPIRADO(2, "Pagamento expirado"),
     PAGAMENTO_CONFIRMADO(3, "Pagamento confirmado"),
-    SEPARADO_DO_ESTOQUE(4, "Separado do estoque"),
-    ENTREGUE_A_TRANSPORTADORA(5, "Entregue para a transportadora"),
-    ENTREGUE(6, "Entregue"),
-    DESISTIDO(7, "Desistiu da compra antes da entrega para a transportadora"),
-    DEVOLVIDO(8, "Devolveu a compra após a entrega");
+    EM_TRANSITO(4, "Pedido em trânsito"),
+    ENTREGUE(5, "Pedido entregue"),
+    DESISTIDO(6, "Desistência do pedido antes do envio"),
+    DEVOLVIDO(7, "Devolução do pedido após a entrega");
     
     private int id;
     private String descricao;

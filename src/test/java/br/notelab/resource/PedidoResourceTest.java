@@ -34,7 +34,7 @@ public class PedidoResourceTest {
         given().when().get("/pedidos/1").then().statusCode(200).body("id", is(1));
     }
 
-
+    /*
     @Test
     @TestSecurity(user = "test", roles = "Cliente")
     public void createTest(){
@@ -91,4 +91,6 @@ public class PedidoResourceTest {
         .then()
         .statusCode(204);
     }
+}
+    */
 }

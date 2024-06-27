@@ -29,7 +29,7 @@ public class FuncionarioResource {
     private static final Logger LOG = Logger.getLogger(FuncionarioResource.class);
     
     @Inject
-    public FuncionarioService funcionarioService;
+    FuncionarioService funcionarioService;
 
     @GET
     @RolesAllowed({"Funcionario"})

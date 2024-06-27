@@ -10,7 +10,7 @@ import br.notelab.dto.pedido.PedidoResponseDTO;
 import jakarta.validation.Valid;
 
 public interface PedidoService {
-    PedidoResponseDTO create(@Valid PedidoDTO dto);
+    PedidoResponseDTO create(@Valid PedidoDTO dto, Long idCliente);
     void update(Long id, @Valid PedidoDTO dto);
     void delete(Long id);
     void updateStatusPedido(Long idPedido, Integer idStatus);

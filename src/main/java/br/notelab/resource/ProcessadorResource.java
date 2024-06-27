@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProcessadorResource {
     @Inject
-    public ProcessadorService processadorService;
+    ProcessadorService processadorService;
 
     @GET
     @RolesAllowed({"Funcionario"})

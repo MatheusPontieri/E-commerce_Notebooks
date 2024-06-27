@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 public class ConexaoSemFioResource {
 
     @Inject
-    public ConexaoSemFioService conexaoSemFioService;
+    ConexaoSemFioService conexaoSemFioService;
 
     @GET
     @RolesAllowed({"Funcionario"})

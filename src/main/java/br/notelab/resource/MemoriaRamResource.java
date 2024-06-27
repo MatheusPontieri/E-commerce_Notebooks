@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 public class MemoriaRamResource {
 
     @Inject
-    public MemoriaRamService memoriaRamService;
+    MemoriaRamService memoriaRamService;
 
     @GET
     @RolesAllowed({"Funcionario"})

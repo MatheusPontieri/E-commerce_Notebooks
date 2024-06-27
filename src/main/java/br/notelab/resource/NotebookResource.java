@@ -32,10 +32,10 @@ public class NotebookResource {
     private static final Logger LOG = Logger.getLogger(NotebookResource.class);
 
     @Inject
-    public NotebookService notebookService;
+    NotebookService notebookService;
 
     @Inject
-    public NotebookFileServiceImpl fileService;
+    NotebookFileServiceImpl fileService;
 
     @GET
     // @RolesAllowed({"Funcionario"})

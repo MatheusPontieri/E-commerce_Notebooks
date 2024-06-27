@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 public class EntradaSaidaResource {
 
     @Inject
-    public EntradaSaidaService entradaSaidaService;
+    EntradaSaidaService entradaSaidaService;
 
     @GET
     @RolesAllowed({"Funcionario"})

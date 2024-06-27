@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 public class FornecedorResource {
 
     @Inject
-    public FornecedorService fornecedorService;
+    FornecedorService fornecedorService;
 
     @GET
     @RolesAllowed({"Funcionario"})

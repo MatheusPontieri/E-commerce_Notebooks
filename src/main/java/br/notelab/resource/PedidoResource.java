@@ -29,7 +29,7 @@ public class PedidoResource {
     private static final Logger LOG = Logger.getLogger(PedidoResource.class.getName());
     
     @Inject
-    public PedidoService pedidoService;
+    PedidoService pedidoService;
 
     @GET
     @RolesAllowed({"Funcionario"})
@@ -48,17 +48,7 @@ public class PedidoResource {
         return Response.ok(pedidoService.findById(id)).build();
     }
 
-    @POST
-    @RolesAllowed({"Cliente"})
-    public Response create(PedidoDTO dto){
-        LOG.info("Criando novo pedido");
-
-        return Response
-            .status(201)
-            .entity(pedidoService.create(dto))
-            .build();
-    }
-
+    /*
     @PUT
     @RolesAllowed({"Cliente"})
     @Path("/{id}")
@@ -79,6 +69,7 @@ public class PedidoResource {
         return Response.status(204).build();
     }
     
+    */
     @PATCH
     @RolesAllowed({"Funcionario"})
     @Path("/status-pedido/{id}")

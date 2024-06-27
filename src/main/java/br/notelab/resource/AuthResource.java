@@ -27,16 +27,16 @@ public class AuthResource {
     private static final Logger LOG = Logger.getLogger(AuthResource.class);
     
     @Inject
-    public ClienteService clienteService;
+    ClienteService clienteService;
 
     @Inject
-    public FuncionarioService funcionarioService;
+    FuncionarioService funcionarioService;
 
     @Inject
-    public HashService hashService;
+    HashService hashService;
 
     @Inject
-    public JwtService jwtService; 
+    JwtService jwtService; 
 
     @POST
     public Response login(@Valid AuthUsuarioDTO dto) {
